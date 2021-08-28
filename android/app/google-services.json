@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "932481984659",
+    "firebase_url": "https://eats-and-more.firebaseio.com",
+    "project_id": "eats-and-more",
+    "storage_bucket": "eats-and-more.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932481984659:android:56d88768482be55822c566",
+        "android_client_info": {
+          "package_name": "com.eatsandmore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932481984659-d09vthu1978l34947ejse55u937eq63e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUQJdRIsxnwxvZvyqqcC4ZXAEQpFtNTVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932481984659-d09vthu1978l34947ejse55u937eq63e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "932481984659-d9si0qgljuqjq7okturotgc4srshd50u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.devestandards.resturantsapp",
+                "app_store_id": "1249803892"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932481984659:android:bc353ae63db010ff22c566",
+        "android_client_info": {
+          "package_name": "com.yalago.cookiesncream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932481984659-d09vthu1978l34947ejse55u937eq63e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUQJdRIsxnwxvZvyqqcC4ZXAEQpFtNTVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932481984659-d09vthu1978l34947ejse55u937eq63e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "932481984659-d9si0qgljuqjq7okturotgc4srshd50u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.devestandards.resturantsapp",
+                "app_store_id": "1249803892"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
