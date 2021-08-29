@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../helper/helper.dart';
 
 class AdsImageComponent extends StatelessWidget {
-  final List<Ads> ads;
+  final List<SliderImage> ads;
   final SpecSlider item;
 
   const AdsImageComponent({Key key, this.ads, this.item}) : super(key: key);
@@ -21,13 +21,10 @@ class AdsImageComponent extends StatelessWidget {
         ? SizedBox.shrink()
         : GestureDetector(
             onTap: () {
-              Helper.openApp(
-                ads
+                Helper.openTarget(ads
                     .firstWhere(
                         (element) => element.display_slider_id == item.id,
-                        orElse: () => null)
-                    ?.link,
-              );
+                    orElse: () => null), context);
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),

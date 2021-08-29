@@ -78,13 +78,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                 ) ,
               )
-            : Container(
-             height: double.infinity,
-              child: _image
-            ),
-
-
-      );
+             : _image,
+    );
   }
 
   void _getConstant() async {
@@ -100,7 +95,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         setState(() {
           _image = new Image.network(
             value.data.gif,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           );
         });
         _imageLoad();
@@ -142,6 +139,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     setState(() {
       _isLoading1=false;
     });
-    _delay(3);
+    _delay(5);
   }
 }

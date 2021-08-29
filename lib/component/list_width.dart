@@ -10,7 +10,7 @@ import 'ads_image.dart';
 class ListMealWidth extends StatelessWidget {
   final SpecSlider item;
   final AnimationController controller;
-  final List<Ads> ads;
+  final List<SliderImage> ads;
 
   const ListMealWidth({Key key, this.item, this.controller, this.ads})
       : super(key: key);

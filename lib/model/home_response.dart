@@ -20,7 +20,8 @@ class Home{
 List<SliderImage> slider;
 List<Restaurant> Vendor;
 List<SpecSlider> spes_slider;
-List<Ads> ads;
+List<SliderImage> ads;
+
 
 Home(this.slider, this.Vendor, this.spes_slider,this.ads);
 factory Home.fromJson(Map<String, dynamic> json) =>
@@ -28,20 +29,7 @@ factory Home.fromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> toJson() => _$HomeToJson(this);
 }
-@JsonSerializable()
-class Ads{
-String image;
-String target;
-String link;
-int display_slider_id;
 
-Ads(this.image, this.target, this.display_slider_id,this.link);
-factory Ads.fromJson(Map<String, dynamic> json) =>
-    _$AdsFromJson(json);
-
-Map<String, dynamic> toJson() => _$AdsToJson(this);
-
-}
 @JsonSerializable()
 class SpecSlider {
   int id;
@@ -157,8 +145,15 @@ class MenuCategory {
 @JsonSerializable()
 class SliderImage {
   String image;
+  String target;
+  String vendor;
+  String product_id;
+  String link;
+  ProductHome product;
+  int display_slider_id;
 
-  SliderImage(this.image);
+  SliderImage(this.image, this.target, this.vendor, this.product_id, this.link,this.product,this.display_slider_id);
+
   factory SliderImage.fromJson(Map<String, dynamic> json) =>
       _$SliderImageFromJson(json);
 

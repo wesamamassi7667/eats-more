@@ -12,7 +12,7 @@ import '../helper/helper.dart';
 class ListMealHeight extends StatelessWidget {
   final SpecSlider item;
   final AnimationController controller;
-   final List<Ads> ads;
+   final List<SliderImage> ads;
   const ListMealHeight({Key key, this.item, this.controller, this.ads}) : super(key: key);
   @override
   Widget build(BuildContext context) {

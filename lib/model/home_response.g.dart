@@ -38,7 +38,8 @@ Home _$HomeFromJson(Map<String, dynamic> json) {
             e == null ? null : SpecSlider.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     (json['ads'] as List)
-        ?.map((e) => e == null ? null : Ads.fromJson(e as Map<String, dynamic>))
+        ?.map((e) =>
+            e == null ? null : SliderImage.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -48,22 +49,6 @@ Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
       'Vendor': instance.Vendor,
       'spes_slider': instance.spes_slider,
       'ads': instance.ads,
-    };
-
-Ads _$AdsFromJson(Map<String, dynamic> json) {
-  return Ads(
-    json['image'] as String,
-    json['target'] as String,
-    json['display_slider_id'] as int,
-    json['link'] as String,
-  );
-}
-
-Map<String, dynamic> _$AdsToJson(Ads instance) => <String, dynamic>{
-      'image': instance.image,
-      'target': instance.target,
-      'link': instance.link,
-      'display_slider_id': instance.display_slider_id,
     };
 
 SpecSlider _$SpecSliderFromJson(Map<String, dynamic> json) {
@@ -206,12 +191,26 @@ Map<String, dynamic> _$MenuCategoryToJson(MenuCategory instance) =>
 SliderImage _$SliderImageFromJson(Map<String, dynamic> json) {
   return SliderImage(
     json['image'] as String,
+    json['target'] as String,
+    json['vendor'] as String,
+    json['product_id'] as String,
+    json['link'] as String,
+    json['product'] == null
+        ? null
+        : ProductHome.fromJson(json['product'] as Map<String, dynamic>),
+    json['display_slider_id'] as int,
   );
 }
 
 Map<String, dynamic> _$SliderImageToJson(SliderImage instance) =>
     <String, dynamic>{
       'image': instance.image,
+      'target': instance.target,
+      'vendor': instance.vendor,
+      'product_id': instance.product_id,
+      'link': instance.link,
+      'product': instance.product,
+      'display_slider_id': instance.display_slider_id,
     };
 
 VendorCategoryResponse _$VendorCategoryResponseFromJson(

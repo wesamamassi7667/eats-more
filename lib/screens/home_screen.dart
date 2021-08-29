@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   List<SliderImage> _images;
   List<Restaurant> _resturant;
   List<SpecSlider> _specSlider;
-  List<Ads> _ads;
+  List<SliderImage> _ads;
   var _isLoading=false;
   AnimationController _controller;
   Animation<RelativeRect> _animation;

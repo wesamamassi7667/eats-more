@@ -6,6 +6,8 @@ import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/model/setting_response.dart';
+import 'package:eat_more_app/screens/delivery_ways_screen.dart';
+import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -102,6 +104,21 @@ class Helper {
     } else {
       throw 'There was a problem to open the url: $url';
     }
+  }
+
+  static void openTarget(SliderImage item,BuildContext context) {
+    if(item.target=='link')
+      openApp(item.link);
+    else if(item.target=='product')
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) =>ItemDetailsScreen(id: int.parse(item.product_id),
+          // logo:item.product.vendor.logo,
+          vendorId:item.product.vendor_id
+      )));
+    else
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
+        id:int.parse(item.vendor),
+      )));
   }
 
 }

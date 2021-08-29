@@ -19,8 +19,6 @@ class VendorWidget extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         print(list[index].vendor_id);
-        if(UtilSharedPreferences.getDouble('total')!=null)
-          UtilSharedPreferences.getDouble('total');
         Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
             id:list[index].vendor_id
         )));
