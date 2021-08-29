@@ -2,6 +2,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/address_response.dart';
 import 'package:eat_more_app/model/branch_response.dart';
@@ -23,7 +24,8 @@ import 'package:http/http.dart' as http;
  class RestaurantsApiModel extends Model{
   static final String url = "https://api.yalago.net/api/enterprise/eats/";
   RestaurantsApiModel() {
-   
+   if(UtilSharedPreferences.getObj('constant') != null)
+    _getConstant();
     if (UtilSharedPreferences.getObj("user") != null){
       _currentUser=User.fromJson(UtilSharedPreferences.getObj("user"));
       notifyListeners();
@@ -640,5 +642,15 @@ import 'package:http/http.dart' as http;
       return AllVendorResponse.fromJson(jsonDecode(response.body));;
     }
     );
+  }
+
+  void _getConstant() async {
+    await listConstants().then((value) {
+      if(value.status.status){
+       Setting setting= Setting.fromJson(UtilSharedPreferences.getObj('constant'));
+       if(setting.gif!=value.data.gif)
+         UtilSharedPreferences.setObj('constant',value.data);
+      }
+    });
   }
 }

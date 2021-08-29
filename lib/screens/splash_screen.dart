@@ -68,8 +68,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     fit: BoxFit.cover,
                     width: 200,
                     height: 200,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        LimitedBox(maxHeight: 40,maxWidth: 40,child: CupertinoActivityIndicator()),
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                   return   UtilSharedPreferences.getObj('constant') == null?  LimitedBox(maxHeight: 40,maxWidth: 40,child: CupertinoActivityIndicator()):SizedBox.shrink();},
                     errorWidget:
                         (BuildContext context, String url, Object error) {
                       print(error);
