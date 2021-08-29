@@ -228,11 +228,10 @@ class _RestaurantsListScreenState extends State<RestaurantsListScreen> with Tick
                      ),
                    );
              return  _isLoading1?Expanded(child: Center(child: CupertinoActivityIndicator(),)):_isGrid?
-             Expanded(
-                child: GridRestaurantComponent(
+              GridRestaurantComponent(
                    vendors:_vendors,
-                 ),
-              )
+                 )
+
              :RestaurantComponent(index: index-2,vendors: _vendors);
                }),
          ),

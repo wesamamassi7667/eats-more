@@ -70,7 +70,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  expandedHeight: 352.0,
+                  expandedHeight: 356.0,
                   floating: false,
                   pinned: false,
                   leading: CloseButton(
@@ -312,369 +312,371 @@ class _ResturantScreenState extends State<ResturantScreen> {
                 ? Center(
                     child: CupertinoActivityIndicator(),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Container(
-                        height: 94,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: resturant.menu_categories.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = index;
-                                  });
-                                  _getMenuProduct(resturant
-                                      .menu_categories[index].category_id);
-                                },
-                                child: Container(
-                                  margin: EdgeInsetsDirectional.only(
-                                    start: index == 0 ? 16 : 18,
-                                    end: index ==
-                                            resturant.menu_categories.length - 1
-                                        ? 16
-                                        : 0,
-                                  ),
-                                  padding: EdgeInsetsDirectional.only(
-                                      top: 10, start: 5, end: 5),
-                                  height: 94,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        index == _selectedIndex ? 5 : 0),
-                                    color: index == _selectedIndex
-                                        ? Color(0xff0068B0)
-                                        : Colors.transparent,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: index == _selectedIndex
-                                              ? black.withOpacity(0.16)
-                                              : Colors.transparent,
-                                          blurRadius: 6,
-                                          offset: Offset(0, 3)),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 51,
-                                        height: 51,
-                                        // padding: EdgeInsetsDirectional.only(top: ),
-                                        decoration: BoxDecoration(
+                : SafeArea(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // SizedBox(
+                        //   height: 0,
+                        // ),
+                        Container(
+                          height: 94,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: resturant.menu_categories.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedIndex = index;
+                                    });
+                                    _getMenuProduct(resturant
+                                        .menu_categories[index].category_id);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      start: index == 0 ? 16 : 18,
+                                      end: index ==
+                                              resturant.menu_categories.length - 1
+                                          ? 16
+                                          : 0,
+                                    ),
+                                    padding: EdgeInsetsDirectional.only(
+                                        top: 10, start: 5, end: 5),
+                                    height: 94,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          index == _selectedIndex ? 5 : 0),
+                                      color: index == _selectedIndex
+                                          ? Color(0xff0068B0)
+                                          : Colors.transparent,
+                                      boxShadow: [
+                                        BoxShadow(
                                             color: index == _selectedIndex
-                                                ? Colors.white
-                                                : Color(0xff0068B0),
-                                            shape: BoxShape.circle),
-                                        child: Center(
-                                          child: CachedNetworkImage(
-                                            imageUrl: resturant
-                                                .menu_categories[index]
-                                                .category_image,
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                CupertinoActivityIndicator(),
-                                            errorWidget: (BuildContext context,
-                                                String url, Object error) {
-                                              print(error);
-                                              return const Icon(Icons.error);
-                                            },
-                                            color: index == _selectedIndex
-                                                ? Color(0xff0068B0)
-                                                : background,
+                                                ? black.withOpacity(0.16)
+                                                : Colors.transparent,
+                                            blurRadius: 6,
+                                            offset: Offset(0, 3)),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 51,
+                                          height: 51,
+                                          // padding: EdgeInsetsDirectional.only(top: ),
+                                          decoration: BoxDecoration(
+                                              color: index == _selectedIndex
+                                                  ? Colors.white
+                                                  : Color(0xff0068B0),
+                                              shape: BoxShape.circle),
+                                          child: Center(
+                                            child: CachedNetworkImage(
+                                              imageUrl: resturant
+                                                  .menu_categories[index]
+                                                  .category_image,
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  CupertinoActivityIndicator(),
+                                              errorWidget: (BuildContext context,
+                                                  String url, Object error) {
+                                                print(error);
+                                                return const Icon(Icons.error);
+                                              },
+                                              color: index == _selectedIndex
+                                                  ? Color(0xff0068B0)
+                                                  : background,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text(
-                                        resturant.menu_categories[index]
-                                            .category_name,
-                                        style: TextStyle(
-                                          fontFamily: 'DIN Next LT Arabic',
-                                          fontSize: 16,
-                                          color: index == _selectedIndex
-                                              ? background.withOpacity(0.98)
-                                              : black1.withOpacity(0.98),
-                                          fontWeight: FontWeight.w500,
+                                        SizedBox(
+                                          height: 3,
                                         ),
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
+                                        Text(
+                                          resturant.menu_categories[index]
+                                              .category_name,
+                                          style: TextStyle(
+                                            fontFamily: 'DIN Next LT Arabic',
+                                            fontSize: 16,
+                                            color: index == _selectedIndex
+                                                ? background.withOpacity(0.98)
+                                                : black1.withOpacity(0.98),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                      ),
-                      // SizedBox(
-                      //   height: 21,
-                      // ),
-                      _isLoading1
-                          ? Expanded(child: CupertinoActivityIndicator())
-                          : Expanded(
-                              child: ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: _products.length,
-                                  physics: ClampingScrollPhysics(),
-                                  separatorBuilder: (context, index1) {
-                                    return SizedBox(
-                                      height: 17,
-                                    );
-                                  },
-                                  itemBuilder: (context, index1) {
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ItemDetailsScreen(
-                                                        id: _products[index1]
-                                                            .product_id,
-                                                        total:
-                                                            productsTotalPrice,
-                                                        logo: resturant
-                                                            .vendor_image,
-                                                        vendorId:
-                                                            widget.id))).then(
-                                            (value) {
-                                          if (value != null) {
-                                            setState(() {
-                                              productsTotalPrice = value.total;
-                                              _productCart = value.carts;
-                                            });
-                                          }
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsetsDirectional.only(
-                                            start: 11,
-                                            top: 6,
-                                            bottom: 14,
-                                            end: 27),
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        decoration: BoxDecoration(
-                                            color: background,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Color(0xff9E9C9C)
-                                                    .withOpacity(0.16),
-                                                blurRadius: 6,
-                                                offset: Offset(0, 3),
-                                              )
-                                            ]),
-                                        child: Row(
-                                          children: [
-                                            Card(
-                                              clipBehavior: Clip.antiAlias,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          18)),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    _products[index1].image,
-                                                width: 96,
-                                                height: 96,
-                                                fit: BoxFit.cover,
-                                                progressIndicatorBuilder: (context,
-                                                        url,
-                                                        downloadProgress) =>
-                                                    CupertinoActivityIndicator(),
-                                                errorWidget:
-                                                    (BuildContext context,
-                                                        String url,
-                                                        Object error) {
-                                                  print(error);
-                                                  return const Icon(
-                                                      Icons.error);
-                                                },
+                                );
+                              }),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _isLoading1
+                            ? Expanded(child: CupertinoActivityIndicator())
+                            : Expanded(
+                                child: ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: _products.length,
+                                    physics: ClampingScrollPhysics(),
+                                    separatorBuilder: (context, index1) {
+                                      return SizedBox(
+                                        height: 17,
+                                      );
+                                    },
+                                    itemBuilder: (context, index1) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ItemDetailsScreen(
+                                                          id: _products[index1]
+                                                              .product_id,
+                                                          total:
+                                                              productsTotalPrice,
+                                                          logo: resturant
+                                                              .vendor_image,
+                                                          vendorId:
+                                                              widget.id))).then(
+                                              (value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                productsTotalPrice = value.total;
+                                                _productCart = value.carts;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsetsDirectional.only(
+                                              start: 11,
+                                              top: 6,
+                                              bottom: 14,
+                                              end: 27),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          decoration: BoxDecoration(
+                                              color: background,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Color(0xff9E9C9C)
+                                                      .withOpacity(0.16),
+                                                  blurRadius: 6,
+                                                  offset: Offset(0, 3),
+                                                )
+                                              ]),
+                                          child: Row(
+                                            children: [
+                                              Card(
+                                                clipBehavior: Clip.antiAlias,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18)),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      _products[index1].image,
+                                                  width: 96,
+                                                  height: 96,
+                                                  fit: BoxFit.cover,
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      CupertinoActivityIndicator(),
+                                                  errorWidget:
+                                                      (BuildContext context,
+                                                          String url,
+                                                          Object error) {
+                                                    print(error);
+                                                    return const Icon(
+                                                        Icons.error);
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 12,
-                                            ),
-                                            Flexible(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    _products[index1]
-                                                        .product_name,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          'DIN Next LT Arabic',
-                                                      fontSize: 18,
-                                                      color: const Color(
-                                                          0xff141414),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    _products[index1]
-                                                            .product_desc ??
-                                                        "",
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          'DIN Next LT Arabic',
-                                                      fontSize: 13,
-                                                      color: const Color(
-                                                          0xc7707070),
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        _products[index1]
-                                                                .product_price +
-                                                            " " +
-                                                            AppLocalization.of(
-                                                                    context)
-                                                                .translate(
-                                                                    "sr"),
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'DIN Next LT Arabic',
-                                                          fontSize: 14,
-                                                          color: const Color(
-                                                              0xff0068b0),
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 14,
-                                                      ),
+                                              SizedBox(
+                                                width: 12,
+                                              ),
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
                                                       _products[index1]
-                                                                  .product_calories ==
-                                                              null
-                                                          ? SizedBox.shrink()
-                                                          : Text(
-                                                              _products[index1]
-                                                                      .product_calories +
-                                                                  " " +
-                                                                  AppLocalization.of(
-                                                                          context)
-                                                                      .translate(
-                                                                          'calorie'),
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'DIN Next LT Arabic',
-                                                                fontSize: 14,
-                                                                color: const Color(
-                                                                    0xff9d5000),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
-                                                            ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            // Spacer(),
-
-                                            CupertinoButton(
-                                              onPressed: () {
-                                                Helper.showProductSheet(
-                                                        context,
+                                                          .product_name,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'DIN Next LT Arabic',
+                                                        fontSize: 18,
+                                                        color: const Color(
+                                                            0xff141414),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      _products[index1]
+                                                              .product_desc ??
+                                                          "",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'DIN Next LT Arabic',
+                                                        fontSize: 13,
+                                                        color: const Color(
+                                                            0xc7707070),
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          _products[index1]
+                                                                  .product_price +
+                                                              " " +
+                                                              AppLocalization.of(
+                                                                      context)
+                                                                  .translate(
+                                                                      "sr"),
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'DIN Next LT Arabic',
+                                                            fontSize: 14,
+                                                            color: const Color(
+                                                                0xff0068b0),
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 14,
+                                                        ),
                                                         _products[index1]
-                                                            .product_id,
-                                                        null,
-                                                        widget.id,
-                                                        null,
-                                                        null)
-                                                    .then((value) {
-                                                  if (value != null)
-                                                    setState(() {
-                                                      productsTotalPrice =
-                                                          value.total;
-                                                      _productCart =
-                                                          value.carts;
-                                                    });
-                                                });
-                                              },
-                                              child: Icon(
-                                                Icons.add_box_rounded,
-                                                size: 30,
-                                                color: primaryIconColor,
+                                                                    .product_calories ==
+                                                                null
+                                                            ? SizedBox.shrink()
+                                                            : Text(
+                                                                _products[index1]
+                                                                        .product_calories +
+                                                                    " " +
+                                                                    AppLocalization.of(
+                                                                            context)
+                                                                        .translate(
+                                                                            'calorie'),
+                                                                style: TextStyle(
+                                                                  fontFamily:
+                                                                      'DIN Next LT Arabic',
+                                                                  fontSize: 14,
+                                                                  color: const Color(
+                                                                      0xff9d5000),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
+                                                              ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                              // Spacer(),
+
+                                              CupertinoButton(
+                                                onPressed: () {
+                                                  Helper.showProductSheet(
+                                                          context,
+                                                          _products[index1]
+                                                              .product_id,
+                                                          null,
+                                                          widget.id,
+                                                          null,
+                                                          null)
+                                                      .then((value) {
+                                                    if (value != null)
+                                                      setState(() {
+                                                        productsTotalPrice =
+                                                            value.total;
+                                                        _productCart =
+                                                            value.carts;
+                                                      });
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.add_box_rounded,
+                                                  size: 30,
+                                                  color: primaryIconColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                      _productCart.isNotEmpty
-                          ? SafeArea(
-                              top: false,
-                              child: Container(
-                                  // height: 56.33,
-                                  margin: EdgeInsetsDirectional.only(
-                                      bottom: 30, start: 30, end: 30),
-                                  width: double.maxFinite,
-                                  child: CartButton(
-                                      total: productsTotalPrice,
-                                      text: AppLocalization.of(context)
-                                          .translate("view_cart"),
-                                      color: primaryIconColor,
-                                      tap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CheckOutScreen(
-                                                        id: widget.id,
-                                                        branch: widget.branch,
-                                                        deliveryCost: resturant
-                                                            .delivery_cost,
-                                                        idWay: widget.idWay,
-                                                        vat: resturant
-                                                            .vat_percentage,
-                                                        time: _selectedTime,
-                                                        carts: _productCart,
-                                                        total:
-                                                            productsTotalPrice,
-                                                        address: widget.address,
-                                                        minimum: resturant
-                                                            .minimum_charge,
-                                                        lat: widget.lat,
-                                                        lng: widget.lng)));
-                                        // showDialog(
-                                        //     context: context,
-                                        //     builder: (BuildContext context) =>
-                                        //         CartDialog(
-                                        //           id: widget.id,
-                                        //           branch: widget.branch,
-                                        //           deliveryCost:
-                                        //           resturant.delivery_cost,
-                                        //           idWay: widget.idWay,
-                                        //           vat: resturant.vat_percentage,
-                                        //           time: _selectedTime,
-                                        //           carts:_productCart,
-                                        //           total:productsTotalPrice,
-                                        //            address:widget.address,
-                                        //           minimum:resturant.minimum_charge,
-                                        //           lat:widget.lat,
-                                        //           lng:widget.lng
-                                        //         ));
-                                      })),
-                            )
-                          : SizedBox.shrink()
-                    ],
-                  )),
+                                      );
+                                    }),
+                              ),
+                        _productCart.isNotEmpty
+                            ? SafeArea(
+                                top: false,
+                                child: Container(
+                                    // height: 56.33,
+                                    margin: EdgeInsetsDirectional.only(
+                                        bottom: 30, start: 30, end: 30),
+                                    width: double.maxFinite,
+                                    child: CartButton(
+                                        total: productsTotalPrice,
+                                        text: AppLocalization.of(context)
+                                            .translate("view_cart"),
+                                        color: primaryIconColor,
+                                        tap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CheckOutScreen(
+                                                          id: widget.id,
+                                                          branch: widget.branch,
+                                                          deliveryCost: resturant
+                                                              .delivery_cost,
+                                                          idWay: widget.idWay,
+                                                          vat: resturant
+                                                              .vat_percentage,
+                                                          time: _selectedTime,
+                                                          carts: _productCart,
+                                                          total:
+                                                              productsTotalPrice,
+                                                          address: widget.address,
+                                                          minimum: resturant
+                                                              .minimum_charge,
+                                                          lat: widget.lat,
+                                                          lng: widget.lng)));
+                                          // showDialog(
+                                          //     context: context,
+                                          //     builder: (BuildContext context) =>
+                                          //         CartDialog(
+                                          //           id: widget.id,
+                                          //           branch: widget.branch,
+                                          //           deliveryCost:
+                                          //           resturant.delivery_cost,
+                                          //           idWay: widget.idWay,
+                                          //           vat: resturant.vat_percentage,
+                                          //           time: _selectedTime,
+                                          //           carts:_productCart,
+                                          //           total:productsTotalPrice,
+                                          //            address:widget.address,
+                                          //           minimum:resturant.minimum_charge,
+                                          //           lat:widget.lat,
+                                          //           lng:widget.lng
+                                          //         ));
+                                        })),
+                              )
+                            : SizedBox.shrink()
+                      ],
+                    ),
+                )),
       ),
     );
   }

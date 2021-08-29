@@ -50,7 +50,7 @@ class CartButton extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 15),
                   child: Stack(
                     alignment: AlignmentDirectional(
-                        -1.5, model.language == 0 ? -3.9 : -4.8),
+                        -1.5, model.language == 0 ? -3.9 : -11),
                     children: [
                       Icon(
                         CupertinoIcons.shopping_cart,
