@@ -78,7 +78,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                 ) ,
               )
-             : _image,
+             :  Container(
+            height: double.maxFinite,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: _image.image,
+                fit:  BoxFit.cover
+              ),
+
+            ),
+        ),
     );
   }
 
@@ -96,8 +106,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           _image = new Image.network(
             value.data.gif,
             fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
           );
         });
         _imageLoad();
@@ -135,7 +143,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       )
     );
     await completer.future;
-
     setState(() {
       _isLoading1=false;
     });
