@@ -1122,63 +1122,72 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   void _executePayment() async {
     // if (!_validate()) return;
-    setState(() {
-      _isLoading1 = true;
-    });
-    var body = {
-      "type": widget.idWay == 1 ? "pickup" : "delivery",
-      "is_rajhi": _otpToken.trim().isNotEmpty ? "1" : "0",
-      "invoicevalue": '$finalPrice',
-      "is_qitaf": false.toString(),
-      "couponCode": couponCode
-    };
-    print(body);
-    int paymentMethod = _methods[_selectedPaymentIndex].paymentMethodId;
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .paymentByMyFatoorah(widget.id, body)
-        .then((value) {
-      if (value.status.status) {
-        var request = new MFExecutePaymentRequest(
-            paymentMethod,
-            couponCode.isNotEmpty
-                ? double.parse(finalPrice) + widget.deliveryCost
-                : widget.total + widget.deliveryCost);
-        request.paymentMethodId =
-            _methods[_selectedPaymentIndex].paymentMethodId;
-        request.customerEmail = value.data.CustomerEmail;
-        request.customerMobile = value.data.CustomerMobile;
-        request.customerName = value.data.CustomerName;
-        request.customerReference = value.data.CustomerReference.toString();
-        request.invoiceItems = value.data.InvoiceItems;
-        print(request.invoiceItems);
-        // request.suppliers=value.data.Suppliers;
-        request.invoiceValue = value.data.InvoiceValue;
-        request.userDefinedField = value.data.UserDefinedField;
-        request.mobileCountryCode = value.data.MobileCountryCode;
-        request.language =
-            UtilSharedPreferences.getInt('lang') == 0 ? 'en' : "ar";
-        MFSDK.executePayment(
-            context,
-            request,
-            MFAPILanguage.EN,
-            (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
-                  if (result.isSuccess())
-                    {print(result.response.toJson().toString()), _makeOrder()}
-                  else
-                    {
-                      print(result.error.message),
-                      setState(() {
-                        _isLoading1 = false;
-                      }),
-                    }
-                });
-      } else {
-        AppDialog.showMe(context, value.status.HTTP_response);
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
+   // try{
+     setState(() {
+       _isLoading1 = true;
+     });
+     var body = {
+       "type": widget.idWay == 1 ? "pickup" : "delivery",
+       "is_rajhi": _otpToken.trim().isNotEmpty ? "1" : "0",
+       "invoicevalue": '$finalPrice',
+       "is_qitaf": false.toString(),
+       "couponCode": couponCode
+     };
+     print(body);
+     int paymentMethod = _methods[_selectedPaymentIndex].paymentMethodId;
+     await ScopedModel.of<RestaurantsApiModel>(context)
+         .paymentByMyFatoorah(widget.id, body)
+         .then((value) {
+       if (value.status.status) {
+         var request = new MFExecutePaymentRequest(
+             paymentMethod,
+             couponCode.isNotEmpty
+                 ? double.parse(finalPrice) + widget.deliveryCost
+                 : widget.total + widget.deliveryCost);
+         request.paymentMethodId =
+             _methods[_selectedPaymentIndex].paymentMethodId;
+         request.customerEmail = value.data.CustomerEmail;
+         request.customerMobile = value.data.CustomerMobile;
+         request.customerName = value.data.CustomerName;
+         request.customerReference = value.data.CustomerReference.toString();
+         request.invoiceItems = value.data.InvoiceItems;
+         print(request.invoiceItems);
+         request.suppliers=value.data.Suppliers;
+         request.invoiceValue = value.data.InvoiceValue;
+         request.userDefinedField = value.data.UserDefinedField;
+         request.mobileCountryCode = value.data.MobileCountryCode;
+         request.language =
+         UtilSharedPreferences.getInt('lang') == 0 ? 'en' : "ar";
+         MFSDK.executePayment(
+             context,
+             request,
+             MFAPILanguage.EN,
+                 (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+               if (result.isSuccess())
+                 {print(result.response.toJson().toString()), _makeOrder()}
+               else
+                 {
+                   print(result.error.message),
+                   setState(() {
+                     _isLoading1 = false;
+                   }),
+                 }
+             });
+       } else {
+         AppDialog.showMe(context, value.status.HTTP_response);
+         setState(() {
+           _isLoading = false;
+         });
+       }
+     });
+   // }
+   // catch(err){
+   //   AppDialog.showMe(context, err.toString());
+   //   setState(() {
+   //     _isLoading1 = false;
+   //
+   //   });
+   // }
   }
 
   _makeOrder() async {

@@ -348,19 +348,24 @@ import 'package:http/http.dart' as http;
   }
 
   Future<MyFatoorahPaymentResponse> paymentByMyFatoorah(int vendorId,body) {
-    return http.post(
-      Uri.parse(url + "auth/payment/myfatoorah-handler?vendor_id=$vendorId"),
-      body:body,
-      headers: headers(),
-    ).then((response) {
-      print("smsm"+response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return MyFatoorahPaymentResponse.fromJson(json.decode(response.body));
-    }
-    );
+   try{
+     return http.post(
+       Uri.parse(url + "auth/payment/myfatoorah-handler?vendor_id=$vendorId"),
+       body:body,
+       headers: headers(),
+     ).then((response) {
+       print(response.body);
+       if (response.statusCode != 200) {
+         print(response.reasonPhrase);
+         print(response.body);
+       }
+       return MyFatoorahPaymentResponse.fromJson(json.decode(response.body));
+     }
+     );
+   }
+   catch(err){
+     throw err;
+   }
   }
   Future<OrderResponse> makeOrder(body) {
     return http.post(

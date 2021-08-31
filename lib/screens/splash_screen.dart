@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 ) ,
               )
              :  Container(
-            height: double.maxFinite,
+            height: double.infinity,
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(

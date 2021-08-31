@@ -53,7 +53,7 @@ class _BranchScreenState extends State<BranchScreen> {
 
     super.initState();
     if (widget.idWay == 1)
-      _getBranshes(null, null, 'pickup');
+      _getBranches(null, null, 'pickup');
     else
       _getAddress();
   }
@@ -231,49 +231,58 @@ class _BranchScreenState extends State<BranchScreen> {
     _setMapPins();
   }
 
-  void _getBranshes(String lat, String lng, type) async {
+  void _getBranches(String lat, String lng, type) async {
     print(widget.id);
-    setState(() {
-      _isLoading = true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .listBranch(widget.id, lng, lat, type)
-        .then((value) {
-      if (value.status.status) {
-        _branches.clear();
-        _branches.addAll(value.data.branches);
-        if (widget.idWay == 0) if (_branches.isNotEmpty) {
-          _covered = "Covered";
-          _color = green1;
-          for (var index = 0; index < _branches.length; index++) {
-            setState(() {
-              _markers.add(Marker(
-                markerId: MarkerId(_branches[index].branch_id.toString()),
-                icon: customIcon,
-                position: LatLng(
-                  double.parse(_branches[index].latitude),
-                  double.parse(_branches[index].longitude),
-                ),
-                infoWindow: InfoWindow(
-                  title: _branches[index].branch_name,
-                  snippet: _branches[index].branch_address,
-                ),
-              ));
-            });
-            mapController.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(
-                    target: LatLng(double.parse(_branches[index].latitude),
-                        double.parse(_branches[index].longitude)),
-                    zoom: 10.0)));
-          }
-        }
-      } else {
-        AppDialog.showMe(context, value.status.HTTP_response);
-      }
+    try{
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
-    });
+      await ScopedModel.of<RestaurantsApiModel>(context)
+          .listBranch(widget.id, lng, lat, type)
+          .then((value) {
+        if (value.status.status) {
+          _branches.clear();
+          _branches.addAll(value.data.branches);
+          if (widget.idWay == 0) if (_branches.isNotEmpty) {
+            _covered = "Covered";
+            _color = green1;
+            for (var index = 0; index < _branches.length; index++) {
+              setState(() {
+                _markers.add(Marker(
+                  markerId: MarkerId(_branches[index].branch_id.toString()),
+                  icon: customIcon,
+                  position: LatLng(
+                    double.parse(_branches[index].latitude),
+                    double.parse(_branches[index].longitude),
+                  ),
+                  infoWindow: InfoWindow(
+                    title: _branches[index].branch_name,
+                    snippet: _branches[index].branch_address,
+                  ),
+                ));
+              });
+              mapController.animateCamera(CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                      target: LatLng(double.parse(_branches[index].latitude),
+                          double.parse(_branches[index].longitude)),
+                      zoom: 10.0)));
+            }
+          }
+        } else {
+          AppDialog.showMe(context, value.status.HTTP_response);
+        }
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    catch(err){
+      setState(() {
+        _isLoading=false;
+      });
+      AppDialog.showMe(context, err.toString());
+      return;
+    }
   }
 
   void _setMapPins() {
@@ -296,7 +305,7 @@ class _BranchScreenState extends State<BranchScreen> {
               });
               print(lat);
               print(lng);
-              _getBranshes('$lat', '$lng ', 'delivery');
+              _getBranches('$lat', '$lng ', 'delivery');
               final coordinates = new Coordinates(lat, lng);
               await Geocoder.local
                   .findAddressesFromCoordinates(coordinates)

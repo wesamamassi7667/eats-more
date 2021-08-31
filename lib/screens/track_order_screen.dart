@@ -245,7 +245,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
         } else {
           setState(() {
             lng = double.parse(value.data.track.data.jobs[0].job_longitude);
-            lat = double.parse(value.data.track.data.jobs[0].job_longitude);
+            lat = double.parse(value.data.track.data.jobs[0].job_latitude);
             branchLatLng = LatLng(
                 double.parse(value.data.track.data.jobs[0].job_latitude),
                 double.parse(value.data.track.data.jobs[0].job_longitude));

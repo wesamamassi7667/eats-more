@@ -74,6 +74,10 @@ MyFatoorahPayment _$MyFatoorahPaymentFromJson(Map<String, dynamic> json) {
             e == null ? null : InvoiceItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     json['API_URL'] as String,
+    (json['Suppliers'] as List)
+        ?.map((e) =>
+            e == null ? null : Supplier.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -93,4 +97,5 @@ Map<String, dynamic> _$MyFatoorahPaymentToJson(MyFatoorahPayment instance) =>
       'API_Token': instance.API_Token,
       'InvoiceItems': instance.InvoiceItems,
       'API_URL': instance.API_URL,
+      'Suppliers': instance.Suppliers,
     };

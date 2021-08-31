@@ -1,6 +1,7 @@
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myfatoorah_flutter/model/executepayment/MFExecutePaymentRequest.dart';
+import 'package:myfatoorah_flutter/model/paymentstatus/SDKPaymentStatusResponse.dart';
 part 'my_myfatoorah_response.g.dart';
 
 @JsonSerializable()
@@ -54,6 +55,7 @@ class MyFatoorahPayment {
   String API_Token;
   List<InvoiceItem> InvoiceItems;
   String API_URL;
+  List<Supplier> Suppliers;
 
 
   MyFatoorahPayment(
@@ -71,13 +73,17 @@ class MyFatoorahPayment {
       this.ApiCustomFileds,
       this.API_Token,
       this.InvoiceItems,
-      this.API_URL);
+      this.API_URL,
+      this.Suppliers
+      );
 
   factory MyFatoorahPayment.fromJson(Map<String, dynamic> json) =>
       _$MyFatoorahPaymentFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyFatoorahPaymentToJson(this);
 }
+
+
 
 
 
