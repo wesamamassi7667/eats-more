@@ -42,11 +42,8 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
               children: List.generate(2, (index){
                 return InkWell(
                   onTap: (){
-                    if(index==0)
-                      _getCurrentLocation();
-
-                    else  Navigator.push(context, MaterialPageRoute(builder:(context)=>BranchScreen(
-                        id:widget.id,idWay:index, pos:_currentPosition,
+                      Navigator.push(context, MaterialPageRoute(builder:(context)=>BranchScreen(
+                        id:widget.id,idWay:index
                     ) ));
                   },
                   child: Container(
@@ -86,23 +83,5 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
     );
   }
 
-  void _getCurrentLocation() async{
-    setState(() {
-      _isLoading=true;
-    });
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) async {
-      print(position.longitude);
-      setState(() {
-        _currentPosition=position;
-          _isLoading=false;
-      });
-      Navigator.push(context, MaterialPageRoute(builder:(context)=>BranchScreen(
-          id:widget.id,idWay:0,pos:_currentPosition
-      ) ));
-    }).catchError((e) {
-      print(e);
-    });
-  }
 }
 
