@@ -243,8 +243,11 @@ class _BranchScreenState extends State<BranchScreen> {
         if (value.status.status) {
           _branches.clear();
           _branches.addAll(value.data.branches);
-          if (widget.idWay == 0) if (_branches.isNotEmpty) {
+          if (widget.idWay == 0)
+            if (_branches.isNotEmpty) {
             _covered = "Covered";
+            _markers.clear();
+            _setMapPins();
             _color = green1;
             for (var index = 0; index < _branches.length; index++) {
               setState(() {

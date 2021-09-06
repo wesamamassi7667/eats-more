@@ -164,17 +164,22 @@ import 'package:http/http.dart' as http;
     );
   }
   Future<BranchResponse> listBranch(int id,String longitude,String latitude,String type) {
-    return http.get(
-      Uri.parse(url + 'branches?vendor_id=$id&type=$type&longitude=$longitude&latitude=$latitude') ,
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
+    try{
+      return http.get(
+        Uri.parse(url + 'branches?vendor_id=$id&type=$type&longitude=$longitude&latitude=$latitude') ,
+      ).then((response) {
         print(response.body);
+        if (response.statusCode != 200) {
+          print(response.reasonPhrase);
+          print(response.body);
+        }
+        return BranchResponse.fromJson(json.decode(response.body));
       }
-      return BranchResponse.fromJson(json.decode(response.body));
+      );
     }
-    );
+    catch(err){
+      throw err;
+    }
   }
   Future<LoginResponse> loginUser(body,String subUrl){
     return http
