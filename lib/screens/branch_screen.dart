@@ -52,7 +52,7 @@ class _BranchScreenState extends State<BranchScreen> {
 
     super.initState();
     if (widget.idWay == 1)
-      _getBranches(null, null, 'pickup');
+      _getBranches(widget.pos.latitude.toString(), widget.pos.longitude.toString(), 'pickup');
     else
       _getAddress();
   }
@@ -241,8 +241,9 @@ class _BranchScreenState extends State<BranchScreen> {
           .then((value) {
         if (value.status.status) {
           _branches.clear();
+          if (widget.idWay == 0){
           _markers.clear();
-          _setMapPins();
+          _setMapPins();}
           _branches.addAll(value.data.branches);
           if (widget.idWay == 0)
             if (_branches.isNotEmpty) {

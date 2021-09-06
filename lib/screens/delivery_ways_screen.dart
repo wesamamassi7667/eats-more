@@ -46,7 +46,7 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
                       _getCurrentLocation();
 
                     else  Navigator.push(context, MaterialPageRoute(builder:(context)=>BranchScreen(
-                        id:widget.id,idWay:index
+                        id:widget.id,idWay:index, pos:_currentPosition,
                     ) ));
                   },
                   child: Container(

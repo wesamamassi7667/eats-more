@@ -167,6 +167,7 @@ import 'package:http/http.dart' as http;
     try{
       return http.get(
         Uri.parse(url + 'branches?vendor_id=$id&type=$type&longitude=$longitude&latitude=$latitude') ,
+        headers: headers(),
       ).then((response) {
         print(response.body);
         if (response.statusCode != 200) {
