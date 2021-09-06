@@ -368,30 +368,18 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                         Container(
                                           width: 51,
                                           height: 51,
-                                          // padding: EdgeInsetsDirectional.only(top: ),
+                                           padding: EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                               color: index == _selectedIndex
                                                   ? Colors.white
                                                   : Color(0xff0068B0),
+                                              image: DecorationImage(
+                                                image: CachedNetworkImageProvider(
+                                                    resturant.menu_categories[index]
+                                                        .category_image
+                                                ),
+                                              ),
                                               shape: BoxShape.circle),
-                                          child: Center(
-                                            child: CachedNetworkImage(
-                                              imageUrl: resturant
-                                                  .menu_categories[index]
-                                                  .category_image,
-                                              progressIndicatorBuilder: (context,
-                                                      url, downloadProgress) =>
-                                                  CupertinoActivityIndicator(),
-                                              errorWidget: (BuildContext context,
-                                                  String url, Object error) {
-                                                print(error);
-                                                return const Icon(Icons.error);
-                                              },
-                                              color: index == _selectedIndex
-                                                  ? Color(0xff0068B0)
-                                                  : background,
-                                            ),
-                                          ),
                                         ),
                                         SizedBox(
                                           height: 3,

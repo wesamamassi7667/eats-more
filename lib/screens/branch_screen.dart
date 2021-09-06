@@ -100,7 +100,7 @@ class _BranchScreenState extends State<BranchScreen> {
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
+   _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     _setMapPins();
   }
