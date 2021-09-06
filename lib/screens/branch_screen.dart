@@ -34,7 +34,6 @@ class _BranchScreenState extends State<BranchScreen> {
   // String _currentAddress;
   Address _address;
   var _covered = 'Not Covered';
-  var _color = red;
   BitmapDescriptor customIcon;
   var _isLoading1 = false;
   Set<Marker> _markers = Set<Marker>();
@@ -146,7 +145,7 @@ class _BranchScreenState extends State<BranchScreen> {
                                     style: TextStyle(
                                       fontFamily: 'DIN Next LT Arabic',
                                       fontSize: 18,
-                                      color: _color,
+                                      color: _branches.isEmpty?red:green1,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -242,13 +241,14 @@ class _BranchScreenState extends State<BranchScreen> {
           .then((value) {
         if (value.status.status) {
           _branches.clear();
+          _markers.clear();
+          _setMapPins();
           _branches.addAll(value.data.branches);
           if (widget.idWay == 0)
             if (_branches.isNotEmpty) {
             _covered = "Covered";
             _markers.clear();
             _setMapPins();
-            _color = green1;
             for (var index = 0; index < _branches.length; index++) {
               setState(() {
                 _markers.add(Marker(
@@ -271,6 +271,9 @@ class _BranchScreenState extends State<BranchScreen> {
                       zoom: 10.0)));
             }
           }
+          else{
+            _covered='Not Covered';
+            }
         } else {
           AppDialog.showMe(context, value.status.HTTP_response);
         }

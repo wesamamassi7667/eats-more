@@ -327,6 +327,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
+                                   if(index==_selectedIndex)
+                                     return;
                                     setState(() {
                                       _selectedIndex = index;
                                     });
