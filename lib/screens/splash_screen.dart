@@ -63,18 +63,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             ?Center(child: CupertinoActivityIndicator(),):_isLoading1? Center(
                 child:ScaleTransition(
                   scale: _animation,
-                  child: CachedNetworkImage(
-                    imageUrl:Helper.setting.enterprise_image,
-                    fit: BoxFit.cover,
-                    width: 200,
-                    height: 200,
-                    progressIndicatorBuilder: (context, url, downloadProgress) {
-                   return   UtilSharedPreferences.getObj('constant') == null?  LimitedBox(maxHeight: 40,maxWidth: 40,child: CupertinoActivityIndicator()):SizedBox.shrink();},
-                    errorWidget:
-                        (BuildContext context, String url, Object error) {
-                      print(error);
-                      return const Icon(Icons.error);
-                      },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    child: CachedNetworkImage(
+                      imageUrl:Helper.setting.enterprise_image,
+                      fit: BoxFit.cover,
+                      width: 200,
+                      height: 200,
+                      progressIndicatorBuilder: (context, url, downloadProgress) {
+                     return   UtilSharedPreferences.getObj('constant') == null?  LimitedBox(maxHeight: 40,maxWidth: 40,child: CupertinoActivityIndicator()):SizedBox.shrink();},
+                      errorWidget:
+                          (BuildContext context, String url, Object error) {
+                        print(error);
+                        return const Icon(Icons.error);
+                        },
+                    ),
                   ),
                 ) ,
               )
