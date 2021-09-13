@@ -75,7 +75,7 @@ class _HeaderListMealState extends State<HeaderListMeal>
                     ListMealWidth(
                       item:widget.item,
                       controller:widget.controller,
-                      index: index b,
+                      index: index,
                     ):
                     ListMealHeight(
                         index: index,
