@@ -48,6 +48,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
   String _selectedTime;
   List<ProductCart> _productCart;
   double productsTotalPrice;
+
   @override
   void initState() {
     _products = [];
@@ -313,7 +314,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                     child: CupertinoActivityIndicator(),
                   )
                 : SafeArea(
-                  child: Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // SizedBox(
@@ -327,8 +328,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                   if(index==_selectedIndex)
-                                     return;
+                                    if (index == _selectedIndex) return;
                                     setState(() {
                                       _selectedIndex = index;
                                     });
@@ -339,7 +339,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                     margin: EdgeInsetsDirectional.only(
                                       start: index == 0 ? 16 : 18,
                                       end: index ==
-                                              resturant.menu_categories.length - 1
+                                              resturant.menu_categories.length -
+                                                  1
                                           ? 16
                                           : 0,
                                     ),
@@ -366,20 +367,25 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: 51,
-                                          height: 51,
-                                           padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              color: index == _selectedIndex
-                                                  ? Colors.white
-                                                  : Color(0xff0068B0),
-                                              image: DecorationImage(
-                                                image: CachedNetworkImageProvider(
-                                                    resturant.menu_categories[index]
-                                                        .category_image
-                                                ),
-                                              ),
-                                              shape: BoxShape.circle),
+                                          width: 60,
+                                          height: 60,
+                                          padding: EdgeInsets.all(2),
+                                          child: CachedNetworkImage(
+                                            imageUrl: resturant
+                                                .menu_categories[index]
+                                                .category_image,
+                                            progressIndicatorBuilder: (context,
+                                                url, downloadProgress) =>
+                                                CupertinoActivityIndicator(),
+                                            errorWidget: (BuildContext context,
+                                                String url, Object error) {
+                                              print(error);
+                                              return const Icon(Icons.error);
+                                            },
+                                            // color: index == _selectedIndex
+                                            //     ? Color(0xff0068B0)
+                                            //     : background,
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -437,7 +443,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                               (value) {
                                             if (value != null) {
                                               setState(() {
-                                                productsTotalPrice = value.total;
+                                                productsTotalPrice =
+                                                    value.total;
                                                 _productCart = value.carts;
                                               });
                                             }
@@ -558,7 +565,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                                                             context)
                                                                         .translate(
                                                                             'calorie'),
-                                                                style: TextStyle(
+                                                                style:
+                                                                    TextStyle(
                                                                   fontFamily:
                                                                       'DIN Next LT Arabic',
                                                                   fontSize: 14,
@@ -638,7 +646,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                                           carts: _productCart,
                                                           total:
                                                               productsTotalPrice,
-                                                          address: widget.address,
+                                                          address:
+                                                              widget.address,
                                                           minimum: resturant
                                                               .minimum_charge,
                                                           lat: widget.lat,
@@ -666,7 +675,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                             : SizedBox.shrink()
                       ],
                     ),
-                )),
+                  )),
       ),
     );
   }

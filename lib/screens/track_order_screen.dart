@@ -344,7 +344,6 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
       });
     }
   }
-
   void _back() {
     if (!widget.isOrder)
       Navigator.pop(context);
@@ -353,7 +352,6 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
       Navigator.popUntil(context, (Route<dynamic> route) => _count++ == 5);
     }
   }
-
   Future<Position> _getCurrentLocation() {
     return Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);

@@ -38,7 +38,10 @@ class ListMealHeight extends StatelessWidget {
               itemCount: item.product.length,
               scrollDirection: Axis.horizontal,
               itemBuilder:(context,index){
-              return  GestureDetector(
+              return  InkWell(
+                // onHighlightChanged: (h){
+                //
+                // },
                 onTap: (){
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) =>ItemDetailsScreen(id: item.product[index].product_id,logo:item.product[index].vendor.logo,vendorId:item.product[index].vendor.vendor_id

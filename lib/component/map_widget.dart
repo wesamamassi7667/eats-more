@@ -17,7 +17,7 @@ class MapWidget extends StatelessWidget {
  final String covered;
  final int id;
 
-  const MapWidget({Key key, this.onMapCreated, this.markers, this.lat, this.lng, this.address, this.loading=false, this.branches, this.covered, this.id}) : super(key: key);
+  const MapWidget({Key key, this.onMapCreated, this.markers, this.lat, this.lng, this.address, this.loading=false, this.branches, this.covered, this.id,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,8 @@ class MapWidget extends StatelessWidget {
                       ),
                     )
                   ]),
-                )),
+                )
+            ),
           ),
         ),
         Align(

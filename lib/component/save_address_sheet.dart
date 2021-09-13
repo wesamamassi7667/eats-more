@@ -66,16 +66,7 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
           ),
          YesNoButtons(isLoading: _isLoading,tap:(){_saveAddress();},width: MediaQuery.of(context).size.width * 0.4,
            pressNo: (){
-             var _count = 0;
-
-             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ResturantScreen(
-               idWay: 0,
-               branch: widget.branches[0],
-               address:_address,
-               id: widget.id,
-               lat :widget.lat,
-               lng:widget.lng
-             )), (route) => _count++ == 1);
+             navigateToVendorScreen();
            },
          )
         ],
@@ -94,13 +85,10 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
       "apartment_number":"1233",
       "lat": widget.lat,
       "long": widget.lng,
-
     };
     await ScopedModel.of<RestaurantsApiModel>(context).postAddress(_body).then((value){
-          if(value.status.status){
+          if(value.status.status)
             _getAllAddresses();
-
-          }
           else
             AppDialog.showMe(context, value.status.HTTP_response);
 
@@ -109,24 +97,26 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
 
   void _getAllAddresses() async{
     await ScopedModel.of<RestaurantsApiModel>(context).getAddress().then((value){
-      if(value.status.status){
+      if(value.status.status)
       ScopedModel.of<RestaurantsApiModel>(context).addAllToAddress(value.data?.addresses??[]);
-
-      }
       if(mounted)
         setState(() {
           _isLoading=false;
         });
-      // Navigator.pop(context);
-      var _count = 0;
+        navigateToVendorScreen();
+    });
 
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ResturantScreen(
+  }
+
+  void navigateToVendorScreen() {
+    var _count = 0;
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ResturantScreen(
         idWay: 0,
         branch: widget.branches[0],
         address:_address,
         id: widget.id,
-      )), (route) => _count++ == 1);
-    });
-
+        lat :widget.lat,
+        lng:widget.lng
+    )), (route) => _count++ == 1);
   }
 }

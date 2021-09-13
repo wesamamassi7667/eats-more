@@ -18,6 +18,7 @@ import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/model/rajhi_response.dart';
 import 'package:eat_more_app/model/setting_response.dart';
 import 'package:eat_more_app/model/stauts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -117,10 +118,19 @@ import 'package:http/http.dart' as http;
     notifyListeners();
   }
 
+//marker
+final Set<Marker> _markers = Set<Marker>();
+   Set<Marker> get marker => _markers;
+   void addToMarker(Marker marker){
+     _markers.add(marker);
+     notifyListeners();
+   }
+ void clearMarks(){
+     _markers.clear();
+     notifyListeners();
+ }
 
-
-
-  // header
+   // header
   Map<String, String> headers() {
     return <String, String>{
       'language': language==0||UtilSharedPreferences.getInt('lang')==0?'en':'ar',

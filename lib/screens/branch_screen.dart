@@ -26,16 +26,12 @@ class BranchScreen extends StatefulWidget {
 class _BranchScreenState extends State<BranchScreen> {
   List<Branch> _branches;
   var _isLoading = false;
-
   GoogleMapController mapController;
   double lat, lng;
-
-  // String _currentAddress;
   Address _address;
   var _covered = 'Not Covered';
   BitmapDescriptor customIcon;
   var _isLoading1 = false;
-  Set<Marker> _markers = Set<Marker>();
   Position pos;
 
   @override
@@ -62,7 +58,7 @@ class _BranchScreenState extends State<BranchScreen> {
               child: widget.idWay == 0
                   ? MapWidget(
                       onMapCreated: _onMapCreated,
-                      markers: _markers,
+                      markers: model.marker,
                       id: widget.id,
                       address: _address,
                       loading: _isLoading,
@@ -90,7 +86,7 @@ class _BranchScreenState extends State<BranchScreen> {
                           return ListAddressSheet(
                             controller: controller,
                             loading: _isLoading1,
-                            list: model.address,
+                            mapController:mapController
                           );
                         }),
                   ),
@@ -106,7 +102,6 @@ class _BranchScreenState extends State<BranchScreen> {
   }
 
   void _getBranches(String lat, String lng, type) async {
-    print(widget.id);
     try {
       setState(() {
         _isLoading = true;
@@ -117,17 +112,17 @@ class _BranchScreenState extends State<BranchScreen> {
         if (value.status.status) {
           _branches.clear();
           if (widget.idWay == 0) {
-            _markers.clear();
+            ScopedModel.of<RestaurantsApiModel>(context).clearMarks();
             _setMapPins();
           }
           _branches.addAll(value.data.branches);
           if (widget.idWay == 0) if (_branches.isNotEmpty) {
             _covered = "Covered";
-            _markers.clear();
+            ScopedModel.of<RestaurantsApiModel>(context).clearMarks();
             _setMapPins();
             for (var index = 0; index < _branches.length; index++) {
               setState(() {
-                _markers.add(Marker(
+                ScopedModel.of<RestaurantsApiModel>(context).addToMarker(Marker(
                   markerId: MarkerId(_branches[index].branch_id.toString()),
                   icon: customIcon,
                   position: LatLng(
@@ -167,7 +162,7 @@ class _BranchScreenState extends State<BranchScreen> {
 
   void _setMapPins() {
     setState(() {
-      _markers.add(
+      ScopedModel.of<RestaurantsApiModel>(context).addToMarker(
         Marker(
             onTap: () {
               print('Tapped');
@@ -177,8 +172,6 @@ class _BranchScreenState extends State<BranchScreen> {
             icon: BitmapDescriptor.defaultMarker,
             position: LatLng(pos.latitude, pos.longitude),
             onDragEnd: ((newPosition) async {
-              print(newPosition.latitude);
-              print(newPosition.longitude);
               setState(() {
                 lat = newPosition.latitude;
                 lng = newPosition.longitude;
