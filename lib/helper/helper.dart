@@ -19,7 +19,6 @@ class Helper {
   static Setting setting;
   static String fcmToken;
 
-
   static Color convertColor(String color) {
     color = color.replaceAll("#", "");
     if (color.length == 6) {
@@ -55,8 +54,6 @@ class Helper {
                 return SingleChildScrollView(
                     controller: controller,
                     child: Container(
-                        // padding: EdgeInsetsDirectional.only(
-                        //     start: 16, end: 16, top: 16, bottom: 10),
                         child: ProductSheet(
                             id: id,
                             idVendor: vendorId,

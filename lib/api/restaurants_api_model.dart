@@ -23,7 +23,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
  class RestaurantsApiModel extends Model{
-  static final String url = "https://api.yalago.net/api/enterprise/eats/";
+  static final String url = "https://api.yalago.net/api/enterprise/onemillion/";
   RestaurantsApiModel() {
    if(UtilSharedPreferences.getObj('constant') != null)
     _getConstant();

@@ -17,6 +17,7 @@ import 'package:eat_more_app/model/home_response.dart';
 
 import 'package:eat_more_app/screens/edit_profile_screen.dart';
 import 'package:eat_more_app/screens/faq_screen.dart';
+import 'package:eat_more_app/screens/header_list_meal.dart';
 import 'package:eat_more_app/screens/order_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -261,14 +262,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                           physics: ClampingScrollPhysics(),
                           itemCount: _specSlider.length,
                           itemBuilder: (context,index){
-                            return _specSlider[index].viewType.isEmpty?
-                            ListMealWidth(
-                              item:_specSlider[index],
-                              controller:_controller,
-                              ads:_ads
-
-                            ):ListMealHeight(item:_specSlider[index],controller:_controller,ads: _ads,);
-                          })
+                            return  HeaderListMeal(
+                                item:_specSlider[index],
+                                controller:_controller,
+                                ads:_ads
+                            );
+                          }
+                          )
                     ],
                   ),
                 ),
