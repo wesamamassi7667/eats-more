@@ -1,3 +1,4 @@
+import 'package:eat_more_app/animation/scale_animation.dart';
 import 'package:eat_more_app/component/ads_image.dart';
 import 'package:eat_more_app/component/list_meal_height.dart';
 import 'package:eat_more_app/component/list_width.dart';
@@ -38,51 +39,41 @@ class _HeaderListMealState extends State<HeaderListMeal>
           ),
         ),
         SizedBox(
-          height:widget.item.viewType.isEmpty?0: 15,
+          height:widget.item?.viewType?.isEmpty??""?0: 15,
         ),
         Container(
-          height: widget.item.viewType.isEmpty?260: 354.5,
+          height: widget.item?.viewType?.isEmpty??""?260: 354.5,
           child: ListView.builder(
               itemCount: widget.item.product.length,
               scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
               itemBuilder: (context, index) {
-                AnimationController ctrl = AnimationController(
-                    duration: Duration(milliseconds: 1500), vsync: this);
-                Animation scaleAnimation =
-                    Tween(begin: 1.0, end: 0.7).animate(ctrl);
-                selectItem(bool forward) =>
-                    forward ? ctrl.forward() : ctrl.reverse();
-                return ScaleTransition(
-                  scale: scaleAnimation,
-                  child: GestureDetector(
-                    // onTapUp: (d)=>selectItem(false),
-                    onTapDown: (d) => selectItem(true),
-                    onTapCancel: () => selectItem(false),
-                    onTap: () =>
-                        selectItem(true).then((value) => selectItem(false).then(
-                              (value) => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ItemDetailsScreen(
-                                          id: widget
-                                              .item.product[index].product_id,
-                                          logo: widget
-                                              .item.product[index].vendor.logo,
-                                          vendorId: widget.item.product[index]
-                                              .vendor.vendor_id))),
-                            )),
-                    child: widget.item.viewType.isEmpty?
-                    ListMealWidth(
-                      item:widget.item,
-                      controller:widget.controller,
-                      index: index,
-                    ):
-                    ListMealHeight(
+                return  ScaleAnimation(
+                   tap: (v)=>
+                     Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                             builder: (context) => ItemDetailsScreen(
+                                 id: widget
+                                     .item.product[index].product_id,
+                                 logo: widget
+                                     .item.product[index].vendor.logo,
+                                 vendorId: widget.item.product[index]
+                                     .vendor.vendor_id)
+                         )
+                     ),
+                  child: widget.item?.viewType?.isEmpty??""?
+                      ListMealWidth(
+                        item:widget.item,
+                        controller:widget.controller,
                         index: index,
-                        controller: widget.controller,
-                       item: widget.item,
-                    ),
-                  ),
+                      ):
+                      ListMealHeight(
+                          index: index,
+                          controller: widget.controller,
+                         item: widget.item,
+                      ),
+
                 );
               }),
         ),
