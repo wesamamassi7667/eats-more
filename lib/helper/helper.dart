@@ -114,11 +114,15 @@ class Helper {
           context, MaterialPageRoute(builder: (context) =>ItemDetailsScreen(id: int.parse(item.product_id),
           // logo:item.product.vendor.logo,
           vendorId:item.product.vendor_id
-      )));
+      )
+      )
+      );
     else
       Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
         id:int.parse(item.vendor),
-      )));
+      )
+      )
+      );
   }
 
 }
@@ -127,6 +131,5 @@ class Helper {
 class AddCart{
   List<ProductCart> carts;
   double total;
-
   AddCart(this.carts, this.total);
 }

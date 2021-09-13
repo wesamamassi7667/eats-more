@@ -28,10 +28,7 @@ class SliderWidget extends StatelessWidget {
       ),
       items: sliders.map((item) {
         return GestureDetector(
-          onTap: (){
-            Helper.openTarget(item,context);
-
-            },
+          onTap: ()=>Helper.openTarget(item,context),
           child: Card(
             clipBehavior: Clip.antiAlias,
             elevation: 1,
