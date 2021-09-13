@@ -117,6 +117,8 @@ class Helper {
       )
       )
       );
+    else if(item.target=='image_only')
+      return;
     else
       Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
         id:int.parse(item.vendor),

@@ -24,7 +24,7 @@ class AdsImageComponent extends StatelessWidget {
                 Helper.openTarget(ads
                     .firstWhere(
                         (element) => element.display_slider_id == item.id,
-                    orElse: () => null), context);
+                    orElse: () => null),context);
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
