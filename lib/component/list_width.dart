@@ -53,8 +53,7 @@ class ListMealWidth extends StatelessWidget {
                    decoration: BoxDecoration(
                      borderRadius: BorderRadius.circular(15.0),
                      image: DecorationImage(
-                       image: CachedNetworkImageProvider(
-                           item.product[index].image),
+                       image: Helper.buildCachedNetworkImageProvider(item.product[index].image),
                        fit: BoxFit.fitWidth,
                      ),
                    ),

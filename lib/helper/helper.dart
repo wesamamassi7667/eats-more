@@ -1,6 +1,7 @@
 
 
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
@@ -123,6 +124,7 @@ class Helper {
       )
       );
   }
+  static CachedNetworkImageProvider buildCachedNetworkImageProvider(String url) => CachedNetworkImageProvider(url);
 
 }
 

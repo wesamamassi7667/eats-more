@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/color.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/model/check_out_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +22,10 @@ class RadioListTilePayment extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CachedNetworkImage(
-              imageUrl: paymentMethods[index].image,
+            CachedNetworkImageComponent(
+              url: paymentMethods[index].image,
               width: 30,
               height: 30,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CupertinoActivityIndicator(),
-              errorWidget: (BuildContext context, String url, Object error) {
-                print(error);
-                return const Icon(Icons.error);
-              },
             ),
             SizedBox(
               width: 10,

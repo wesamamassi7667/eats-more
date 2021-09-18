@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -14,14 +15,8 @@ class ProfileAvatar extends StatelessWidget {
           radius: 40,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(14),
-            child: CachedNetworkImage (
-              imageUrl: model.loggedUser?.avatar??"",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CupertinoActivityIndicator(),
-              errorWidget: (BuildContext context, String url, Object error) {
-                print(error);
-                return const Icon(Icons.error);
-              },
+            child: CachedNetworkImageComponent (
+              url: model.loggedUser?.avatar??"",
             ),
           ),
         );

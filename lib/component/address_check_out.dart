@@ -25,6 +25,7 @@ class AddressCheckOutWidget extends StatelessWidget {
           title: AppLocalization.of(context).translate("delivery_address"),
         ),
         SecondContainerComponent(
+          radius: const BorderRadius.all(Radius.circular(5)),
           child: Row(
             children: [
               Flexible(

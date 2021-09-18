@@ -50,7 +50,7 @@ class LastRowCart extends StatelessWidget {
            padding: const EdgeInsets.only(top:8.0),
            child: Text(
                 AppLocalization.of(context).translate("minimum_charge_for_order")+" "+
-                    '${minimum}'+
+                    '$minimum'+
                     AppLocalization.of(context).translate("sr"),
               style: TextStyle(
                 color: red,

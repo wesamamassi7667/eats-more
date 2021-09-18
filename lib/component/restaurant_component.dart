@@ -1,5 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:flutter/material.dart';
@@ -13,46 +15,18 @@ class RestaurantComponent extends StatelessWidget {
   const RestaurantComponent({Key key, this.index, this.vendors}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        margin: EdgeInsetsDirectional.only(
-            top: index == 0 ? 20 : 13,
-            bottom: index==vendors.length-1?12:0,
-            start: 16, end: 16),
-        padding: EdgeInsetsDirectional.only(
-            top: 7, start: 8, end: 8, bottom:9),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
-          color: background,
-          boxShadow: [
-            BoxShadow(
-              color: grey1.withOpacity(0.16),
-              offset: Offset(0, 3),
-              blurRadius: 6,
-            ),
-          ],
-        ),
+    return  SecondContainerComponent(
+        top: index == 0 ? 20 : 13,
+        bottom: index==vendors.length-1?12:0,
+        radius: BorderRadius.all(Radius.circular(6.0)),
+        colorShadow: grey1,
+        topP: 7,bottomP: 9,start: 8,end: 8,
         child: Row(
           children: [
-            Container(
-              width: 66,
-              height: 66,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.elliptical(9999.0, 9999.0)),
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                    vendors[index].vendor_image
-                  ),
-                  fit: BoxFit.cover,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: black.withOpacity(0.16),
-                    offset: Offset(0, 3),
-                    blurRadius: 6,
-                  ),
-                ],
-              ),
+            VendorLogo(
+              width: 66.0,
+              height: 66.0,
+              url: vendors[index].vendor_image,
             ),
             SizedBox(
               width: 12.3,

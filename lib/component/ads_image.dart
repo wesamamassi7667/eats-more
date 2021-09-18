@@ -33,7 +33,10 @@ class AdsImageComponent extends StatelessWidget {
                   .firstWhere(
                       (element) => element.display_slider_id == item.id,
                   orElse: () => null)
-                  ?.image,),
+                  ?.image,
+                height: 240.34,
+                width: double.infinity,
+              ),
             ),
           );
   }

@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class GridRestaurantComponent extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
                               image: DecorationImage(
-                                image: CachedNetworkImageProvider(vendors[index].vendor_image),
+                                image: Helper.buildCachedNetworkImageProvider(vendors[index].vendor_image),
                                 fit: BoxFit.cover,
                               ),
                               boxShadow: [
@@ -130,7 +131,6 @@ class GridRestaurantComponent extends StatelessWidget {
                               SvgPicture.asset(
                                 'assets/images/location.svg',width: 12,height: 12,color: black),
                               SizedBox(width: 2,),
-
                               Text(
                                 '1.5k',
                                 style: TextStyle(
@@ -154,5 +154,6 @@ class GridRestaurantComponent extends StatelessWidget {
       ),
     );
   }
+
 }
 

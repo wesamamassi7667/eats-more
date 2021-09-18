@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/count_widget.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/cart_response.dart';
@@ -80,11 +81,10 @@ class _CartItemState extends State<CartItem> {
                     height: widget.order != null ? 50 : 30,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.order != null
+                      child: CachedNetworkImageComponent(
+                        url: widget.order != null
                             ? widget.order.products[widget.index].image
                             : widget.carts[widget.index].product_image,
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

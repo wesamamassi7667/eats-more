@@ -266,6 +266,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             title: AppLocalization.of(context)
                                                 .translate("list_orders")),
                                         SecondContainerComponent(
+                                          radius: const BorderRadius.all(Radius.circular(5)),
                                           child: ListView.separated(
                                               shrinkWrap: true,
                                               physics: ClampingScrollPhysics(),
@@ -361,6 +362,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             "payment_method"),
                                                   ),
                                                   SecondContainerComponent(
+                                                      radius:const BorderRadius.all(Radius.circular(5)),
                                                       child: ListView.separated(
                                                           shrinkWrap: true,
                                                           physics:
@@ -402,6 +404,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             : SizedBox.shrink(),
                                         widget.order == null
                                             ? SecondContainerComponent(
+                                          radius:const BorderRadius.all(Radius.circular(5)),
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -493,6 +496,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             : _typeCoupon.isEmpty
                                                 ? SizedBox.shrink()
                                                 : SecondContainerComponent(
+                                           radius: const BorderRadius.all(Radius.circular(5)),
                                                     child: Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
@@ -624,6 +628,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 height: 8,
                                               ),
                                         SecondContainerComponent(
+                                          radius: const BorderRadius.all(Radius.circular(5)),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 16),

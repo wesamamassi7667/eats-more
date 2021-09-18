@@ -66,9 +66,7 @@ class _ProductSheetState extends State<ProductSheet> {
                             topLeft: Radius.circular(30),
                           ),
                           image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                _product.product_info.image_preview,
-                              ),
+                              image: Helper.buildCachedNetworkImageProvider(_product.product_info.image_preview,),
                               fit: BoxFit.cover)),
                     ),
                   ),
