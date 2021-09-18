@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,8 @@ class ListMealWidth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      return Stack(
+       alignment: Alignment.topCenter,
+
        children: [
          Container(
            margin: EdgeInsetsDirectional.only(
@@ -135,22 +138,7 @@ class ListMealWidth extends StatelessWidget {
              ],
            ),
          ),
-         PositionedDirectional(
-           top: 0,
-           start: MediaQuery.of(context).size.width * 0.286,
-           child: Container(
-             width: 49,
-             height: 49,
-             decoration: BoxDecoration(
-               image: DecorationImage(
-                 image: CachedNetworkImageProvider(
-                     item.product[index].vendor.logo),
-                 fit: BoxFit.cover,
-               ),
-               shape: BoxShape.circle,
-             ),
-           ),
-         ),
+         VendorLogo(url: item.product[index].vendor.logo,)
        ],
      );
   }

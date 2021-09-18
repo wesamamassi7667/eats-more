@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/component/ads_image.dart';
 import 'package:eat_more_app/component/text_with_line.dart';
+import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/screens/header_list_meal.dart';
@@ -136,22 +137,11 @@ class ListMealHeight extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 49,
-          height: 49,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                 item.product[index].vendor.logo),
-              fit: BoxFit.cover,
-            ),
-            shape: BoxShape.circle,
-          ),
-        ),
+        VendorLogo(url: item.product[index].vendor.logo,)
+
       ],
     );
   }
-
 }
 
 

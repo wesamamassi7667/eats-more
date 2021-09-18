@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,23 +29,14 @@ class AdsImageComponent extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.only(bottom: 15),
-              child: CachedNetworkImage(
-                imageUrl: ads
-                    .firstWhere(
-                        (element) => element.display_slider_id == item.id,
-                        orElse: () => null)
-                    ?.image,
-                width: double.infinity,
-                height: 240.34,
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CupertinoActivityIndicator(),
-                errorWidget: (BuildContext context, String url, Object error) {
-                  print(error);
-                  return const Icon(Icons.error);
-                },
-              ),
+              child: CachedNetworkImageComponent(url: ads
+                  .firstWhere(
+                      (element) => element.display_slider_id == item.id,
+                  orElse: () => null)
+                  ?.image,),
             ),
           );
   }
 }
+
+
