@@ -4,6 +4,7 @@ import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/address_check_out.dart';
 import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/cart_button.dart';
 import 'package:eat_more_app/component/cart_list.dart';
 import 'package:eat_more_app/component/check_out_tile.dart';
@@ -161,33 +162,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                         start: 28),
                                                 child: Row(
                                                   children: [
-                                                    Container(
-                                                      width: 69,
-                                                      height: 69,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        image: DecorationImage(
-                                                          image:
-                                                              CachedNetworkImageProvider(
-                                                                  ''),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        border: Border.all(
-                                                            width: 1.0,
-                                                            color: white2),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: black
-                                                                .withOpacity(
-                                                                    0.16),
-                                                            offset:
-                                                                Offset(0, 3),
-                                                            blurRadius: 6,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                    SecondContainerComponent(
+                                                      radius:BorderRadius.circular(8.0),
+                                                      width: 69,height: 69,
+                                                      image:Helper.buildCachedNetworkImageProvider('') ,
+                                                      border: Border.all(
+                                                          width: 1.0,
+                                                          color: white2),
+                                                       colorShadow: black,
                                                     ),
                                                     SizedBox(
                                                       width: 12,
@@ -266,7 +248,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             title: AppLocalization.of(context)
                                                 .translate("list_orders")),
                                         SecondContainerComponent(
-                                          radius: const BorderRadius.all(Radius.circular(5)),
+                                          radius: const BorderRadius.all(
+                                              Radius.circular(5)),
                                           child: ListView.separated(
                                               shrinkWrap: true,
                                               physics: ClampingScrollPhysics(),
@@ -362,7 +345,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             "payment_method"),
                                                   ),
                                                   SecondContainerComponent(
-                                                      radius:const BorderRadius.all(Radius.circular(5)),
+                                                      radius: const BorderRadius
+                                                              .all(
+                                                          Radius.circular(5)),
                                                       child: ListView.separated(
                                                           shrinkWrap: true,
                                                           physics:
@@ -404,7 +389,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             : SizedBox.shrink(),
                                         widget.order == null
                                             ? SecondContainerComponent(
-                                          radius:const BorderRadius.all(Radius.circular(5)),
+                                                radius: const BorderRadius.all(
+                                                    Radius.circular(5)),
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -496,7 +482,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             : _typeCoupon.isEmpty
                                                 ? SizedBox.shrink()
                                                 : SecondContainerComponent(
-                                           radius: const BorderRadius.all(Radius.circular(5)),
+                                                    radius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(5)),
                                                     child: Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
@@ -628,7 +616,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 height: 8,
                                               ),
                                         SecondContainerComponent(
-                                          radius: const BorderRadius.all(Radius.circular(5)),
+                                          radius: const BorderRadius.all(
+                                              Radius.circular(5)),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 16),
@@ -985,17 +974,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       child: ExpansionTile(
         title: Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: _paymentMethods[index].image,
+            CachedNetworkImageComponent(
+              url: _paymentMethods[index].image,
               width: 30,
               height: 30,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CupertinoActivityIndicator(),
-              errorWidget: (BuildContext context, String url, Object error) {
-                print(error);
-                return const Icon(Icons.error);
-              },
             ),
             SizedBox(
               width: 10,
@@ -1038,16 +1020,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       width: 1.0)),
                               child: Column(
                                 children: [
-                                  CachedNetworkImage(
-                                    imageUrl: _methods[index1].imageUrl,
-                                    progressIndicatorBuilder:
-                                        (context, url, downloadProgress) =>
-                                            CupertinoActivityIndicator(),
-                                    errorWidget: (BuildContext context,
-                                        String url, Object error) {
-                                      print(error);
-                                      return const Icon(Icons.error);
-                                    },
+                                  CachedNetworkImageComponent(
+                                    url: _methods[index1].imageUrl,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(top: 8),
@@ -1127,72 +1101,72 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   void _executePayment() async {
     // if (!_validate()) return;
-   // try{
-     setState(() {
-       _isLoading1 = true;
-     });
-     var body = {
-       "type": widget.idWay == 1 ? "pickup" : "delivery",
-       "is_rajhi": _otpToken.trim().isNotEmpty ? "1" : "0",
-       "invoicevalue": '$finalPrice',
-       "is_qitaf": false.toString(),
-       "couponCode": couponCode
-     };
-     print(body);
-     int paymentMethod = _methods[_selectedPaymentIndex].paymentMethodId;
-     await ScopedModel.of<RestaurantsApiModel>(context)
-         .paymentByMyFatoorah(widget.id, body)
-         .then((value) {
-       if (value.status.status) {
-         var request = new MFExecutePaymentRequest(
-             paymentMethod,
-             couponCode.isNotEmpty
-                 ? double.parse(finalPrice) + widget.deliveryCost
-                 : widget.total + widget.deliveryCost);
-         request.paymentMethodId =
-             _methods[_selectedPaymentIndex].paymentMethodId;
-         request.customerEmail = value.data.CustomerEmail;
-         request.customerMobile = value.data.CustomerMobile;
-         request.customerName = value.data.CustomerName;
-         request.customerReference = value.data.CustomerReference.toString();
-         request.invoiceItems = value.data.InvoiceItems;
-         print(request.invoiceItems);
-         request.suppliers=value.data.Suppliers;
-         request.invoiceValue = value.data.InvoiceValue;
-         request.userDefinedField = value.data.UserDefinedField;
-         request.mobileCountryCode = value.data.MobileCountryCode;
-         request.language =
-         UtilSharedPreferences.getInt('lang') == 0 ? 'en' : "ar";
-         MFSDK.executePayment(
-             context,
-             request,
-             MFAPILanguage.EN,
-                 (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
-               if (result.isSuccess())
-                 {print(result.response.toJson().toString()), _makeOrder()}
-               else
-                 {
-                   print(result.error.message),
-                   setState(() {
-                     _isLoading1 = false;
-                   }),
-                 }
-             });
-       } else {
-         AppDialog.showMe(context, value.status.HTTP_response);
-         setState(() {
-           _isLoading = false;
-         });
-       }
-     });
-   // }
-   // catch(err){
-   //   AppDialog.showMe(context, err.toString());
-   //   setState(() {
-   //     _isLoading1 = false;
-   //
-   //   });
-   // }
+    // try{
+    setState(() {
+      _isLoading1 = true;
+    });
+    var body = {
+      "type": widget.idWay == 1 ? "pickup" : "delivery",
+      "is_rajhi": _otpToken.trim().isNotEmpty ? "1" : "0",
+      "invoicevalue": '$finalPrice',
+      "is_qitaf": false.toString(),
+      "couponCode": couponCode
+    };
+    print(body);
+    int paymentMethod = _methods[_selectedPaymentIndex].paymentMethodId;
+    await ScopedModel.of<RestaurantsApiModel>(context)
+        .paymentByMyFatoorah(widget.id, body)
+        .then((value) {
+      if (value.status.status) {
+        var request = new MFExecutePaymentRequest(
+            paymentMethod,
+            couponCode.isNotEmpty
+                ? double.parse(finalPrice) + widget.deliveryCost
+                : widget.total + widget.deliveryCost);
+        request.paymentMethodId =
+            _methods[_selectedPaymentIndex].paymentMethodId;
+        request.customerEmail = value.data.CustomerEmail;
+        request.customerMobile = value.data.CustomerMobile;
+        request.customerName = value.data.CustomerName;
+        request.customerReference = value.data.CustomerReference.toString();
+        request.invoiceItems = value.data.InvoiceItems;
+        print(request.invoiceItems);
+        request.suppliers = value.data.Suppliers;
+        request.invoiceValue = value.data.InvoiceValue;
+        request.userDefinedField = value.data.UserDefinedField;
+        request.mobileCountryCode = value.data.MobileCountryCode;
+        request.language =
+            UtilSharedPreferences.getInt('lang') == 0 ? 'en' : "ar";
+        MFSDK.executePayment(
+            context,
+            request,
+            MFAPILanguage.EN,
+            (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+                  if (result.isSuccess())
+                    {print(result.response.toJson().toString()), _makeOrder()}
+                  else
+                    {
+                      print(result.error.message),
+                      setState(() {
+                        _isLoading1 = false;
+                      }),
+                    }
+                });
+      } else {
+        AppDialog.showMe(context, value.status.HTTP_response);
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
+    // }
+    // catch(err){
+    //   AppDialog.showMe(context, err.toString());
+    //   setState(() {
+    //     _isLoading1 = false;
+    //
+    //   });
+    // }
   }
 
   _makeOrder() async {
