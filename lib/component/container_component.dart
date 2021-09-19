@@ -49,8 +49,8 @@ class SecondContainerComponent extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding:EdgeInsetsDirectional.only(start:start,end: end,top:top,bottom:bottom) ,
-      margin: EdgeInsetsDirectional.only(start:startP,end: endP,top:topP,bottom:bottomP),
+      margin:EdgeInsetsDirectional.only(start:start,end: end,top:top,bottom:bottom) ,
+      padding: EdgeInsetsDirectional.only(start:startP,end: endP,top:topP,bottom:bottomP),
       decoration: BoxDecoration(
         borderRadius: radius,
         color: background,

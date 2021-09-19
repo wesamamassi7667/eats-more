@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'cached_network_image_component.dart';
+
 
 class SliderWidget extends StatelessWidget {
   final List<SliderImage> sliders;
@@ -35,17 +37,9 @@ class SliderWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: const BorderRadius.all(Radius.circular(17)),
             ),
-            child:CachedNetworkImage(
-              imageUrl:item.image,
+            child:CachedNetworkImageComponent(
+              url:item.image,
               height: 187,
-              fit: BoxFit.cover,
-              // fit: BoxFit.fitWidth,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CupertinoActivityIndicator(),
-              errorWidget: (BuildContext context, String url, Object error) {
-                print(error);
-                return const Icon(Icons.error);
-              },
             ),
           ),
         );

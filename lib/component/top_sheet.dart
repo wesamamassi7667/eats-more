@@ -1,6 +1,7 @@
 
  import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,20 +37,12 @@ class TopSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 49,
-                      height: 49,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(model.logo),
-                          fit: BoxFit.cover,
-                        ),
-                        shape: BoxShape.circle,
+                    VendorLogo(
+                      url: model.logo,
                         border: Border.all(
                           color: black,
                           width: 0.4,
                         )
-                      ),
                     ),
                   ],
                 ),

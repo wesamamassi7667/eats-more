@@ -63,7 +63,8 @@ class RestaurantsList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(list.length, (index) {
               return VendorWidget(list: list,index:index);
-            })
+            }
+            )
           ):ListView.builder(
               itemCount: list.length,
               shrinkWrap: true,

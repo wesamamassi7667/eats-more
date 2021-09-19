@@ -58,11 +58,8 @@ class _SchedulingOrderSheetState extends State<SchedulingOrderSheet> {
             _showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: Duration(milliseconds: 400),
         firstChild: WillPopScope(
-
-         onWillPop: (){
-           var _count=0;
-           Navigator.popUntil(context,
-           (Route<dynamic> route) => _count++==2);
+          onWillPop: (){
+          _pop();
 
          },
           child: Container(
@@ -99,9 +96,7 @@ class _SchedulingOrderSheetState extends State<SchedulingOrderSheet> {
                     });
                   },
                   pressNo: (){
-                    var _count=0;
-                    Navigator.popUntil(context,
-                            (Route<dynamic> route) => _count++==2);
+                  _pop();
                   },
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),
@@ -240,5 +235,11 @@ class _SchedulingOrderSheetState extends State<SchedulingOrderSheet> {
         ),
       ),
     );
+  }
+
+  void _pop() {
+    var _count=0;
+    Navigator.popUntil(context,
+            (Route<dynamic> route) => _count++==2);
   }
 }
