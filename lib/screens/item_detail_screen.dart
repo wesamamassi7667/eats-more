@@ -5,6 +5,7 @@ import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/cart_button.dart';
 import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/item_detail_component.dart';
+import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/product_response.dart';
@@ -58,20 +59,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   leading: CloseButton(),
                   flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
-                      title: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl:widget.logo,
-                            height: 40,
-                            width: 40,
-                            fit: BoxFit.cover,
-                          )),
+                      title: VendorLogo(
+                          width: 40.0,height: 40.0,url:widget.logo
+                      ),
                       background: Container(
                           height: 287.0,
                           decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              _product.product_info.image_preview,
-                            ),
+                            image: Helper.buildCachedNetworkImageProvider(_product.product_info.image_preview,),
                             fit: BoxFit.cover,
                           )
                         ),

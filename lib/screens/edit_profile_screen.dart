@@ -62,7 +62,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ?  ContainerComponent(
                       child: Center(
                       child: CupertinoActivityIndicator(),
-                    ))
+                    )
+            )
                 :ContainerComponent(
                           child: SingleChildScrollView (
                             child: Padding(

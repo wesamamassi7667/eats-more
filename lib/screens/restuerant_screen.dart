@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/cart_button.dart';
+import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/scheduling_order_sheet.dart';
 import 'package:eat_more_app/component/vendor_info_column.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -92,7 +94,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                 height: 300,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
+                                    image: Helper.buildCachedNetworkImageProvider(
                                         resturant.vendor_cover_img),
                                     fit: BoxFit.cover,
                                   ),
@@ -138,26 +140,10 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                                   width: 0.4,
                                                 )),
                                             child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    resturant.vendor_image,
+                                              child: CachedNetworkImageComponent(
+                                                url: resturant.vendor_image,
                                                 height: 180,
                                                 width: 180,
-                                                fit: BoxFit.cover,
-
-                                                // fit: BoxFit.fitWidth,
-                                                progressIndicatorBuilder: (context,
-                                                        url,
-                                                        downloadProgress) =>
-                                                    CupertinoActivityIndicator(),
-                                                errorWidget:
-                                                    (BuildContext context,
-                                                        String url,
-                                                        Object error) {
-                                                  print(error);
-                                                  return const Icon(
-                                                      Icons.error);
-                                                },
                                               ),
                                             ),
                                           ),
@@ -180,13 +166,11 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           children: [
                                             Container(
                                               height: 67,
-                                              margin:
-                                                  EdgeInsetsDirectional.only(
+                                              margin: EdgeInsetsDirectional.only(
                                                       start: 12,
                                                       end: 12,
                                                       top: 19),
-                                              padding:
-                                                  EdgeInsetsDirectional.only(
+                                              padding: EdgeInsetsDirectional.only(
                                                 start: 19.4,
                                                 end: 14,
                                                 top: 16,
@@ -258,14 +242,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                             ),
                                             PositionedDirectional(
                                               top: 0,
-                                              start: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.36533333333,
-                                              end: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.36533333333,
+                                              start: MediaQuery.of(context).size.width * 0.36533333333,
+                                              end: MediaQuery.of(context).size.width * 0.36533333333,
                                               child: Container(
                                                 height: 38,
                                                 decoration: BoxDecoration(
@@ -335,33 +313,28 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                     _getMenuProduct(resturant
                                         .menu_categories[index].category_id);
                                   },
-                                  child: Container(
-                                    margin: EdgeInsetsDirectional.only(
-                                      start: index == 0 ? 16 : 18,
-                                      end: index ==
-                                              resturant.menu_categories.length -
-                                                  1
-                                          ? 16
-                                          : 0,
-                                    ),
-                                    padding: EdgeInsetsDirectional.only(
-                                        top: 10, start: 5, end: 5),
-                                    height: 94,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          index == _selectedIndex ? 5 : 0),
-                                      color: index == _selectedIndex
-                                          ? Color(0xff0068B0)
-                                          : Colors.transparent,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: index == _selectedIndex
-                                                ? black.withOpacity(0.16)
-                                                : Colors.transparent,
-                                            blurRadius: 6,
-                                            offset: Offset(0, 3)),
-                                      ],
-                                    ),
+                                  child: SecondContainerComponent(
+                                    start: index == 0 ? 16 : 18,
+                                    end: index == resturant.menu_categories.length - 1 ? 16 : 0,
+                                    topP: 10, startP: 5, endP: 5,
+                                    height: 94.0,
+                                    radius:BorderRadius.circular(
+                                        index == _selectedIndex ? 5 : 0),
+                                    // decoration: BoxDecoration(
+                                    //   borderRadius: BorderRadius.circular(
+                                    //       index == _selectedIndex ? 5 : 0),
+                                    //   color: index == _selectedIndex
+                                    //       ? Color(0xff0068B0)
+                                    //       : Colors.transparent,
+                                    //   boxShadow: [
+                                    //     BoxShadow(
+                                    //         color: index == _selectedIndex
+                                    //             ? black.withOpacity(0.16)
+                                    //             : Colors.transparent,
+                                    //         blurRadius: 6,
+                                    //         offset: Offset(0, 3)),
+                                    //   ],
+                                    // ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

@@ -69,12 +69,12 @@ class _WelComeScreenState extends State<WelComeScreen> {
                     _width=MediaQuery.of(context).size.width*0.76;
                   });
               },
-              child: Text('التالي',
-                  style: TextStyle(
-                    fontFamily: 'DIN Next LT Arabic',
-                    fontSize: 18,
-                    color: primaryIconColor,
-                  )),
+              // child: Text('التالي',
+              //     style: TextStyle(
+              //       fontFamily: 'DIN Next LT Arabic',
+              //       fontSize: 18,
+              //       color: primaryIconColor,
+              //     )),
               width: MediaQuery.of(context).size.width * 0.4,
             ),
             SizedBox(height: 13.8,),

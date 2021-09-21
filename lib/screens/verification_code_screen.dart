@@ -164,15 +164,9 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
                   tap: () {
                     _submitCode();
                   },
-                  child: _isLoading ? CupertinoActivityIndicator() : Text(
-                    AppLocalization.of(context).translate("confirm"),
-                    style: TextStyle(
-                        fontFamily: 'DIN Next LT Arabic',
-                        fontSize: 18,
-                        color: primaryIconColor
-                    ),
-                  ),
-                ),
+                  loading: _isLoading,
+                  text:AppLocalization.of(context).translate("confirm") ,
+                )
               ),
               SizedBox(height: 17,),
               IgnorePointer(

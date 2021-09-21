@@ -1,5 +1,6 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
+import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -139,6 +140,13 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             primaryColor: Colors.white,
             unselectedWidgetColor: black,
+            // textButtonTheme: TextButtonThemeData(
+            //   style: TextButton.styleFrom(
+            //     primary: background, // This is a text color variable
+            //     backgroundColor:primaryIconColor ,
+            //     textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:14,fontFamily:'DIN Next LT Arabic'),
+            //   ),
+            // ),
             // <-- your color
             primaryIconTheme: IconThemeData(color: background),
             scaffoldBackgroundColor: background),

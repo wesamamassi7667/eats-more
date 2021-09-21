@@ -1,6 +1,7 @@
 
  import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/text_button_component.dart';
 import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/screens/delivery_ways_screen.dart';
@@ -18,8 +19,7 @@ class TopSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<RestaurantsApiModel>(
       builder:(context,child,model)=> Material(
-          clipBehavior: Clip.antiAlias,
-          color: Colors.white,
+          // clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(15),
@@ -28,7 +28,6 @@ class TopSheet extends StatelessWidget {
             side: BorderSide(color: grey8, width: 1),
           ),
 
-          // ),
           child: Container(
             padding: EdgeInsetsDirectional.only(top: 45,start: 20,end: 20),
             child: Column(
@@ -106,49 +105,23 @@ class TopSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-
-                      width: MediaQuery.of(context).size.width*0.426,
-                      child: TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                            DeliveryMethodsScreen(
+                     TextButtonComponent(
+                        press:() =>Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                          DeliveryMethodsScreen(
                               id:model.id
-                            )
-                          ));
-                        },
-                        child: Text(AppLocalization.of(context).translate("payment"),
-                          style: TextStyle(fontWeight:FontWeight.w400,fontSize:14,color:background,fontFamily:'DIN Next LT Arabic'),
+                          ))
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: primaryIconColor,
-                          // padding: EdgeInsets.symmetric(vertical: 6,horizontal: 18),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(20))
-                          ),
-                        ),
-                      )
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width*0.426,
+                        text: AppLocalization.of(context).translate("payment"),
+                       backgroundColor: primaryIconColor,
+                       primary: background,
+                      ),
+                    TextButtonComponent(
+                          press: pressContinuo,
+                          text: AppLocalization.of(context).translate("continue_shopping"),
+                          widthBorder: 1.0,
+                          borderColor: grey8,
 
-                      child: TextButton(
-                        onPressed: pressContinuo,
-                        child: Text(AppLocalization.of(context).translate("continue_shopping"),
-                          style: TextStyle(fontWeight:FontWeight.w400,fontSize:14,color:primaryIconColor,fontFamily:'DIN Next LT Arabic'),
-                        ),
-                        style: TextButton.styleFrom(
-                          // padding: EdgeInsets.symmetric(vertical: 6,horizontal: 18),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(
-                                  color: grey8,
-                                  width: 1
-                              )
-                           ),
-                        ),
-                      )
-                    ),
+                      ),
                   ],
                 )
               ],
@@ -160,3 +133,5 @@ class TopSheet extends StatelessWidget {
     );
   }
 }
+
+

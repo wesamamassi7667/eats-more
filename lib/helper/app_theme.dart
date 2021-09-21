@@ -48,5 +48,19 @@ class AppThemeData {
     );
   }
 
+  static ButtonStyle buttonStyle({double width,widthBorder,Color primary,background,borderColor}){
+    return OutlinedButton.styleFrom(
+      primary: primary,
+      side: BorderSide(
+        width: widthBorder,
+        color: borderColor
+      ),
+      padding: EdgeInsets.all(0),
+      backgroundColor: background,
+      shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(20))
+      ),
+    );
+  }
 }
 

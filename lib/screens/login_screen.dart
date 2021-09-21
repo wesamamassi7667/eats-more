@@ -161,19 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     else
                       _login();
                   },
-                  child: _isLoading
-                      ? CupertinoActivityIndicator()
-                      : Text(
-                          AppLocalization.of(context).translate("sign_up"),
-                          style: TextStyle(
-                            fontFamily: 'DIN Next LT Arabic',
-                            fontSize: 18,
-                            color: primaryIconColor,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.07200000000000001,
-                          ),
-                        ),
-                  width: MediaQuery.of(context).size.width * 0.688,
+                  loading: _isLoading,
+                  text: AppLocalization.of(context).translate("sign_up"),
+                    width: MediaQuery.of(context).size.width * 0.688,
                 ),
               ],
             ),

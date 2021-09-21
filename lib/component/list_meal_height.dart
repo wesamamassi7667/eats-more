@@ -4,7 +4,7 @@ import 'package:eat_more_app/component/text_with_line.dart';
 import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/home_response.dart';
-import 'package:eat_more_app/screens/header_list_meal.dart';
+import 'package:eat_more_app/component/header_list_meal.dart';
 import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

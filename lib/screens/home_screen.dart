@@ -17,7 +17,7 @@ import 'package:eat_more_app/model/home_response.dart';
 
 import 'package:eat_more_app/screens/edit_profile_screen.dart';
 import 'package:eat_more_app/screens/faq_screen.dart';
-import 'package:eat_more_app/screens/header_list_meal.dart';
+import 'package:eat_more_app/component/header_list_meal.dart';
 import 'package:eat_more_app/screens/order_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
