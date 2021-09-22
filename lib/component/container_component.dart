@@ -34,14 +34,14 @@ class SecondContainerComponent extends StatelessWidget {
   final double start,end,top,bottom;
   final double startP,endP,topP,bottomP;
   final BorderRadius radius;
-  final Color colorShadow;
+  final Color colorShadow,color;
   final ImageProvider image;
   final Border border;
 
 
   const SecondContainerComponent({Key key, this.child, this.width, this.height, this.start=16.0, this.end=16.0,
     this.radius, this.colorShadow=grey5, this.image, this.top=0.0, this.bottom=0.0,
-    this.startP=0.0, this.endP=0.0, this.topP=0.0, this.bottomP=0.0, this.border,
+    this.startP=0.0, this.endP=0.0, this.topP=0.0, this.bottomP=0.0, this.border, this.color=background,
   }) : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class SecondContainerComponent extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(start:startP,end: endP,top:topP,bottom:bottomP),
       decoration: BoxDecoration(
         borderRadius: radius,
-        color: background,
+        color: color,
         image: image==null?null:DecorationImage(
           image: image,
         ),

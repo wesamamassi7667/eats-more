@@ -28,12 +28,12 @@ class VendorWidget extends StatelessWidget {
       child: SecondContainerComponent(
         height: 122,
         width: list.length==2?MediaQuery.of(context).size.width*0.4:90,
-        topP: 16,
-        bottomP: 17,
+        topP: 16, bottomP: 17,
         start: index == 0 ? 23 : 8,
         end: index == list.length-1 ? 14 : 0,
         bottom: 23, top: 11,
         colorShadow: grey1,
+        radius: BorderRadius.circular(10),
         child: Column(
           children: [
             VendorLogo(

@@ -36,10 +36,10 @@ class AppThemeData {
     );
   }
 
-  static OutlineInputBorder borderTextField(Color color, double borderRaduis,
+  static OutlineInputBorder borderTextField(Color color, double borderRadius,
       double widthBorder) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(borderRaduis),
+      borderRadius: BorderRadius.circular(borderRadius),
       borderSide: BorderSide(
           style: BorderStyle.solid,
           width: widthBorder,
@@ -48,17 +48,29 @@ class AppThemeData {
     );
   }
 
-  static ButtonStyle buttonStyle({double width,widthBorder,Color primary,background,borderColor}){
+  static ButtonStyle textButtonStyle({double borderRadius=20.0,double fontSize=14.0}){
+    return TextButton.styleFrom(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius))
+      ),
+      primary: background, // This is a text color
+      backgroundColor:primaryIconColor ,
+      textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize,fontFamily:'DIN Next LT Arabic'),
+    );
+  }
+
+  static ButtonStyle buttonStyle({double borderRadius=20.0,double fontSize=14.0}){
     return OutlinedButton.styleFrom(
-      primary: primary,
+      textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize,fontFamily:'DIN Next LT Arabic'),
+      primary: primaryIconColor,
       side: BorderSide(
-        width: widthBorder,
-        color: borderColor
+          width: 1.0,
+          color: primaryIconColor,
+          style: BorderStyle.solid,
       ),
       padding: EdgeInsets.all(0),
-      backgroundColor: background,
-      shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(20))
+     shape: RoundedRectangleBorder(
+          borderRadius:  BorderRadius.all(Radius.circular(borderRadius))
       ),
     );
   }

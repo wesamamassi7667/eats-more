@@ -27,7 +27,7 @@ class OutLineButton extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        style:  AppThemeData.buttonStyle(widthBorder: 1.0,borderColor:primaryIconColor)
+        // style:  AppThemeData.buttonStyle(widthBorder: 1.0,borderColor:primaryIconColor)
         // OutlinedButton.styleFrom(
         //   side: BorderSide(
         //     width: 1.0,

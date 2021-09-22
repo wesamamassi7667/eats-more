@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/cart_button.dart';
+import 'package:eat_more_app/component/category_item.dart';
+import 'package:eat_more_app/component/category_product_item.dart';
 import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/scheduling_order_sheet.dart';
 import 'package:eat_more_app/component/vendor_info_column.dart';
@@ -166,75 +168,41 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           children: [
                                             Container(
                                               height: 67,
-                                              margin: EdgeInsetsDirectional.only(
-                                                      start: 12,
-                                                      end: 12,
-                                                      top: 19),
-                                              padding: EdgeInsetsDirectional.only(
-                                                start: 19.4,
-                                                end: 14,
-                                                top: 16,
+                                              margin: EdgeInsetsDirectional.only(start: 12, end: 12, top: 19),
+                                              padding: EdgeInsetsDirectional.only(start: 19.4, end: 14, top: 16,
                                               ),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                color: const Color(0xffffffff),
+                                                BorderRadius.circular(10.0),
+                                                color: background,
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color:
                                                         const Color(0x17000000),
-                                                    offset: Offset(
-                                                        -9.056514739990234,
-                                                        7.872708320617676),
+                                                    offset: Offset(-9.056514739990234, 7.872708320617676),
                                                     blurRadius: 30,
                                                   ),
                                                 ],
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 4.0),
+                                                padding: const EdgeInsets.only(top: 4.0),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     ColumnComponent(
-                                                      title:
-                                                          '${resturant.minimum_charge} ' +
-                                                              AppLocalization.of(
-                                                                      context)
-                                                                  .translate(
-                                                                      "sr"),
-                                                      title1: AppLocalization
-                                                              .of(context)
-                                                          .translate("minimum"),
-                                                      icon:
-                                                          'assets/images/card.svg',
+                                                      title: '${resturant.minimum_charge} ' + AppLocalization.of(context).translate("sr"),
+                                                      title1: AppLocalization.of(context).translate("minimum"),
+                                                      icon: 'assets/images/card.svg',
                                                     ),
                                                     ColumnComponent(
-                                                      title:
-                                                          '${resturant.delivery_cost} ' +
-                                                              AppLocalization.of(
-                                                                      context)
-                                                                  .translate(
-                                                                      "sr"),
-                                                      title1:
-                                                          AppLocalization.of(
-                                                                  context)
-                                                              .translate(
-                                                                  "delivery"),
-                                                      icon:
-                                                          'assets/images/bicycle.svg',
+                                                      title: '${resturant.delivery_cost} ' + AppLocalization.of(context).translate("sr"),
+                                                      title1: AppLocalization.of(context).translate("delivery"),
+                                                      icon: 'assets/images/bicycle.svg',
                                                     ),
                                                     ColumnComponent(
-                                                      title:
-                                                          '${resturant.delivery_time}',
-                                                      title1: AppLocalization
-                                                              .of(context)
-                                                          .translate(
-                                                              "delivery_time"),
-                                                      icon:
-                                                          'assets/images/timer.svg',
+                                                      title: '${resturant.delivery_time}',
+                                                      title1: AppLocalization.of(context).translate("delivery_time"),
+                                                      icon: 'assets/images/timer.svg',
                                                     ),
                                                   ],
                                                 ),
@@ -250,25 +218,16 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           15.0),
-                                                  color: resturant
-                                                              .status_open ==
-                                                          'open'
-                                                      ? green1
-                                                      : resturant.status_open ==
-                                                              'close'
-                                                          ? red
-                                                          : const Color(
-                                                              0xfff3bd53),
+                                                  color: resturant.status_open == 'open' ? green1
+                                                      : resturant.status_open == 'close' ? red : const Color(0xfff3bd53),
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     resturant.status_open,
                                                     style: TextStyle(
-                                                      fontFamily:
-                                                          'DIN Next LT Arabic',
+                                                      fontFamily: 'DIN Next LT Arabic',
                                                       fontSize: 15,
-                                                      color: const Color(
-                                                          0xffffffff),
+                                                      color: background,
                                                     ),
                                                   ),
                                                 ),
@@ -295,90 +254,24 @@ class _ResturantScreenState extends State<ResturantScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // SizedBox(
-                        //   height: 0,
-                        // ),
                         Container(
                           height: 94,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: resturant.menu_categories.length,
                               itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (index == _selectedIndex) return;
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-                                    _getMenuProduct(resturant
-                                        .menu_categories[index].category_id);
-                                  },
-                                  child: SecondContainerComponent(
-                                    start: index == 0 ? 16 : 18,
-                                    end: index == resturant.menu_categories.length - 1 ? 16 : 0,
-                                    topP: 10, startP: 5, endP: 5,
-                                    height: 94.0,
-                                    radius:BorderRadius.circular(
-                                        index == _selectedIndex ? 5 : 0),
-                                    // decoration: BoxDecoration(
-                                    //   borderRadius: BorderRadius.circular(
-                                    //       index == _selectedIndex ? 5 : 0),
-                                    //   color: index == _selectedIndex
-                                    //       ? Color(0xff0068B0)
-                                    //       : Colors.transparent,
-                                    //   boxShadow: [
-                                    //     BoxShadow(
-                                    //         color: index == _selectedIndex
-                                    //             ? black.withOpacity(0.16)
-                                    //             : Colors.transparent,
-                                    //         blurRadius: 6,
-                                    //         offset: Offset(0, 3)),
-                                    //   ],
-                                    // ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 60,
-                                          height: 60,
-                                          padding: EdgeInsets.all(2),
-                                          child: CachedNetworkImage(
-                                            imageUrl: resturant
-                                                .menu_categories[index]
-                                                .category_image,
-                                            progressIndicatorBuilder: (context,
-                                                url, downloadProgress) =>
-                                                CupertinoActivityIndicator(),
-                                            errorWidget: (BuildContext context,
-                                                String url, Object error) {
-                                              print(error);
-                                              return const Icon(Icons.error);
-                                            },
-                                            // color: index == _selectedIndex
-                                            //     ? Color(0xff0068B0)
-                                            //     : background,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          resturant.menu_categories[index]
-                                              .category_name,
-                                          style: TextStyle(
-                                            fontFamily: 'DIN Next LT Arabic',
-                                            fontSize: 16,
-                                            color: index == _selectedIndex
-                                                ? background.withOpacity(0.98)
-                                                : black1.withOpacity(0.98),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                return CategoryItem(
+                                    index: index,
+                                    restaurant: resturant,
+                                    selectedIndex: _selectedIndex,
+                                    tap: (){
+                                      if (index == _selectedIndex) return;
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+                                      _getMenuProduct(resturant
+                                          .menu_categories[index].category_id);
+                                    },
                                 );
                               }),
                         ),
@@ -398,194 +291,37 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                       );
                                     },
                                     itemBuilder: (context, index1) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ItemDetailsScreen(
-                                                          id: _products[index1]
-                                                              .product_id,
-                                                          total:
-                                                              productsTotalPrice,
-                                                          logo: resturant
-                                                              .vendor_image,
-                                                          vendorId:
-                                                              widget.id))).then(
-                                              (value) {
-                                            if (value != null) {
-                                              setState(() {
-                                                productsTotalPrice =
-                                                    value.total;
-                                                _productCart = value.carts;
-                                              });
-                                            }
+                                      return  CategoryProductItem(
+                                       index: index1,
+                                        products: _products,
+                                        tap:() => Navigator.push(context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemDetailsScreen(
+                                                      id: _products[index1].product_id,
+                                                      total: productsTotalPrice,
+                                                      logo: resturant.vendor_image,
+                                                      vendorId: widget.id))).then((value) {
+                                                        if (value != null) {
+                                          setState(() {
+                                            productsTotalPrice = value.total;
+                                            _productCart = value.carts;
                                           });
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsetsDirectional.only(
-                                              start: 11,
-                                              top: 6,
-                                              bottom: 14,
-                                              end: 27),
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          decoration: BoxDecoration(
-                                              color: background,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Color(0xff9E9C9C)
-                                                      .withOpacity(0.16),
-                                                  blurRadius: 6,
-                                                  offset: Offset(0, 3),
-                                                )
-                                              ]),
-                                          child: Row(
-                                            children: [
-                                              Card(
-                                                clipBehavior: Clip.antiAlias,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18)),
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      _products[index1].image,
-                                                  width: 96,
-                                                  height: 96,
-                                                  fit: BoxFit.cover,
-                                                  progressIndicatorBuilder: (context,
-                                                          url,
-                                                          downloadProgress) =>
-                                                      CupertinoActivityIndicator(),
-                                                  errorWidget:
-                                                      (BuildContext context,
-                                                          String url,
-                                                          Object error) {
-                                                    print(error);
-                                                    return const Icon(
-                                                        Icons.error);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 12,
-                                              ),
-                                              Flexible(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      _products[index1]
-                                                          .product_name,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'DIN Next LT Arabic',
-                                                        fontSize: 18,
-                                                        color: const Color(
-                                                            0xff141414),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      _products[index1]
-                                                              .product_desc ??
-                                                          "",
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'DIN Next LT Arabic',
-                                                        fontSize: 13,
-                                                        color: const Color(
-                                                            0xc7707070),
-                                                      ),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          _products[index1]
-                                                                  .product_price +
-                                                              " " +
-                                                              AppLocalization.of(
-                                                                      context)
-                                                                  .translate(
-                                                                      "sr"),
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'DIN Next LT Arabic',
-                                                            fontSize: 14,
-                                                            color: const Color(
-                                                                0xff0068b0),
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 14,
-                                                        ),
-                                                        _products[index1]
-                                                                    .product_calories ==
-                                                                null
-                                                            ? SizedBox.shrink()
-                                                            : Text(
-                                                                _products[index1]
-                                                                        .product_calories +
-                                                                    " " +
-                                                                    AppLocalization.of(
-                                                                            context)
-                                                                        .translate(
-                                                                            'calorie'),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontFamily:
-                                                                      'DIN Next LT Arabic',
-                                                                  fontSize: 14,
-                                                                  color: const Color(
-                                                                      0xff9d5000),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                ),
-                                                              ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              // Spacer(),
-
-                                              CupertinoButton(
-                                                onPressed: () {
-                                                  Helper.showProductSheet(
-                                                          context,
-                                                          _products[index1]
-                                                              .product_id,
-                                                          null,
-                                                          widget.id,
-                                                          null,
-                                                          null)
-                                                      .then((value) {
-                                                    if (value != null)
-                                                      setState(() {
-                                                        productsTotalPrice =
-                                                            value.total;
-                                                        _productCart =
-                                                            value.carts;
-                                                      });
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  Icons.add_box_rounded,
-                                                  size: 30,
-                                                  color: primaryIconColor,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        }
+                                      }),
+                                       press: (){
+                                         Helper.showProductSheet(context, _products[index1].product_id,
+                                             null,
+                                             widget.id,
+                                             null,
+                                             null).then((value) {
+                                           if (value != null)
+                                             setState(() {
+                                               productsTotalPrice = value.total;
+                                               _productCart = value.carts;
+                                             });
+                                         });
+                                       },
                                       );
                                     }),
                               ),
@@ -599,8 +335,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                     width: double.maxFinite,
                                     child: CartButton(
                                         total: productsTotalPrice,
-                                        text: AppLocalization.of(context)
-                                            .translate("view_cart"),
+                                        text: AppLocalization.of(context).translate("view_cart"),
                                         color: primaryIconColor,
                                         tap: () {
                                           Navigator.push(
@@ -643,7 +378,9 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           //           lat:widget.lat,
                                           //           lng:widget.lng
                                           //         ));
-                                        })),
+                                        }
+                                        )
+                                ),
                               )
                             : SizedBox.shrink()
                       ],
@@ -652,6 +389,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
       ),
     );
   }
+
 
   void _getVendorInfo() async {
     setState(() {

@@ -17,6 +17,7 @@ class VendorLogo extends StatelessWidget {
       width:width ,
       height:height,
       border: border,
+      color: Colors.transparent,
       radius: BorderRadius.all(
           Radius.elliptical(9999.0, 9999.0)),
       colorShadow: black,

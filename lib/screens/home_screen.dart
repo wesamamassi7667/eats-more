@@ -103,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                       SafeArea(
                         child: Container(
                             margin: EdgeInsetsDirectional.only(bottom: 30, top: 30),
-
                             child: Padding(
                               padding: const EdgeInsetsDirectional.only(start:16.0),
                               child: Row(

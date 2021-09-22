@@ -1,4 +1,5 @@
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,36 +21,20 @@ class YesNoButtons extends StatelessWidget {
           child: TextButton(
             onPressed: tap,
             child: isLoading?CupertinoActivityIndicator():Text(
-              AppLocalization.of(context).translate("yes"),
-              style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
-                fontSize: 17,
-                color: background,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-                primary: primaryIconColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16))),
+              AppLocalization.of(context).translate("yes"),),
+            style: AppThemeData.textButtonStyle(borderRadius: 16,fontSize: 17)
           ),
         ),
         Container(
           width: width,
-          child: TextButton(
+          child: OutlinedButton(
             onPressed: pressNo,
             child: Text(
-              AppLocalization.of(context).translate("no"),
-              style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
-                fontSize: 17,
-                color: primaryIconColor,
-              ),
+              AppLocalization.of(context).translate("no")
             ),
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: primaryIconColor, width: 1),
-                    borderRadius: BorderRadius.circular(16))),
-          ),
+              style: AppThemeData.buttonStyle(borderRadius: 16,fontSize: 17)
+
+          )
         )
       ],
     );

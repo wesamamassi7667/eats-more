@@ -1,6 +1,7 @@
 
  import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/outline_button.dart';
 import 'package:eat_more_app/component/text_button_component.dart';
 import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -105,23 +106,24 @@ class TopSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     TextButtonComponent(
-                        press:() =>Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                          DeliveryMethodsScreen(
-                              id:model.id
-                          ))
-                        ),
-                        text: AppLocalization.of(context).translate("payment"),
-                       backgroundColor: primaryIconColor,
-                       primary: background,
+                     Container(
+                       width: MediaQuery.of(context).size.width*0.4,
+                       child: TextButton(
+                          onPressed:() =>Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                            DeliveryMethodsScreen(
+                                id:model.id
+                            ))
+                          ),
+                          child: Text(AppLocalization.of(context).translate("payment")),
+                       ),
+                     ),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.4,
+                      child: OutlinedButton(
+                            onPressed: pressContinuo,
+                            child: Text(AppLocalization.of(context).translate("continue_shopping")),
                       ),
-                    TextButtonComponent(
-                          press: pressContinuo,
-                          text: AppLocalization.of(context).translate("continue_shopping"),
-                          widthBorder: 1.0,
-                          borderColor: grey8,
-
-                      ),
+                    ),
                   ],
                 )
               ],
