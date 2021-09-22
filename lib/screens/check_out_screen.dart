@@ -10,6 +10,7 @@ import 'package:eat_more_app/component/cart_list.dart';
 import 'package:eat_more_app/component/check_out_tile.dart';
 import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/coupon_sheet.dart';
+import 'package:eat_more_app/component/header_order_detail.dart';
 import 'package:eat_more_app/component/last_item_cart.dart';
 import 'package:eat_more_app/component/order_dialog.dart';
 import 'package:eat_more_app/component/otp_code_sheet.dart';
@@ -130,8 +131,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               SizedBox(
                                 height: 30,
                               ),
-                              Text(AppLocalization.of(context)
-                                  .translate("no_items_added_cart")),
+                              Text(AppLocalization.of(context).translate("no_items_added_cart")),
                               SizedBox(
                                 height: 40,
                               ),
@@ -149,86 +149,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 Flexible(
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
                                           height: 22,
                                         ),
                                         widget.order != null
-                                            ? Padding(
-                                                padding:
-                                                    EdgeInsetsDirectional.only(
-                                                        start: 28),
-                                                child: Row(
-                                                  children: [
-                                                    SecondContainerComponent(
-                                                      radius:BorderRadius.circular(8.0),
-                                                      width: 69,height: 69,
-                                                      image:Helper.buildCachedNetworkImageProvider('') ,
-                                                      border: Border.all(
-                                                          width: 1.0,
-                                                          color: white2),
-                                                       colorShadow: black,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          '#' +
-                                                              '${widget.order.order_id}',
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'DIN Next LT Arabic',
-                                                            fontSize: 18,
-                                                            color: black2
-                                                                .withOpacity(
-                                                                    0.76),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 3,
-                                                        ),
-                                                        Text(
-                                                          widget
-                                                              .order.order_date,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'DIN Next LT Arabic',
-                                                            fontSize: 13,
-                                                            color: grey4
-                                                                .withOpacity(
-                                                                    0.78),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 3,
-                                                        ),
-                                                        Text(
-                                                          widget
-                                                              .order
-                                                              .order_status
-                                                              .name,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'DIN Next LT Arabic',
-                                                            fontSize: 14,
-                                                            color: orange,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Spacer(), //النقاط
-                                                  ],
-                                                ),
-                                              )
+                                            ? HeaderOrderDetails(order: widget.order,)
                                             : SizedBox.shrink(),
                                         SizedBox(
                                           height: widget.order != null ? 20 : 0,
@@ -237,8 +164,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             ? AddressCheckOutWidget(
                                                 branch: widget.order.branch,
                                                 isOrder: true,
-                                                address:
-                                                    widget.order.order_address,
+                                                address: widget.order.order_address,
                                               )
                                             : SizedBox.shrink(),
                                         SizedBox(
@@ -248,8 +174,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             title: AppLocalization.of(context)
                                                 .translate("list_orders")),
                                         SecondContainerComponent(
-                                          radius: const BorderRadius.all(
-                                              Radius.circular(5)),
+                                          radius: const BorderRadius.all(Radius.circular(5)),
                                           child: ListView.separated(
                                               shrinkWrap: true,
                                               physics: ClampingScrollPhysics(),
@@ -260,34 +185,26 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     total: widget.total,
                                                     minimum: widget.minimum,
                                                   );
-                                                if (widget.order != null) if (index ==
-                                                    widget
-                                                        .order.products.length)
+                                                if (widget.order != null)
+                                                  if (index == widget.order.products.length)
                                                   return LastRowCart(
                                                       total: widget.order.total,
                                                       minimum: widget.minimum,
                                                       order: widget.order);
                                                 return CartItem(
                                                   index: index,
-                                                  selectedIndex:
-                                                      _selectedCartIndex,
+                                                  selectedIndex: _selectedCartIndex,
                                                   id: widget.id,
                                                   order: widget.order,
-                                                  pressPlus:
-                                                      widget.order != null
-                                                          ? null
-                                                          : () {
-                                                              _updateQuantity(
-                                                                  index, true);
+                                                  pressPlus: widget.order != null
+                                                          ? null : () {
+                                                              _updateQuantity(index, true);
                                                             },
                                                   loading: _isPlus,
                                                   mines: _isMines,
-                                                  pressMines: widget.order !=
-                                                          null
+                                                  pressMines: widget.order != null
                                                       ? null
-                                                      : widget.carts[index]
-                                                                  .quantity ==
-                                                              1
+                                                      : widget.carts[index].quantity == 1
                                                           ? null
                                                           : () {
                                                               _updateQuantity(
@@ -296,17 +213,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   press: () {
                                                     Helper.showAlertDialog(
                                                         context,
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .translate(
-                                                                "sure_delete_item"),
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .translate(
-                                                                "remove"), () {
+                                                        AppLocalization.of(context).translate("sure_delete_item"),
+                                                        AppLocalization.of(context).translate("remove"), () {
                                                       _removeCart(
-                                                        widget.carts[index]
-                                                            .basket_product_id,
+                                                        widget.carts[index].basket_product_id,
                                                         index,
                                                       );
                                                       Navigator.pop(context);
@@ -318,60 +228,43 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               separatorBuilder:
                                                   (context, index) {
                                                 return Divider(
-                                                  color:
-                                                      grey4.withOpacity(0.24),
+                                                  color: grey4.withOpacity(0.24),
                                                   thickness: 1,
                                                 );
                                               },
                                               itemCount: widget.order != null
-                                                  ? widget.order.products
-                                                          .length +
-                                                      1
+                                                  ? widget.order.products.length + 1
                                                   : widget.carts.length + 1),
                                         ),
                                         widget.order != null
                                             ? SizedBox.shrink()
                                             : Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   SizedBox(
                                                     height: 15,
                                                   ),
                                                   TitleCheckOut(
-                                                    title: AppLocalization.of(
-                                                            context)
-                                                        .translate(
-                                                            "payment_method"),
+                                                    title: AppLocalization.of(context).translate("payment_method"),
                                                   ),
                                                   SecondContainerComponent(
-                                                      radius: const BorderRadius
-                                                              .all(
-                                                          Radius.circular(5)),
+                                                      radius: const BorderRadius.all(Radius.circular(5)),
                                                       child: ListView.separated(
                                                           shrinkWrap: true,
-                                                          physics:
-                                                              ClampingScrollPhysics(),
-                                                          itemBuilder:
-                                                              (context, index) {
+                                                          physics: ClampingScrollPhysics(),
+                                                          itemBuilder: (context, index) {
                                                             if (index == 0)
                                                               return _buildFirstTile(
                                                                   index);
-                                                            return _otherTiles(
-                                                                index);
+                                                            return _otherTiles(index);
                                                           },
-                                                          separatorBuilder:
-                                                              (context, index) {
+                                                          separatorBuilder: (context, index) {
                                                             return Divider(
-                                                              color: grey4
-                                                                  .withOpacity(
-                                                                      0.24),
+                                                              color: grey4.withOpacity(0.24),
                                                               thickness: 1,
                                                             );
                                                           },
-                                                          itemCount:
-                                                              _paymentMethods
-                                                                  .length)),
+                                                          itemCount: _paymentMethods.length)),
                                                   SizedBox(
                                                     height: 15,
                                                   ),
@@ -389,25 +282,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             : SizedBox.shrink(),
                                         widget.order == null
                                             ? SecondContainerComponent(
-                                                radius: const BorderRadius.all(
-                                                    Radius.circular(5)),
+                                                radius: const BorderRadius.all(Radius.circular(5)),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 8.0),
+                                                  padding: const EdgeInsets.only(bottom: 8.0),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .translate(
-                                                                "delivery_instructions"),
+                                                        AppLocalization.of(context).translate("delivery_instructions"),
                                                         style: TextStyle(
-                                                          fontFamily:
-                                                              'DIN Next LT Arabic',
+                                                          fontFamily: 'DIN Next LT Arabic',
                                                           fontSize: 20,
                                                           color: black1,
                                                         ),
@@ -418,25 +302,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                               value: _isChecked,
                                                               onChanged: (v) {
                                                                 setState(() {
-                                                                  _isChecked =
-                                                                      v;
+                                                                  _isChecked = v;
                                                                 });
                                                               }),
                                                           Text(
-                                                            AppLocalization.of(
-                                                                    context)
-                                                                .translate(
-                                                                    "leave_order_door"),
+                                                            AppLocalization.of(context).translate("leave_order_door"),
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'DIN Next LT Arabic',
                                                               fontSize: 17,
-                                                              color: black1
-                                                                  .withOpacity(
-                                                                      0.76),
+                                                              color: black1.withOpacity(0.76),
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
+                                                                  FontWeight.w300,
                                                             ),
                                                           ),
                                                         ],
@@ -509,69 +386,30 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                           ),
                                                           Spacer(),
                                                           TextButton.icon(
-                                                            onPressed: couponCode
-                                                                        .isNotEmpty ||
-                                                                    widget.total <
-                                                                        widget
-                                                                            .minimum
+                                                            onPressed: couponCode.isNotEmpty ||
+                                                                    widget.total < widget.minimum
                                                                 ? null
                                                                 : () {
-                                                                    showModalBottomSheet(
-                                                                      context:
-                                                                          context,
-                                                                      enableDrag:
-                                                                          true,
-                                                                      isScrollControlled:
-                                                                          false,
-                                                                      shape:
-                                                                          RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.only(
-                                                                          topRight:
-                                                                              Radius.circular(30),
-                                                                          topLeft:
-                                                                              Radius.circular(30),
-                                                                        ),
-                                                                      ),
-                                                                      builder:
-                                                                          (context) {
-                                                                        return CouponSheet(
-                                                                          total:
-                                                                              widget.total,
-                                                                          types:
-                                                                              _typeCoupon,
-                                                                          id: widget
-                                                                              .id,
-                                                                          type: widget.idWay == 1
-                                                                              ? "pickup"
-                                                                              : "delivery",
-                                                                        );
-                                                                      },
-                                                                    ).then(
-                                                                        (value) {
-                                                                      if (value !=
-                                                                          null) {
-                                                                        print(
-                                                                            value);
-                                                                        setState(
-                                                                            () {
-                                                                          couponDiscountAmount =
-                                                                              value[0];
-                                                                          // widget.total=double.parse(value[1]);
-                                                                          finalPrice =
-                                                                              value[1];
-                                                                          couponCode =
-                                                                              value[2];
-                                                                          _otpToken =
-                                                                              value[3];
-                                                                          _token =
-                                                                              value[4];
-                                                                        });
-                                                                      }
-                                                                    });
+                                                                  Helper.showModalBottom(context, CouponSheet(
+                                                                    total: widget.total,
+                                                                    types: _typeCoupon,
+                                                                    id: widget.id,
+                                                                    type: widget.idWay == 1
+                                                                        ? "pickup"
+                                                                        : "delivery",
+                                                                  )).then((value) {
+                                                                    if(value!=null)
+
+                                                                      setState(() {
+                                                                        couponDiscountAmount = value[0];
+                                                                        finalPrice = value[1];
+                                                                        couponCode = value[2];
+                                                                        _otpToken = value[3];
+                                                                        _token = value[4];
+                                                                      });
+                                                                  } );
                                                                   },
-                                                            icon: finalPrice
-                                                                    .isEmpty
+                                                            icon: finalPrice.isEmpty
                                                                 ? Icon(
                                                                     CupertinoIcons
                                                                         .creditcard_fill,
@@ -581,26 +419,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                         : primaryIconColor,
                                                                   )
                                                                 : Icon(
-                                                                    Icons
-                                                                        .check_circle_rounded,
-                                                                    color:
-                                                                        primaryIconColor,
+                                                                    Icons.check_circle_rounded,
+                                                                    color: primaryIconColor,
                                                                   ),
                                                             label: Text(
                                                               couponCode.isEmpty
-                                                                  ? AppLocalization.of(
-                                                                          context)
-                                                                      .translate(
-                                                                          "add_code")
+                                                                  ? AppLocalization.of(context)
+                                                                      .translate("add_code")
                                                                   : couponCode,
                                                               style: TextStyle(
-                                                                fontFamily:
-                                                                    'Cairo',
+                                                                fontFamily: 'Cairo',
                                                                 fontSize: 14,
-                                                                color: widget
-                                                                            .total <
-                                                                        widget
-                                                                            .minimum
+                                                                color: widget.total <
+                                                                        widget.minimum
                                                                     ? grey2
                                                                     : green,
                                                               ),
@@ -1290,3 +1121,4 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   //   );
   // }
 }
+

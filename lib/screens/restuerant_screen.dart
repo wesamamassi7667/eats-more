@@ -359,25 +359,9 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                                           minimum: resturant
                                                               .minimum_charge,
                                                           lat: widget.lat,
-                                                          lng: widget.lng)));
-                                          // showDialog(
-                                          //     context: context,
-                                          //     builder: (BuildContext context) =>
-                                          //         CartDialog(
-                                          //           id: widget.id,
-                                          //           branch: widget.branch,
-                                          //           deliveryCost:
-                                          //           resturant.delivery_cost,
-                                          //           idWay: widget.idWay,
-                                          //           vat: resturant.vat_percentage,
-                                          //           time: _selectedTime,
-                                          //           carts:_productCart,
-                                          //           total:productsTotalPrice,
-                                          //            address:widget.address,
-                                          //           minimum:resturant.minimum_charge,
-                                          //           lat:widget.lat,
-                                          //           lng:widget.lng
-                                          //         ));
+                                                          lng: widget.lng)
+                                              )
+                                          );
                                         }
                                         )
                                 ),
@@ -396,8 +380,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
       _isLoading = true;
     });
     await ScopedModel.of<RestaurantsApiModel>(context)
-        .getCart(widget.id)
-        .then((value) {
+        .getCart(widget.id).then((value) {
       if (value.status.status) if (value.data != null) {
         _productCart.addAll(value.data.products);
         productsTotalPrice = value.data.products_price;
@@ -410,21 +393,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
         resturant = value.data;
         _getMenuProduct(resturant.menu_categories[0].category_id);
         if (resturant.status_open != 'open') if (mounted)
-          showModalBottomSheet(
-              context: context,
-              enableDrag: false,
-              isDismissible: false,
-              isScrollControlled: true,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30),
-                  ),
-                  side: BorderSide(width: 1, color: grey4)),
-              builder: (context) {
-                return SchedulingOrderSheet(
-                    start: resturant.wt_start_at, end: resturant.wt_end_at);
-              }).then((value) {
+          Helper.showModalBottom(context,SchedulingOrderSheet(
+              start: resturant.wt_start_at, end: resturant.wt_end_at)).then((value) {
             if (value != null && value[0] != null) _selectedTime = value[0];
           });
       }
@@ -435,6 +405,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
     });
   }
 
+
   void _getMenuProduct(int menuId) async {
     print(menuId);
     if (mounted)
@@ -444,8 +415,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
       });
     if (mounted)
       await ScopedModel.of<RestaurantsApiModel>(context)
-          .viewMenuProduct(menuId)
-          .then((value) {
+          .viewMenuProduct(menuId).then((value) {
         if (mounted)
           setState(() {
             _products.addAll(value.data.products_menu);

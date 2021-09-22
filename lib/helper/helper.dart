@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../color.dart';
 import '../component/product_sheet.dart';
 import 'app_localization.dart';
 
@@ -67,7 +68,8 @@ class Helper {
     return addCart;
   }
 
-  static void showAlertDialog(BuildContext context,String title,String title1, Function tap) {
+  static void showAlertDialog(BuildContext context, String title, String title1,
+      Function tap) {
     showDialog(
         context: context,
         builder: (context) =>
@@ -104,30 +106,48 @@ class Helper {
     }
   }
 
-  static void openTarget(SliderImage item,BuildContext context) {
-    if(item.target=='link')
+  static void openTarget(SliderImage item, BuildContext context) {
+    if (item.target == 'link')
       openApp(item.link);
-    else if(item.target=='product')
+    else if (item.target == 'product')
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) =>ItemDetailsScreen(id: int.parse(item.product_id),
-          // logo:item.product.vendor.logo,
-          vendorId:item.product.vendor_id
-      )
+          context, MaterialPageRoute(builder: (context) =>
+          ItemDetailsScreen(id: int.parse(item.product_id),
+              // logo:item.product.vendor.logo,
+              vendorId: item.product.vendor_id
+          )
       )
       );
-    else if(item.target=='image_only')
+    else if (item.target == 'image_only')
       return;
     else
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
-        id:int.parse(item.vendor),
-      )
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          DeliveryMethodsScreen(
+            id: int.parse(item.vendor),
+          )
       )
       );
   }
-  static CachedNetworkImageProvider buildCachedNetworkImageProvider(String url) => CachedNetworkImageProvider(url);
 
+  static CachedNetworkImageProvider buildCachedNetworkImageProvider(
+      String url) => CachedNetworkImageProvider(url);
+
+  static Future<dynamic> showModalBottom(BuildContext context, Widget widget) {
+    return showModalBottomSheet(
+        context: context,
+        enableDrag: false,
+        isDismissible: false,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30),
+              topLeft: Radius.circular(30),
+            ),
+            side: BorderSide(width: 1, color: grey4)),
+        builder: (context) => widget
+    );
+  }
 }
-
 
 class AddCart{
   List<ProductCart> carts;
