@@ -132,12 +132,12 @@ class Helper {
   static CachedNetworkImageProvider buildCachedNetworkImageProvider(
       String url) => CachedNetworkImageProvider(url);
 
-  static Future<dynamic> showModalBottom(BuildContext context, Widget widget) {
+  static Future<dynamic> showModalBottom(BuildContext context, Widget widget,{bool isDrag=true}) {
     return showModalBottomSheet(
         context: context,
-        enableDrag: false,
+        enableDrag: isDrag,
         isDismissible: false,
-        isScrollControlled: true,
+        isScrollControlled: false,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(30),

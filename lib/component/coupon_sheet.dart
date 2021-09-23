@@ -94,7 +94,6 @@ class _CouponSheetState extends State<CouponSheet> {
                   ),
                 ),
             ),
-
         ),
         secondChild: _selectedType=='rajhi'?RajhiSheet(total:widget.total):Container(
           height: 254,
@@ -120,10 +119,9 @@ class _CouponSheetState extends State<CouponSheet> {
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(horizontal: 33),
                   child: ElevatedButton(
-                    child: _isLoading?CupertinoActivityIndicator():AppLocalization.of(context).translate("add"),
-                    onPressed: (){
-                      _applyCoupon();
-                    },
+                    child: Text(AppLocalization.of(context).translate("add")),
+                    onPressed: ()=> _applyCoupon(),
+
                   ),
                 )
               ],

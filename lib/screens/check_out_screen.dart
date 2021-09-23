@@ -386,8 +386,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                           ),
                                                           Spacer(),
                                                           TextButton.icon(
-                                                            onPressed: couponCode.isNotEmpty ||
-                                                                    widget.total < widget.minimum
+                                                            onPressed: couponCode.isNotEmpty || widget.total < widget.minimum
                                                                 ? null
                                                                 : () {
                                                                   Helper.showModalBottom(context, CouponSheet(
@@ -399,7 +398,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                         : "delivery",
                                                                   )).then((value) {
                                                                     if(value!=null)
-
                                                                       setState(() {
                                                                         couponDiscountAmount = value[0];
                                                                         finalPrice = value[1];
@@ -407,33 +405,24 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                         _otpToken = value[3];
                                                                         _token = value[4];
                                                                       });
-                                                                  } );
+                                                                  });
                                                                   },
                                                             icon: finalPrice.isEmpty
                                                                 ? Icon(
                                                                     CupertinoIcons
                                                                         .creditcard_fill,
-                                                                    color: widget.total <
-                                                                            widget.minimum
-                                                                        ? grey2
-                                                                        : primaryIconColor,
+                                                                    color: widget.total < widget.minimum ? grey2 : primaryIconColor,
                                                                   )
                                                                 : Icon(
                                                                     Icons.check_circle_rounded,
                                                                     color: primaryIconColor,
                                                                   ),
                                                             label: Text(
-                                                              couponCode.isEmpty
-                                                                  ? AppLocalization.of(context)
-                                                                      .translate("add_code")
-                                                                  : couponCode,
+                                                              couponCode.isEmpty ? AppLocalization.of(context).translate("add_code") : couponCode,
                                                               style: TextStyle(
                                                                 fontFamily: 'Cairo',
                                                                 fontSize: 14,
-                                                                color: widget.total <
-                                                                        widget.minimum
-                                                                    ? grey2
-                                                                    : green,
+                                                                color: widget.total < widget.minimum ? grey2 : green,
                                                               ),
                                                             ),
                                                           )
@@ -541,24 +530,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       widget.order != null
                                                           ? "${widget.order.total + widget.order.delivery_cost}" +
                                                               " " +
-                                                              AppLocalization.of(
-                                                                      context)
-                                                                  .translate(
-                                                                      "sr")
-                                                          : couponCode
-                                                                  .isNotEmpty
+                                                              AppLocalization.of(context).translate("sr")
+                                                          : couponCode.isNotEmpty
                                                               ? "${double.parse(finalPrice) + widget.deliveryCost}" +
                                                                   " " +
-                                                                  AppLocalization.of(
-                                                                          context)
-                                                                      .translate(
-                                                                          "sr")
+                                                                  AppLocalization.of(context).translate("sr")
                                                               : "${widget.total + widget.deliveryCost}" +
                                                                   " " +
-                                                                  AppLocalization.of(
-                                                                          context)
-                                                                      .translate(
-                                                                          "sr"),
+                                                                  AppLocalization.of(context).translate("sr"),
                                                       style: TextStyle(
                                                         fontFamily: 'Cairo',
                                                         fontSize: 16,
@@ -581,22 +560,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           children: [
                                             Text(
                                                 widget.order != null
-                                                    ? AppLocalization.of(
-                                                                context)
-                                                            .translate(
-                                                                "all_price_include") +
+                                                    ? AppLocalization.of(context).translate("all_price_include") +
                                                         '${0}' +
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .translate("vat")
-                                                    : AppLocalization.of(
-                                                                context)
-                                                            .translate(
-                                                                "all_price_include") +
-                                                        '${widget.vat}%' +
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .translate("vat"),
+                                                        AppLocalization.of(context).translate("vat")
+                                                    : AppLocalization.of(context)
+                                                            .translate("all_price_include") + '${widget.vat}%' +
+                                                        AppLocalization.of(context).translate("vat"),
                                                 style: TextStyle(
                                                   fontFamily:
                                                       'DIN Next LT Arabic',
@@ -604,7 +573,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   color:
                                                       black1.withOpacity(0.76),
                                                   fontWeight: FontWeight.w300,
-                                                )),
+                                                )
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -617,11 +587,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 widget.order != null
                                     ? SizedBox.shrink()
                                     : IgnorePointer(
-                                        ignoring:
-                                            (widget.total < widget.minimum) &&
-                                                    couponCode.isEmpty
-                                                ? true
-                                                : false,
+                                        ignoring: (widget.total < widget.minimum) && couponCode.isEmpty
+                                                ? true : false,
                                         child: SafeArea(
                                           top: false,
                                           child: Container(
@@ -655,8 +622,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   });
                                                 } else
                                                   _tapCart();
-
-                                              },
+                                                },
                                             ),
                                           ),
                                         ),
@@ -723,7 +689,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         MFSDK.init(mAPIUrl, mAPIKey);
         var request = await MFInitiatePaymentRequest(
             widget.total + widget.deliveryCost, MFCurrencyISO.SAUDI_ARABIA_SAR);
-
         MFSDK.initiatePayment(
             request,
             MFAPILanguage.AR,

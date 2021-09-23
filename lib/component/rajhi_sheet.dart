@@ -22,8 +22,7 @@ class _RajhiSheetState extends State<RajhiSheet> {
   FocusNode _mobileFocusNode = new FocusNode();
   TextEditingController _mobile = new TextEditingController();
   TextEditingController _discount = new TextEditingController();
-  var _isLoading = false;
-  var _isLoading1 = false;
+  var _isLoading,_isLoading1 = false;
   var _token = "";
   var _showSecond = false;
 
@@ -154,7 +153,8 @@ class _RajhiSheetState extends State<RajhiSheet> {
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
                             ),
-                          )),
+                          )
+                      ),
                       Text(
                         AppLocalization.of(context).translate('sr'),
                         style: TextStyle(
@@ -171,7 +171,7 @@ class _RajhiSheetState extends State<RajhiSheet> {
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(horizontal: 33),
                   child: ElevatedButton(
-                    child: _isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("confirm")),
+                    child: _isLoading1?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("confirm")),
                     onPressed: () {
                       _paymentRajhi();
                     },
@@ -213,7 +213,8 @@ class _RajhiSheetState extends State<RajhiSheet> {
       "currency": "SAR",
       "lang":UtilSharedPreferences.getInt('lang').toString(),
       "discount" :_discount.text.trim(),
-      "type":"coupon"};
+      "type":"coupon"
+    };
     await ScopedModel.of<RestaurantsApiModel>(context).paymentRajhi(
         _token, _body).then((value) {
        if(value.data.title.status==200){

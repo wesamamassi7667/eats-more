@@ -392,9 +392,9 @@ class _ResturantScreenState extends State<ResturantScreen> {
       if (value.status.status) {
         resturant = value.data;
         _getMenuProduct(resturant.menu_categories[0].category_id);
-        if (resturant.status_open != 'open') if (mounted)
+        if (resturant.status_open == 'open') if (mounted)
           Helper.showModalBottom(context,SchedulingOrderSheet(
-              start: resturant.wt_start_at, end: resturant.wt_end_at)).then((value) {
+              start: resturant.wt_start_at, end: resturant.wt_end_at),isDrag: false).then((value) {
             if (value != null && value[0] != null) _selectedTime = value[0];
           });
       }
