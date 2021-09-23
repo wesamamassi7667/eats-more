@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import 'elevated_button_component.dart';
-
 class PickDateWidget extends StatefulWidget {
   final DateTime maximumDate;
 
@@ -116,11 +114,9 @@ class _PickDateWidgetState extends State<PickDateWidget> {
           ),
           Container(
             width: double.maxFinite,
-            child: ElevatedButtonComponent(
-              title:AppLocalization.of(context).translate("continue"),
-                  tap:() {
-                Navigator.of(context).pop(date);
-              },
+            child: ElevatedButton(
+              child:Text(AppLocalization.of(context).translate("continue")),
+                  onPressed:()=> Navigator.of(context).pop(date),
 
             ),
           ),

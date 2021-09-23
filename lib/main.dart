@@ -1,6 +1,5 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
-import 'package:eat_more_app/component/outline_button.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/splash_screen.dart';
@@ -142,6 +141,9 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             primaryColor: Colors.white,
             unselectedWidgetColor: black,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: AppThemeData.elevatedButtonStyle()
+            ),
             textButtonTheme: TextButtonThemeData(
               style: AppThemeData.textButtonStyle()
             ),

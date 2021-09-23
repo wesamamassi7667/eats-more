@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
-import 'elevated_button_component.dart';
 class CouponSheet extends StatefulWidget {
   final List<Payment> types;
   final int id;
@@ -81,9 +80,9 @@ class _CouponSheetState extends State<CouponSheet> {
                       Container(
                         width:double.infinity,
                         margin: EdgeInsets.symmetric(horizontal: 16),
-                        child: ElevatedButtonComponent(
-                          title:AppLocalization.of(context).translate("select") ,
-                          tap: (){
+                        child: ElevatedButton(
+                          child:Text(AppLocalization.of(context).translate("select")) ,
+                          onPressed: (){
                             setState(() {
                               _showSecond=true;
 
@@ -120,10 +119,9 @@ class _CouponSheetState extends State<CouponSheet> {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(horizontal: 33),
-                  child: ElevatedButtonComponent(
-                    title: AppLocalization.of(context).translate("add"),
-                    loading: _isLoading,
-                    tap: (){
+                  child: ElevatedButton(
+                    child: _isLoading?CupertinoActivityIndicator():AppLocalization.of(context).translate("add"),
+                    onPressed: (){
                       _applyCoupon();
                     },
                   ),

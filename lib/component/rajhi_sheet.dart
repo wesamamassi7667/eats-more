@@ -8,7 +8,6 @@ import 'package:scoped_model/scoped_model.dart';
 import '../color.dart';
 import 'app_text_field.dart';
 import 'close_button_sheet.dart';
-import 'elevated_button_component.dart';
 
 class RajhiSheet extends StatefulWidget {
   final double total;
@@ -86,9 +85,9 @@ class _RajhiSheetState extends State<RajhiSheet> {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(horizontal: 33),
-                  child: ElevatedButtonComponent(
-                    title: AppLocalization.of(context).translate("add"),
-                    tap: () {
+                  child: ElevatedButton(
+                    child: Text(AppLocalization.of(context).translate("add")),
+                    onPressed: () {
                       FocusScope.of(context).unfocus();
                       setState(() {
                         _showSecond = true;
@@ -171,10 +170,9 @@ class _RajhiSheetState extends State<RajhiSheet> {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.symmetric(horizontal: 33),
-                  child: ElevatedButtonComponent(
-                    title: AppLocalization.of(context).translate("confirm"),
-                    loading: _isLoading1,
-                    tap: () {
+                  child: ElevatedButton(
+                    child: _isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("confirm")),
+                    onPressed: () {
                       _paymentRajhi();
                     },
                   ),

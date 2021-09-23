@@ -6,7 +6,6 @@ import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/app_text_field.dart';
 import 'package:eat_more_app/component/container_component.dart';
-import 'package:eat_more_app/component/elevated_button_component.dart';
 import 'package:eat_more_app/component/pick_date_widget.dart';
 import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -248,11 +247,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           ),
                                        !_isEnable?  SizedBox.shrink() :Container(
                                             width: double.infinity,
-                                            child: ElevatedButtonComponent(
-                                              loading: _isLoading1,
-                                              title: AppLocalization.of(context)
-                                                  .translate("save"),
-                                              tap: () {
+                                            child: ElevatedButton(
+                                              child:_isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context)
+                                                  .translate("save")),
+                                              onPressed: () {
                                                 FocusScope.of(context).unfocus();
                                                 if (_formKey.currentState.validate()) {
                                                   _formKey.currentState.save();
@@ -272,8 +270,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                 ),
           
-                        
-
         ],
       ),
     );

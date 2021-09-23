@@ -2,12 +2,12 @@ import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'app_text_field.dart';
 import 'close_button_sheet.dart';
-import 'elevated_button_component.dart';
 
 class OTPCodeSheet extends StatefulWidget {
   final String token;
@@ -35,9 +35,7 @@ class _OTPCodeSheetState extends State<OTPCodeSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -129,10 +127,9 @@ class _OTPCodeSheetState extends State<OTPCodeSheet> {
             Container(
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 33),
-              child: ElevatedButtonComponent(
-                title: AppLocalization.of(context).translate("confirm"),
-                loading: _isLoading,
-                tap: () {
+              child: ElevatedButton(
+                child: _isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("confirm")),
+                onPressed: () {
                   _checkOtPCode();
                 },
               ),

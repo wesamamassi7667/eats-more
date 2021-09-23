@@ -3,8 +3,8 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/counter.dart';
 import 'package:eat_more_app/component/dialog.dart';
-import 'package:eat_more_app/component/outline_button.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -159,13 +159,13 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
               SizedBox(height: 28,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 52),
-                child: OutLineButton(
-                  width: double.infinity,
-                  tap: () {
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {
                     _submitCode();
                   },
-                  loading: _isLoading,
-                  text:AppLocalization.of(context).translate("confirm") ,
+                  style: AppThemeData.buttonStyle(fontSize: 18),
+                  child:_isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("confirm")) ,
                 )
               ),
               SizedBox(height: 17,),

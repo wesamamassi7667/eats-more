@@ -4,7 +4,6 @@ import 'package:eat_more_app/screens/track_order_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../color.dart';
-import 'elevated_button_component.dart';
 import 'order_dialog.dart';
 class SecondContainerDialog extends StatelessWidget {
   final int orderId;
@@ -48,9 +47,9 @@ class SecondContainerDialog extends StatelessWidget {
               Container(
                 width: double.infinity,
                 margin: EdgeInsetsDirectional.only(start: 60,end: 60),
-                child: ElevatedButtonComponent(
-                  title: AppLocalization.of(context).translate("track_your_order"),
-                  tap: (){
+                child: ElevatedButton(
+                  child: Text(AppLocalization.of(context).translate("track_your_order")),
+                  onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen(
                       id:orderId,
                       isOrder:true,

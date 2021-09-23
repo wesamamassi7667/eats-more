@@ -1,6 +1,5 @@
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/dot.dart';
-import 'package:eat_more_app/component/outline_button.dart';
 import 'package:eat_more_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,40 +42,40 @@ class _WelComeScreenState extends State<WelComeScreen> {
               width: _width,
 
             ),
-            OutLineButton(
-              tap: (){
-                if (_currentIndex == 0)
-                  setState(() {
-                    _currentIndex = 1;
-                    _height=10;
-                    _image='assets/images/welcome1.png';
-                    _height2=28.0;
-                    _height3=64;
-                    _title='اختر وجبتك';
-                    _subTitle='طلبl الأكل صار أسهل';
-                    _width=MediaQuery.of(context).size.width*0.704;
-
-                  });
-                else
-                  setState(() {
-                    _currentIndex = 2;
-                    _height=54;
-                    _image='assets/images/welcome2.png';
-                    _height2=10;
-                    _height3=96;
-                    _title='توصيل اونلاين';
-                    _subTitle='دقائق والاكل بكون بين أيديك';
-                    _width=MediaQuery.of(context).size.width*0.76;
-                  });
-              },
-              // child: Text('التالي',
-              //     style: TextStyle(
-              //       fontFamily: 'DIN Next LT Arabic',
-              //       fontSize: 18,
-              //       color: primaryIconColor,
-              //     )),
-              width: MediaQuery.of(context).size.width * 0.4,
-            ),
+            // OutLineButton(
+            //   tap: (){
+            //     if (_currentIndex == 0)
+            //       setState(() {
+            //         _currentIndex = 1;
+            //         _height=10;
+            //         _image='assets/images/welcome1.png';
+            //         _height2=28.0;
+            //         _height3=64;
+            //         _title='اختر وجبتك';
+            //         _subTitle='طلبl الأكل صار أسهل';
+            //         _width=MediaQuery.of(context).size.width*0.704;
+            //
+            //       });
+            //     else
+            //       setState(() {
+            //         _currentIndex = 2;
+            //         _height=54;
+            //         _image='assets/images/welcome2.png';
+            //         _height2=10;
+            //         _height3=96;
+            //         _title='توصيل اونلاين';
+            //         _subTitle='دقائق والاكل بكون بين أيديك';
+            //         _width=MediaQuery.of(context).size.width*0.76;
+            //       });
+            //   },
+            //   // child: Text('التالي',
+            //   //     style: TextStyle(
+            //   //       fontFamily: 'DIN Next LT Arabic',
+            //   //       fontSize: 18,
+            //   //       color: primaryIconColor,
+            //   //     )),
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            // ),
             SizedBox(height: 13.8,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

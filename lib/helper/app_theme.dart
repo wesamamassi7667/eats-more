@@ -74,5 +74,21 @@ class AppThemeData {
       ),
     );
   }
+  static ButtonStyle elevatedButtonStyle(){
+    return ElevatedButton.styleFrom(
+      textStyle: TextStyle(
+        fontFamily: 'DIN Next LT Arabic',
+        fontSize: 18,
+        color: background,
+      ),
+        primary: primaryIconColor,
+        side: BorderSide(
+          color: green,
+          width: 1,
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22))
+    );
+  }
 }
 

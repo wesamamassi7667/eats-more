@@ -5,7 +5,6 @@ import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/app_text_field.dart';
 import 'package:eat_more_app/component/contact_component.dart';
 import 'package:eat_more_app/component/container_component.dart';
-import 'package:eat_more_app/component/elevated_button_component.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/contact_response.dart';
@@ -199,10 +198,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                   SizedBox(height: 24,),
                                   Container(
                                     width: double.infinity,
-                                    child: ElevatedButtonComponent(
-                                      title: AppLocalization.of(context).translate("send"),
-                                      loading: _isLoading,
-                                      tap: () {
+                                    child: ElevatedButton(
+                                      child: _isLoading?CupertinoActivityIndicator():Text(AppLocalization.of(context).translate("send")),
+                                      onPressed: () {
                                         _contactUs();
                                       },
                                     ),

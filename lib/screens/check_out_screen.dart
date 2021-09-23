@@ -641,48 +641,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   : background,
                                               tap: () {
                                                 if (_selectedIndex == null) {
-                                                  AppDialog.showMe(context,
-                                                      'يجب اختيار طريقة الدفع');
-                                                } else if (_otpToken
-                                                    .trim()
-                                                    .isNotEmpty) {
-                                                  showModalBottomSheet(
-                                                      context: context,
-                                                      enableDrag: true,
-                                                      isScrollControlled: false,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  30),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  30),
-                                                        ),
-                                                      ),
-                                                      builder: (context) {
-                                                        return OTPCodeSheet(
-                                                          token: _token,
-                                                          otpToken: _otpToken,
-                                                          total: widget.total,
-                                                        );
-                                                      }).then((value) {
+                                                  AppDialog.showMe(context, 'يجب اختيار طريقة الدفع');
+                                                } else if (_otpToken.trim().isNotEmpty) {
+                                                  Helper.showModalBottom(context, OTPCodeSheet(
+                                                    token: _token,
+                                                    otpToken: _otpToken,
+                                                    total: widget.total,
+                                                  )).then((value){
                                                     if (value != null) {
                                                       _transactionId = value;
-                                                      if (_selectedIndex == 0)
-                                                        _executePayment();
-                                                      else
-                                                        _makeOrder();
+                                                       _tapCart();
                                                     }
                                                   });
-                                                } else {
-                                                  if (_selectedIndex == 0)
-                                                    _executePayment();
-                                                  else
-                                                    _makeOrder();
-                                                }
+                                                } else
+                                                  _tapCart();
+
                                               },
                                             ),
                                           ),
@@ -1091,23 +1064,30 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     });
   }
 
-  bool _validate() {
-    User user = ScopedModel.of<RestaurantsApiModel>(context).loggedUser;
-    if (user.fname == null ||
-        user.lname == null ||
-        user.email == null ||
-        user.birthday == null ||
-        user.lname.trim().isEmpty == null ||
-        user.gender == null) {
-      AppDialog.showMe(context,
-          AppLocalization.of(context).translate('You_must_fill_all_data'),
-          onClickOk: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditProfileScreen()));
-      });
-      return false;
-    }
-    return true;
+  // bool _validate() {
+  //   User user = ScopedModel.of<RestaurantsApiModel>(context).loggedUser;
+  //   if (user.fname == null ||
+  //       user.lname == null ||
+  //       user.email == null ||
+  //       user.birthday == null ||
+  //       user.lname.trim().isEmpty == null ||
+  //       user.gender == null) {
+  //     AppDialog.showMe(context,
+  //         AppLocalization.of(context).translate('You_must_fill_all_data'),
+  //         onClickOk: () {
+  //       Navigator.push(context,
+  //           MaterialPageRoute(builder: (context) => EditProfileScreen()));
+  //     });
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  void _tapCart() {
+    if (_selectedIndex == 0)
+      _executePayment();
+    else
+      _makeOrder();
   }
 
   // void _back() {

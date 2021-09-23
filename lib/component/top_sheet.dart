@@ -1,8 +1,5 @@
 
- import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
-import 'package:eat_more_app/component/outline_button.dart';
-import 'package:eat_more_app/component/text_button_component.dart';
 import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/screens/delivery_ways_screen.dart';
@@ -20,7 +17,6 @@ class TopSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<RestaurantsApiModel>(
       builder:(context,child,model)=> Material(
-          // clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(15),

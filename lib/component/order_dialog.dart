@@ -1,9 +1,6 @@
 
-import 'package:eat_more_app/component/container_component.dart';
-import 'package:eat_more_app/component/elevated_button_component.dart';
 import 'package:eat_more_app/component/first_container_dialog.dart';
 import 'package:eat_more_app/component/second_container_dialog.dart';
-import 'package:eat_more_app/model/order_response.dart';
 import 'package:flutter/material.dart';
 
 import '../color.dart';

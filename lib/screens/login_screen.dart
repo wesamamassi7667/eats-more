@@ -1,7 +1,7 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/outline_button.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/screens/verification_code_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -151,19 +151,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 34.5,
                 ),
-                OutLineButton(
-                  tap: () {
-                    if (_number.text.trim().isEmpty)
-                      AppDialog.showMe(
-                          context,
-                          AppLocalization.of(context)
-                              .translate("you_must_enter_your_mobile_number"));
-                    else
-                      _login();
-                  },
-                  loading: _isLoading,
-                  text: AppLocalization.of(context).translate("sign_up"),
-                    width: MediaQuery.of(context).size.width * 0.688,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.688,
+                  child: OutlinedButton(
+                    onPressed: (){
+                      if (_number.text.trim().isEmpty)
+                        AppDialog.showMe(
+                            context,
+                            AppLocalization.of(context)
+                                .translate("you_must_enter_your_mobile_number"));
+                      else
+                        _login();
+                    },
+                    child:_isLoading?CupertinoActivityIndicator(): Text( AppLocalization.of(context).translate("sign_up")),
+                    style: AppThemeData.buttonStyle(fontSize: 18),
+
+                  ),
                 ),
               ],
             ),
