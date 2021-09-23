@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       Helper.setting=Setting.fromJson(UtilSharedPreferences.getObj('constant'));
       setState(() {
         _image=new Image.network(
-          Helper.setting.gif,
+          Helper.setting.gif??"",
           fit: BoxFit.fill,
         );
       });

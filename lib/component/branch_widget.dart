@@ -1,3 +1,4 @@
+import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/branch_response.dart';
 import 'package:eat_more_app/screens/restuerant_screen.dart';
@@ -56,26 +57,14 @@ class BranchWidget extends StatelessWidget {
                                             id: id,
                                             branch: _branches[index],
                                             idWay: idWay,
-                                          )));
+                                          )
+                                  )
+                              );
                             },
-                            child: Container(
-                              margin: EdgeInsetsDirectional.only(
-                                  start: 13,
-                                  end: 13,
-                                  top: index == 35 ? 0 : 12),
-                              padding: EdgeInsetsDirectional.only(
-                                  start: 8, end: 4, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: background,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: grey5.withOpacity(0.16),
-                                    offset: Offset(0, 3),
-                                    blurRadius: 6,
-                                  ),
-                                ],
-                              ),
+                            child: SecondContainerComponent(
+                                start: 13, end: 13, top: index == 35 ? 0 : 12,
+                                startP: 8, endP: 4, topP: 5, bottomP: 5,
+                                 radius: BorderRadius.circular(5.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

@@ -1,5 +1,6 @@
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/yes_no_buttons.dart';
+import 'package:eat_more_app/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -186,7 +187,8 @@ class _SchedulingOrderSheetState extends State<SchedulingOrderSheet> {
                               ),
                             );
                           }
-                        );},
+                        );
+                        },
                       child: Container(
                         height: 34,
                         width: MediaQuery.of(context).size.width * 0.448,

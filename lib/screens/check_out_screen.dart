@@ -854,10 +854,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   CachedNetworkImageComponent(
                                     url: _methods[index1].imageUrl,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 8),
-                                    child: Text(
-                                        _methods[index1].paymentMethodAr,
+                                  Padding(padding: EdgeInsets.only(top: 8),
+                                    child: Text(_methods[index1].paymentMethodAr,
                                         maxLines: 1,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
@@ -870,8 +868,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             ),
                           ),
                           Visibility(
-                            visible:
-                                index1 == _selectedPaymentIndex ? true : false,
+                            visible: index1 == _selectedPaymentIndex ? true : false,
                             child: Container(
                               width: 10,
                               height: 10,

@@ -3,8 +3,6 @@ import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_bar_home.dart';
 import 'package:eat_more_app/component/custom_progress_dialog.dart';
 import 'package:eat_more_app/component/dot.dart';
-import 'package:eat_more_app/component/list_meal_height.dart';
-import 'package:eat_more_app/component/list_width.dart';
 import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/component/restaurent_list.dart';
 import 'package:eat_more_app/component/slider_image.dart';

@@ -147,60 +147,24 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          InputChip(
-                                            onPressed: () {
-                                              setState(() {
-                                                _currentPage = 1;
-                                              });
-                                              setSourceAndDestinationIcons();
-                                            },
-                                            label: Container(
-                                              child: Text(AppLocalization.of(
-                                                      context)
-                                                  .translate("track_order")),
-                                              alignment: Alignment.center,
-                                              height: 30,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.35,
+                                          Container(
+                                            width:MediaQuery.of(context).size.width *0.38,
+                                            child: TextButton(
+                                              child: Text(AppLocalization.of(context).translate("track_order")),
+                                              onPressed: (){
+                                                setState(() {
+                                                  _currentPage = 1;
+                                                });
+                                                setSourceAndDestinationIcons();
+                                              },
                                             ),
-                                            labelStyle: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                fontFamily:
-                                                    'DIN Next LT Arabic'),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            backgroundColor: primaryIconColor,
                                           ),
-                                          ButtonTheme(
-                                            minWidth: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            child: OutlineButton(
+                                          Container(
+                                            width: MediaQuery.of(context).size.width * 0.38,
+                                            child: OutlinedButton(
                                               onPressed: () {},
                                               child: Text(
-                                                  AppLocalization.of(context)
-                                                      .translate(
-                                                          "cancel_order"),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14,
-                                                      color: primaryIconColor,
-                                                      fontFamily:
-                                                          'DIN Next LT Arabic')),
-                                              shape: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  borderSide: BorderSide(
-                                                    color: Color(0xffD6D6D6),
-                                                  )),
+                                                  AppLocalization.of(context).translate("cancel_order")),
                                             ),
                                           )
                                         ],
