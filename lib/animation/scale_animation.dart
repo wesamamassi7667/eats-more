@@ -15,7 +15,7 @@ class _ScaleAnimationState extends State<ScaleAnimation> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     AnimationController ctrl = AnimationController(
-        duration: Duration(milliseconds: 1500), vsync: this);
+        duration: Duration(milliseconds: 700), vsync: this);
     Animation scaleAnimation =
     Tween(begin: 1.0, end: 0.7).animate(ctrl);
     selectItem(bool forward) =>

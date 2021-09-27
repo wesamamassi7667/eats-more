@@ -52,6 +52,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
   String _selectedTime;
   List<ProductCart> _productCart;
   double productsTotalPrice;
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
@@ -281,49 +282,44 @@ class _ResturantScreenState extends State<ResturantScreen> {
                         _isLoading1
                             ? Expanded(child: CupertinoActivityIndicator())
                             : Expanded(
-                                child: ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: _products.length,
-                                    physics: ClampingScrollPhysics(),
-                                    separatorBuilder: (context, index1) {
-                                      return SizedBox(
-                                        height: 17,
-                                      );
-                                    },
-                                    itemBuilder: (context, index1) {
-                                      return  CategoryProductItem(
-                                       index: index1,
+                                child:  AnimatedList(
+                                    key: _listKey,
+                                    itemBuilder: (context, index1,animation){
+                                      return CategoryProductItem(
+                                        index: index1,
                                         products: _products,
+                                         animation:animation,
                                         tap:() => Navigator.push(context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ItemDetailsScreen(
-                                                      id: _products[index1].product_id,
-                                                      total: productsTotalPrice,
-                                                      logo: resturant.vendor_image,
-                                                      vendorId: widget.id))).then((value) {
-                                                        if (value != null) {
-                                          setState(() {
-                                            productsTotalPrice = value.total;
-                                            _productCart = value.carts;
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ItemDetailsScreen(
+                                                        id: _products[index1].product_id,
+                                                        total: productsTotalPrice,
+                                                        logo: resturant.vendor_image,
+                                                        vendorId: widget.id))).then((value) {
+                                          if (value != null) {
+                                            setState(() {
+                                              productsTotalPrice = value.total;
+                                              _productCart = value.carts;
+                                            });
+                                          }
+                                        }),
+                                        press: (){
+                                          Helper.showProductSheet(context, _products[index1].product_id,
+                                              null,
+                                              widget.id,
+                                              null,
+                                              null).then((value) {
+                                            if (value != null)
+                                              setState(() {
+                                                productsTotalPrice = value.total;
+                                                _productCart = value.carts;
+                                              });
                                           });
-                                        }
-                                      }),
-                                       press: (){
-                                         Helper.showProductSheet(context, _products[index1].product_id,
-                                             null,
-                                             widget.id,
-                                             null,
-                                             null).then((value) {
-                                           if (value != null)
-                                             setState(() {
-                                               productsTotalPrice = value.total;
-                                               _productCart = value.carts;
-                                             });
-                                         });
-                                       },
+                                        },
                                       );
-                                    }),
+                                    }
+                                )
                               ),
                         _productCart.isNotEmpty
                             ? SafeArea(
@@ -392,7 +388,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
       if (value.status.status) {
         resturant = value.data;
         _getMenuProduct(resturant.menu_categories[0].category_id);
-        if (resturant.status_open == 'open') if (mounted)
+        if (resturant.status_open != 'open') if (mounted)
           Helper.showModalBottom(context,SchedulingOrderSheet(
               start: resturant.wt_start_at, end: resturant.wt_end_at),isDrag: false).then((value) {
             if (value != null && value[0] != null) _selectedTime = value[0];
@@ -408,24 +404,25 @@ class _ResturantScreenState extends State<ResturantScreen> {
 
   void _getMenuProduct(int menuId) async {
     print(menuId);
-    if (mounted)
-      setState(() {
-        _isLoading1 = true;
-        _products.clear();
-      });
-    if (mounted)
+    _products.clear();
+    setState(() =>_isLoading1 = true);
       await ScopedModel.of<RestaurantsApiModel>(context)
           .viewMenuProduct(menuId).then((value) {
-        if (mounted)
-          setState(() {
-            _products.addAll(value.data.products_menu);
-            _isLoading1 = false;
-          });
+           _loadItem(value.data.products_menu);
+          setState(() => _isLoading1 = false);
       });
   }
 
   void _back() {
     var _count = 0;
     Navigator.popUntil(context, (Route<dynamic> route) => _count++ == 3);
+  }
+
+  Future<void> _loadItem(List<ProductInfo> data) async {
+    for(ProductInfo item in data){
+      await Future.delayed(Duration(milliseconds: 300));
+      _products.add(item);
+      _listKey.currentState.insertItem(_products.length - 1);
+    }
   }
 }

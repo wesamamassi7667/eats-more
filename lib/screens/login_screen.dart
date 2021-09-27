@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontWeight: FontWeight.w400,
                                     color: black4),
                                 suffixIcon: Icon(
-                                  Icons.keyboard_arrow_down,
+                                  Icons.arrow_drop_down_rounded,
                                   color: black2,
                                   // size: 15,
                                 )),
