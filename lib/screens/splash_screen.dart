@@ -5,6 +5,7 @@ import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/setting_response.dart';
+import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,7 +59,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-        // backgroundColor: background,
         body: _isLoading
             ?Center(child: CupertinoActivityIndicator(),):_isLoading1? Center(
                 child:ScaleTransition(
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child: CachedNetworkImage(
-                      imageUrl:Helper.setting.enterprise_image,
+                      imageUrl:Helper.setting.vendor_image,
                       fit: BoxFit.cover,
                       width: 200,
                       height: 200,
@@ -100,8 +100,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       _isLoading = true;
     });
     await ScopedModel.of<RestaurantsApiModel>(context)
-        .listConstants()
-        .then((value) {
+        .listConstants().then((value) {
       if (value.status.status) {
         UtilSharedPreferences.setObj('constant', value.data);
         Helper.setting=Setting.fromJson(UtilSharedPreferences.getObj('constant'));
@@ -126,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
         )));
       else{
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>HomeScreen()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>DeliveryMethodsScreen()));
         print('token'+UtilSharedPreferences.getString("token") );
         // print('constant'+UtilSharedPreferences.getObj("constant").toString() );
       }
@@ -135,9 +134,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
 
   void _imageLoad() async{
-    setState(() {
-      _isLoading1=true;
-    });
+    setState(()=>_isLoading1=true);
     _image.image.resolve(ImageConfiguration.empty).addListener(
       ImageStreamListener(
               (ImageInfo info, bool syncCall) {
@@ -146,9 +143,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       )
     );
     await completer.future;
-    setState(() {
-      _isLoading1=false;
-    });
+    setState(()=> _isLoading1=false);
     _delay(5);
   }
 }

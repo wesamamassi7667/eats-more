@@ -62,7 +62,9 @@ class Helper {
                             controller: controller1,
                             logo: logo,
                             name: name
-                        )));
+                        )
+                    )
+                );
               });
         });
     return addCart;

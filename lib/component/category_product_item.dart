@@ -25,6 +25,7 @@ class CategoryProductItem extends StatelessWidget {
         child: SecondContainerComponent(
           startP: 11,topP:6,bottomP: 14,endP:27 ,
            start: 16,end: 16,top: index==0?0:16,
+          color: black10,
           child: Row(
             children: [
               Card(
@@ -50,7 +51,7 @@ class CategoryProductItem extends StatelessWidget {
                         fontFamily:
                         'DIN Next LT Arabic',
                         fontSize: 18,
-                        color: black2,
+                        color: background,
                       ),
                     ),
                     Text(
@@ -60,7 +61,7 @@ class CategoryProductItem extends StatelessWidget {
                         fontFamily:
                         'DIN Next LT Arabic',
                         fontSize: 13,
-                        color: const Color(0xc7707070),
+                        color: grey13,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,

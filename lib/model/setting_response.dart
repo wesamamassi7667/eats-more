@@ -18,9 +18,9 @@ class SettingResponse{
 class Setting {
   int enterprise_id;
   String gif;
-  String enterprise_image;
+  String vendor_image;
 
-  Setting(this.enterprise_id, this.gif,this.enterprise_image);
+  Setting(this.enterprise_id, this.gif,this.vendor_image);
 
   factory Setting .fromJson(Map<String, dynamic> json) =>
       _$SettingFromJson(json);

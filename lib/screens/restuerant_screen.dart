@@ -1,10 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/cart_button.dart';
 import 'package:eat_more_app/component/category_item.dart';
 import 'package:eat_more_app/component/category_product_item.dart';
-import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/scheduling_order_sheet.dart';
 import 'package:eat_more_app/component/vendor_info_column.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -17,7 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 import '../color.dart';
 import '../helper/helper.dart';
 import 'check_out_screen.dart';
@@ -65,12 +62,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        _back();
-      },
-      child: Scaffold(
-        backgroundColor: background,
+    return  Scaffold(
         body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -81,9 +73,6 @@ class _ResturantScreenState extends State<ResturantScreen> {
                   pinned: false,
                   leading: CloseButton(
                     color: _isLoading ? black : background,
-                    onPressed: () {
-                      _back();
-                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -106,7 +95,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                   height: 268,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(2.0),
-                                    color: const Color(0xcc0068b0),
+                                    color: primaryIconColor.withOpacity(0.4),
                                     border: Border.all(
                                         width: 1.0,
                                         color: const Color(0xcc707070)),
@@ -120,7 +109,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                     Container(
                                       margin: EdgeInsets.only(top: 100),
                                       decoration: BoxDecoration(
-                                          color: background,
+                                          color: black,
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(40),
                                             topRight: Radius.circular(40),
@@ -139,9 +128,10 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: black,
+                                                  color: background,
                                                   width: 0.4,
-                                                )),
+                                                )
+                                            ),
                                             child: ClipOval(
                                               child: CachedNetworkImageComponent(
                                                 url: resturant.vendor_image,
@@ -156,7 +146,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           style: TextStyle(
                                             fontFamily: 'DIN Next LT Arabic',
                                             fontSize: 12,
-                                            color: const Color(0xe0242424),
+                                            color: background,
                                             fontWeight: FontWeight.w300,
                                             height: 1.6666666666666667,
                                           ),
@@ -173,13 +163,16 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                               padding: EdgeInsetsDirectional.only(start: 19.4, end: 14, top: 16,
                                               ),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(10.0),
-                                                color: background,
+                                                borderRadius:BorderRadius.circular(10.0),
+                                                color: black,
+                                                  border: Border.all(
+                                                      color: grey16,
+                                                      width: 1
+                                                  ),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color:
-                                                        const Color(0x17000000),
+                                                    const Color(0x17000000),
                                                     offset: Offset(-9.056514739990234, 7.872708320617676),
                                                     blurRadius: 30,
                                                   ),
@@ -216,11 +209,9 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                               child: Container(
                                                 height: 38,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
+                                                  borderRadius: BorderRadius.circular(15.0),
                                                   color: resturant.status_open == 'open' ? green1
-                                                      : resturant.status_open == 'close' ? red : const Color(0xfff3bd53),
+                                                      : resturant.status_open == 'close' ? red : orange,
                                                 ),
                                                 child: Center(
                                                   child: Text(
@@ -335,8 +326,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                         color: primaryIconColor,
                                         tap: () {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
+                                              context, MaterialPageRoute(
                                                   builder: (context) =>
                                                       CheckOutScreen(
                                                           id: widget.id,
@@ -366,15 +356,12 @@ class _ResturantScreenState extends State<ResturantScreen> {
                       ],
                     ),
                   )),
-      ),
     );
   }
 
 
   void _getVendorInfo() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
     await ScopedModel.of<RestaurantsApiModel>(context)
         .getCart(widget.id).then((value) {
       if (value.status.status) if (value.data != null) {
@@ -395,9 +382,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
           });
       }
       if (mounted)
-        setState(() {
-          _isLoading = false;
-        });
+        setState(()=>_isLoading = false);
     });
   }
 
@@ -408,15 +393,16 @@ class _ResturantScreenState extends State<ResturantScreen> {
     setState(() =>_isLoading1 = true);
       await ScopedModel.of<RestaurantsApiModel>(context)
           .viewMenuProduct(menuId).then((value) {
-           _loadItem(value.data.products_menu);
+            print(menuId);
+           _loadItem(value.data?.products_menu??[]);
           setState(() => _isLoading1 = false);
       });
   }
 
-  void _back() {
-    var _count = 0;
-    Navigator.popUntil(context, (Route<dynamic> route) => _count++ == 3);
-  }
+  // void _back() {
+  //   var _count = 0;
+  //   Navigator.popUntil(context, (Route<dynamic> route) => _count++ == 3);
+  // }
 
   Future<void> _loadItem(List<ProductInfo> data) async {
     for(ProductInfo item in data){

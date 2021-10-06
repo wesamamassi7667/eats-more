@@ -60,7 +60,6 @@ class APPTextField extends StatelessWidget {
 
         },
         textInputAction:isMultiLine?TextInputAction.newline: nextFocus!=null?TextInputAction.next:TextInputAction.done,
-        // textAlign: isCenter?TextAlign.center:TextAlign.start,
         keyboardType: textType,
         decoration: AppThemeData.inputDecoration(hintText,prifexIcon,suffixIcon,context),
         style: TextStyle(

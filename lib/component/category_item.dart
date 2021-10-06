@@ -31,7 +31,7 @@ class CategoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(
               index ==selectedIndex ? 5 : 0),
           color: index == selectedIndex
-              ? primaryIconColor
+              ? grey18
               : Colors.transparent,
           boxShadow: [
             BoxShadow(
