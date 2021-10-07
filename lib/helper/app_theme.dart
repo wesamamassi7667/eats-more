@@ -62,10 +62,11 @@ class AppThemeData {
   static ButtonStyle buttonStyle({double borderRadius=20.0,double fontSize=14.0}){
     return OutlinedButton.styleFrom(
       textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize,fontFamily:'DIN Next LT Arabic'),
-      primary: primaryIconColor,
+      primary: white3,
+      backgroundColor: black9,
       side: BorderSide(
           width: 1.0,
-          color: primaryIconColor,
+          color: white3,
           style: BorderStyle.solid,
       ),
       padding: EdgeInsets.all(0),

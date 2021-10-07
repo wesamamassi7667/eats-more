@@ -7,6 +7,7 @@ import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
+import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,30 +69,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsetsDirectional.only(
-              start: 12,
-              end: 12,
-              bottom: 17,
-              top: 132,),
-            padding: EdgeInsetsDirectional.only(start: 16),
-            decoration: BoxDecoration(
-                color: background,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(40),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 4,
-                      color: Colors.black.withOpacity(0.12),
-                      offset: Offset(3, 4)
-                  )
-                ]
-            ),
+      body:
 
-          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -103,18 +82,19 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
                 ],
               ),
                   Flexible(
-                   child: Text(
-                    AppLocalization.of(context).translate("enter_verification_code"),
-                    style: TextStyle(
-                      fontFamily: 'DIN Next LT Arabic',
-                      fontSize: 17,
-                      color: black4,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 2,
-                    // textAlign: TextAlign.center,
+                   child:Text(
+                      AppLocalization.of(context).translate("enter_verification_code"),
+                      style: TextStyle(
+                        fontFamily: 'DIN Next LT Arabic',
+                        fontSize: 17,
+                        color: background,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      // textAlign: TextAlign.center,
                   ),
-              ),
+                   ),
+
 
               Text(
                 '(+966) ' + widget.phone.substring(3, widget.phone.length ),
@@ -122,7 +102,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
                   fontFamily: 'Cairo',
                   //cario
                   fontSize: 20,
-                  color: const Color(0xff22551d),
+                  color: grey15,
 
                 ),
               ),
@@ -203,8 +183,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
 
             ],
           )
-        ],
-      ),
+
     );
   }
 
@@ -232,7 +211,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
           ScopedModel.of<RestaurantsApiModel>(context).changeUser(value.data.member_full_info);
           _updateFcmToken(Helper.fcmToken);
           var _count=0;
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => _count++==2);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen()), (route) => _count++==2);
 
       };
       setState(() {

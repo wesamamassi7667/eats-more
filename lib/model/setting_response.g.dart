@@ -27,12 +27,12 @@ Setting _$SettingFromJson(Map<String, dynamic> json) {
   return Setting(
     json['enterprise_id'] as int,
     json['gif'] as String,
-    json['enterprise_image'] as String,
+    json['enterprise_vendor'] as String,
   );
 }
 
 Map<String, dynamic> _$SettingToJson(Setting instance) => <String, dynamic>{
       'enterprise_id': instance.enterprise_id,
       'gif': instance.gif,
-      'enterprise_image': instance.enterprise_image,
+      'enterprise_vendor': instance.vendor_image,
     };

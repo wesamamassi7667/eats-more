@@ -1,4 +1,5 @@
 
+import 'package:eat_more_app/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 class ColumnComponent extends StatelessWidget {
@@ -22,12 +23,12 @@ class ColumnComponent extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'DIN Next LT Arabic',
             fontSize: 13,
-            color: const Color(0xff141414),
+            color: background,
           ),
         ),
         Row(
           children: [
-            SvgPicture.asset(icon),
+            SvgPicture.asset(icon,color: background,),
             SizedBox(
               width: 2,
             ),
@@ -36,7 +37,7 @@ class ColumnComponent extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'DIN Next LT Arabic',
                 fontSize: 13,
-                color: const Color(0xff141414),
+                color: background,
               ),
             ),
           ],

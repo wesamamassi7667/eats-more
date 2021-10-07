@@ -23,7 +23,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
  class RestaurantsApiModel extends Model{
-  static final String url = "https://api.yalago.net/api/enterprise/eats/";
+  static final String url = "https://api.yalago.net/api/vendor/sliderhouse/";
   RestaurantsApiModel() {
    if(UtilSharedPreferences.getObj('constant') != null)
     _getConstant();
@@ -263,7 +263,7 @@ final Set<Marker> _markers = Set<Marker>();
   }
   Future<MenuResponse> viewMenuProduct(int idMenu) {
     return http.get(
-        Uri.parse(url + 'menu/$idMenu') ,
+        Uri.parse(url+'menu?category_id=$idMenu') ,
         headers: headers()
     ).then((response) {
       print(response.body);
@@ -504,7 +504,7 @@ final Set<Marker> _markers = Set<Marker>();
 
   Future <SettingResponse> listConstants() async {
     return http.get(
-      Uri.parse( url + 'enterprise-settings'),
+      Uri.parse( url + 'vendor-settings'),
       headers: headers(),)
         .then((response) {
       print(response.body);

@@ -76,7 +76,6 @@ class _MyAppState extends State<MyApp> {
     if (!ScopedModel.of<RestaurantsApiModel>(context).isLoggedIn()) {
       FirebaseMessaging.instance.getToken().then((value) {
         Helper.fcmToken = value;
-        print("token" + value);
       });
     }
 
@@ -109,7 +108,10 @@ class _MyAppState extends State<MyApp> {
     setupInteractedMessage();
 
     super.initState();
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +119,7 @@ class _MyAppState extends State<MyApp> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark));
+        statusBarIconBrightness: Brightness.light));
     return ScopedModelDescendant<RestaurantsApiModel>(
         builder: (context, child, model) {
       return MaterialApp(
@@ -139,8 +141,8 @@ class _MyAppState extends State<MyApp> {
         locale: Locale(model.language == 0 ? "en" : "ar"),
         theme: ThemeData(
             primarySwatch: Colors.blue,
-            primaryColor: Colors.white,
-            unselectedWidgetColor: black,
+            primaryColor: background,
+            unselectedWidgetColor: black, //color checked box
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: AppThemeData.elevatedButtonStyle()
             ),
@@ -152,7 +154,7 @@ class _MyAppState extends State<MyApp> {
             ) ,
 
             // <-- your colorprimaryIconTheme: IconThemeData(color: background),
-            scaffoldBackgroundColor: background),
+            scaffoldBackgroundColor: black1),
         home: SplashScreen(),
       );
     });

@@ -31,7 +31,7 @@ class BranchWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(40.0),
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsetsDirectional.only(top: 43, bottom: 20),
+                padding: EdgeInsetsDirectional.only(top: 0, bottom: 20),
                 child: Column(
                   children: [
                     Text(
@@ -39,7 +39,7 @@ class BranchWidget extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'DIN Next LT Arabic',
                         fontSize: 20,
-                        color: black4,
+                        color: background,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -61,10 +61,16 @@ class BranchWidget extends StatelessWidget {
                                   )
                               );
                             },
-                            child: SecondContainerComponent(
-                                start: 13, end: 13, top: index == 35 ? 0 : 12,
-                                startP: 8, endP: 4, topP: 5, bottomP: 5,
-                                 radius: BorderRadius.circular(5.0),
+                            child: Container(
+                               margin: EdgeInsetsDirectional.only(start: 13,end: 13,top:index == 0 ? 35 : 12),
+                                padding:EdgeInsetsDirectional.only(start: 8,end: 4,top:5 ,bottom: 5) ,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: grey16,
+                                    width: 1
+                                  )
+                                ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -75,13 +81,13 @@ class BranchWidget extends StatelessWidget {
                                         style: TextStyle(
                                           fontFamily: 'DIN Next LT Arabic',
                                           fontSize: 20,
-                                          color: black1,
+                                          color: background,
                                         ),
                                       ),
                                       Spacer(),
                                       Icon(
                                         Icons.keyboard_arrow_right,
-                                        color: black1,
+                                        color: background,
                                       )
                                     ],
                                   ),
@@ -95,7 +101,7 @@ class BranchWidget extends StatelessWidget {
                                           style: TextStyle(
                                             fontFamily: 'DIN Next LT Arabic',
                                             fontSize: 16,
-                                            color: black1,
+                                            color: grey17,
                                             fontWeight: FontWeight.w300,
                                           ),
                                         ),
@@ -109,7 +115,7 @@ class BranchWidget extends StatelessWidget {
                                     style: TextStyle(
                                       fontFamily: 'DIN Next LT Arabic',
                                       fontSize: 16,
-                                      color: black1,
+                                      color: grey17,
                                       fontWeight: FontWeight.w300,
                                     ),
                                   )
