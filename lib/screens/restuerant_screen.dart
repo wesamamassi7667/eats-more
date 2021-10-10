@@ -5,6 +5,7 @@ import 'package:eat_more_app/component/cart_button.dart';
 import 'package:eat_more_app/component/category_item.dart';
 import 'package:eat_more_app/component/category_product_item.dart';
 import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/scheduling_order_sheet.dart';
 import 'package:eat_more_app/component/vendor_info_column.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -89,7 +90,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     centerTitle: true,
                     background: _isLoading
                         ? Center(
-                            child: CupertinoActivityIndicator(),
+                            child: MyProgressIndicator(),
                           )
                         : Stack(
                             children: [
@@ -248,7 +249,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             },
             body: _isLoading
                 ? Center(
-                    child: CupertinoActivityIndicator(),
+                    child: MyProgressIndicator(),
                   )
                 : SafeArea(
                     child: Column(
@@ -277,7 +278,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               }),
                         ),
                         _isLoading1
-                            ? Expanded(child: CupertinoActivityIndicator())
+                            ? Expanded(child:MyProgressIndicator())
                             : Expanded(
                                 child:  AnimatedList(
                                     key: _listKey,

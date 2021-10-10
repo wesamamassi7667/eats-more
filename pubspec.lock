@@ -307,13 +307,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  flutter_easyloading:
-    dependency: "direct main"
-    description:
-      name: flutter_easyloading
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -354,13 +347,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  flutter_spinkit:
-    dependency: transitive
-    description:
-      name: flutter_spinkit
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.1.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -504,6 +490,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.1"
+  loading_indicator:
+    dependency: "direct main"
+    description:
+      name: loading_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   logging:
     dependency: transitive
     description:
