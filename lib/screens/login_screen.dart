@@ -1,6 +1,5 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/app_text_field.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/screens/verification_code_screen.dart';
@@ -47,6 +46,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
       body: Stack(
         children: [
+          Container(
+            // height: MediaQuery.of(context).size.height,
+            margin: EdgeInsetsDirectional.only(top: 142, bottom: 45),
+            decoration: BoxDecoration(
+                color: background,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(40),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 4,
+                      color: Colors.black.withOpacity(0.12),
+                      offset: Offset(3, 4))
+                ]),
+          ),
           SingleChildScrollView(
             child: Column(
               children: [
@@ -61,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontFamily: 'DIN Next LT Arabic',
                     fontSize: 17,
-                    color: background,
+                    color: black4,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -85,20 +99,49 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontFamily: 'DIN Next LT Arabic',
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
-                                    color: background),
+                                    color: black4),
                                 suffixIcon: Icon(
                                   Icons.arrow_drop_down_rounded,
-                                  color: background,
+                                  color: black2,
                                   // size: 15,
                                 )),
                           ),
                         ),
                         SizedBox(width: 15.9),
                         Expanded(
-                          child: APPTextField(
-                             textType: TextInputType.number,
-                             focusNode: _numberFocusNode,
-                             textEditingController: _number,
+                          child: TextFormField(
+                            textAlign: TextAlign.start,
+                            textDirection: TextDirection.ltr,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.done,
+                            focusNode: _numberFocusNode,
+                            controller: _number,
+                            onFieldSubmitted: (s) {
+                              _numberFocusNode.unfocus();
+                              FocusScope.of(context).unfocus();
+                            },
+                            decoration: InputDecoration(
+                              hintText: AppLocalization.of(context)
+                                  .translate("mobile_number"),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: green.withOpacity(0.07),
+                              )),
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: green.withOpacity(0.07),
+                              )),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: green.withOpacity(0.07),
+                              )),
+                              hintStyle: TextStyle(
+                                fontFamily: 'DIN Next LT Arabic',
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: black2.withOpacity(0.76),
+                              ),
+                            ),
                           ),
                         ),
                       ],

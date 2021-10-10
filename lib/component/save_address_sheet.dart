@@ -110,7 +110,7 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
 
   void navigateToVendorScreen() {
     var _count = 0;
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ResturantScreen(
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>RestaurantScreen(
         idWay: 0,
         branch: widget.branches[0],
         address:_address,

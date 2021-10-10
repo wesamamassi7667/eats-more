@@ -18,7 +18,7 @@ class CachedNetworkImageComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: url,
+      imageUrl: url??"",
       width: width,
       height: height,
       fit: fit,

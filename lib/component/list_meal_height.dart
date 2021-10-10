@@ -57,9 +57,10 @@ class ListMealHeight extends StatelessWidget {
                   height: 233,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    image: DecorationImage(
+                    image:item.product[index].image==null? null:DecorationImage(
                       image:Helper.buildCachedNetworkImageProvider(item.product[index].image),
                       fit: BoxFit.cover,
+
                     ),
                   ),
                   child: item.product[index]

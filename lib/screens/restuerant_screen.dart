@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/cart_button.dart';
 import 'package:eat_more_app/component/category_item.dart';
 import 'package:eat_more_app/component/category_product_item.dart';
+import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/scheduling_order_sheet.dart';
 import 'package:eat_more_app/component/vendor_info_column.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -15,18 +17,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scoped_model/scoped_model.dart';
+
 import '../color.dart';
 import '../helper/helper.dart';
 import 'check_out_screen.dart';
 
-class ResturantScreen extends StatefulWidget {
+class RestaurantScreen extends StatefulWidget {
   final int id;
   final Branch branch;
   final int idWay;
   final String address;
   final String lat, lng;
 
-  const ResturantScreen(
+  const RestaurantScreen(
       {Key key,
       this.id,
       this.branch,
@@ -37,10 +40,10 @@ class ResturantScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ResturantScreenState createState() => _ResturantScreenState();
+  _RestaurantScreenState createState() => _RestaurantScreenState();
 }
 
-class _ResturantScreenState extends State<ResturantScreen> {
+class _RestaurantScreenState extends State<RestaurantScreen> {
   var _selectedIndex = 0;
   var _isLoading = false;
   Restaurant resturant;
@@ -50,6 +53,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
   List<ProductCart> _productCart;
   double productsTotalPrice;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  String categoryType=Helper.constants.category_type;
 
   @override
   void initState() {
@@ -62,7 +66,12 @@ class _ResturantScreenState extends State<ResturantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return WillPopScope(
+      onWillPop: () {
+        _back();
+      },
+      child: Scaffold(
+        backgroundColor: background,
         body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -74,6 +83,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                   leading: CloseButton(
                     color: _isLoading ? black : background,
                     onPressed: () => _back()
+
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -105,13 +115,13 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 60),
+                                padding: const EdgeInsets.only(top: 100),
                                 child: Stack(
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(top: 100),
+                                      margin: EdgeInsets.only(top: 50),
                                       decoration: BoxDecoration(
-                                          color: black,
+                                          color: background,
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(40),
                                             topRight: Radius.circular(40),
@@ -130,15 +140,14 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: background,
+                                                  color: black,
                                                   width: 0.4,
-                                                )
-                                            ),
+                                                )),
                                             child: ClipOval(
                                               child: CachedNetworkImageComponent(
                                                 url: resturant.vendor_image,
-                                                height: 180,
-                                                width: 180,
+                                                height: 100,
+                                                width: 100,
                                               ),
                                             ),
                                           ),
@@ -148,7 +157,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                           style: TextStyle(
                                             fontFamily: 'DIN Next LT Arabic',
                                             fontSize: 12,
-                                            color: background,
+                                            color: const Color(0xe0242424),
                                             fontWeight: FontWeight.w300,
                                             height: 1.6666666666666667,
                                           ),
@@ -162,15 +171,10 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                             Container(
                                               height: 67,
                                               margin: EdgeInsetsDirectional.only(start: 12, end: 12, top: 19),
-                                              padding: EdgeInsetsDirectional.only(start: 19.4, end: 14, top: 16,
-                                              ),
+                                              padding: EdgeInsetsDirectional.only(start: 19.4, end: 14, top: 16,),
                                               decoration: BoxDecoration(
                                                 borderRadius:BorderRadius.circular(10.0),
                                                 color: background,
-                                                border: Border.all(
-                                                    color: grey16,
-                                                    width: 1
-                                                ),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color:
@@ -211,9 +215,11 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                               child: Container(
                                                 height: 38,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(15.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
                                                   color: resturant.status_open == 'open' ? green1
-                                                      : resturant.status_open == 'close' ? red : orange,
+                                                      : resturant.status_open == 'close' ? red : const Color(0xfff3bd53),
                                                 ),
                                                 child: Center(
                                                   child: Text(
@@ -249,7 +255,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: 94,
+                          height:categoryType.contains('text')?50: 94,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: resturant.menu_categories.length,
@@ -258,19 +264,17 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                     index: index,
                                     restaurant: resturant,
                                     selectedIndex: _selectedIndex,
+                                    type:categoryType,
                                     tap: (){
-                                      if (index == _selectedIndex) return;
-                                      setState(() {
-                                        _selectedIndex = index;
-                                      });
+                                      if (index == _selectedIndex){
+                                        return;
+                                      }
+                                      setState(()=> _selectedIndex = index);
                                       _getMenuProduct(resturant
                                           .menu_categories[index].category_id);
                                     },
                                 );
                               }),
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                         _isLoading1
                             ? Expanded(child: CupertinoActivityIndicator())
@@ -281,35 +285,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                       return CategoryProductItem(
                                         index: index1,
                                         products: _products,
-                                         animation:animation,
-                                        tap:() => Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ItemDetailsScreen(
-                                                        id: _products[index1].product_id,
-                                                        total: productsTotalPrice,
-                                                        logo: resturant.vendor_image,
-                                                        vendorId: widget.id))).then((value) {
-                                          if (value != null) {
-                                            setState(() {
-                                              productsTotalPrice = value.total;
-                                              _productCart = value.carts;
-                                            });
-                                          }
-                                        }),
-                                        press: (){
-                                          Helper.showProductSheet(context, _products[index1].product_id,
-                                              null,
-                                              widget.id,
-                                              null,
-                                              null).then((value) {
-                                            if (value != null)
-                                              setState(() {
-                                                productsTotalPrice = value.total;
-                                                _productCart = value.carts;
-                                              });
-                                          });
-                                        },
+                                        animation:animation,
+                                        tap:() => _navigateToDetailsScreen(index1),
                                       );
                                     }
                                 )
@@ -328,7 +305,8 @@ class _ResturantScreenState extends State<ResturantScreen> {
                                         color: primaryIconColor,
                                         tap: () {
                                           Navigator.push(
-                                              context, MaterialPageRoute(
+                                              context,
+                                              MaterialPageRoute(
                                                   builder: (context) =>
                                                       CheckOutScreen(
                                                           id: widget.id,
@@ -358,12 +336,15 @@ class _ResturantScreenState extends State<ResturantScreen> {
                       ],
                     ),
                   )),
+      ),
     );
   }
 
 
   void _getVendorInfo() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+    });
     await ScopedModel.of<RestaurantsApiModel>(context)
         .getCart(widget.id).then((value) {
       if (value.status.status) if (value.data != null) {
@@ -384,7 +365,9 @@ class _ResturantScreenState extends State<ResturantScreen> {
           });
       }
       if (mounted)
-        setState(()=>_isLoading = false);
+        setState(() {
+          _isLoading = false;
+        });
     });
   }
 
@@ -395,8 +378,7 @@ class _ResturantScreenState extends State<ResturantScreen> {
     setState(() =>_isLoading1 = true);
       await ScopedModel.of<RestaurantsApiModel>(context)
           .viewMenuProduct(menuId).then((value) {
-            print(menuId);
-           _loadItem(value.data?.products_menu??[]);
+           _loadItem(value.data.products_menu);
           setState(() => _isLoading1 = false);
       });
   }
@@ -412,5 +394,23 @@ class _ResturantScreenState extends State<ResturantScreen> {
       _products.add(item);
       _listKey.currentState.insertItem(_products.length - 1);
     }
+  }
+
+  _navigateToDetailsScreen(int index) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ItemDetailsScreen(
+                    id: _products[index].product_id,
+                    total: productsTotalPrice,
+                    logo: resturant.vendor_image,
+                    vendorId: widget.id))).then((value) {
+      if (value != null) {
+        setState(() {
+          productsTotalPrice = value.total;
+          _productCart = value.carts;
+        });
+      }
+    });
   }
 }

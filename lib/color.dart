@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 const background=Color(0xffFFFFFF);
 const white1= Color(0xfff4f5fa);
 const white2= Color(0xfff5f6ff);
-const white3= Color(0xffEAEAE8);
-
 const primaryIconColor=Color(0xff0068B0);
 
 
-const blue= Color(0xff455B63);
+ const blue= Color(0xff455B63);
 
 const orange=Color(0xfff3bd53);
 
@@ -22,9 +20,6 @@ const black5=Color(0xff241332);
 const black6=Color(0xff515151);
 const black7=Color(0xff514849);
 const black8=Color(0xff3a3a3a);
-const black9=Color(0xff606162);
-const black10=Color(0xff070606);
-
 
 
 //red
@@ -54,10 +49,7 @@ const grey11=Color(0xffD8D8D8);
 const grey12=Color(0xffE1E1E1);
 const grey13=Color(0xff9E9E9E);
 const grey14=Color(0xffECECEC);
-const grey15=Color(0xffCBCBCB);
-const grey16=Color(0xffB2B2B2);
-const grey17=Color(0xff9B9B9B);
-const grey18=Color(0xff777474);
+
 
 
 

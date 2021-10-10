@@ -5,9 +5,9 @@ import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/setting_response.dart';
-import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/login_screen.dart';
+import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -19,12 +19,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin{
-  var _isLoading = false;
   Animation<double> _animation;
   AnimationController _controller;
   var _isLoading1=false;
-  Image _image ;
+  // Image _image ;
   final Completer<void> completer = Completer<void>();
+  String gif;
+  DecorationImage _image;
 
   @override
   initState() {
@@ -32,21 +33,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _controller=AnimationController(vsync: this,duration: Duration(seconds:1),lowerBound: 0.5,upperBound: 1)..repeat(reverse: true);
     _animation=CurvedAnimation(parent: _controller, curve:Curves.linear);
     super.initState();
-    if (UtilSharedPreferences.getObj('constant') == null){
+     gif=UtilSharedPreferences.getString('gif');
+    String newGif= UtilSharedPreferences.getString('newGif');
+    if ( gif== null)
       _getConstant();
-
+    else if(newGif!=null&&gif !=newGif ){
+      setState(() => gif=newGif);
+      // _imageLoad();
     }
-    else{
+    _delay(6);
 
-      Helper.setting=Setting.fromJson(UtilSharedPreferences.getObj('constant'));
-      setState(() {
-        _image=new Image.network(
-          Helper.setting.gif??"",
-          fit: BoxFit.fill,
-        );
-      });
-      _imageLoad();
-    }
+
+  }
+
+  DecorationImage decorationImage() {
+    return DecorationImage(
+        image: new Image.network(
+          gif??"",
+        ).image,
+        fit: BoxFit.cover,
+      );
   }
  @override
   void dispose() {
@@ -59,91 +65,79 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-        body: _isLoading
-            ?Center(child: CupertinoActivityIndicator(),):_isLoading1? Center(
-                child:ScaleTransition(
-                  scale: _animation,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: CachedNetworkImage(
-                      imageUrl:Helper.setting.vendor_image,
-                      fit: BoxFit.cover,
-                      width: 200,
-                      height: 200,
-                      progressIndicatorBuilder: (context, url, downloadProgress) {
-                     return   UtilSharedPreferences.getObj('constant') == null?  LimitedBox(maxHeight: 40,maxWidth: 40,child: CupertinoActivityIndicator()):SizedBox.shrink();},
-                      errorWidget:
-                          (BuildContext context, String url, Object error) {
-                        print(error);
-                        return const Icon(Icons.error);
-                        },
-                    ),
-                  ),
-                ) ,
-              )
-             :  Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: _image.image,
-                fit:  BoxFit.cover
-              ),
+        // backgroundColor: background,
+        body: _isLoading1?Center(child: buildScaleTransition()):Container(
 
-            ),
+          child: CachedNetworkImage(
+            imageUrl:gif,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            progressIndicatorBuilder: (context, url, downloadProgress) {
+              return   Center(child: buildScaleTransition());},
+            errorWidget:
+                (BuildContext context, String url, Object error) {
+              print(error);
+              return const Icon(Icons.error);
+            },
+          ),
         ),
     );
   }
 
+  ScaleTransition buildScaleTransition() {
+    return ScaleTransition(
+                scale: _animation,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  child: Image.asset(
+                    'assets/images/logo.jpg',
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  )
+                ),
+              );
+  }
+
   void _getConstant() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading1 = true);
     await ScopedModel.of<RestaurantsApiModel>(context)
-        .listConstants().then((value) {
+        .listConstants()
+        .then((value) {
       if (value.status.status) {
-        UtilSharedPreferences.setObj('constant', value.data);
-        Helper.setting=Setting.fromJson(UtilSharedPreferences.getObj('constant'));
-        setState(() {
-          _image = new Image.network(
-            value.data.gif,
-            fit: BoxFit.cover,
-          );
-        });
-        _imageLoad();
+        UtilSharedPreferences.setString('gif', value.data.gif);
+        gif=UtilSharedPreferences.getString('gif');
+        Helper.constants=value.data;
+        setState(() =>_image =decorationImage());
+        // _imageLoad();
       }
-      setState(() {
-        _isLoading=false;
-      });
-        });
+      setState(()=>_isLoading1=false);});
   }
 
   void _delay(second) {
     Future.delayed(Duration(seconds: second),(){
       if(UtilSharedPreferences.getString("token")==null)
-        Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context)=>LoginScreen(
-
-        )));
+        Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context)=>LoginScreen()));
       else{
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>DeliveryMethodsScreen()));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>RestaurantScreen(id: 18,idWay: 1,)));
         print('token'+UtilSharedPreferences.getString("token") );
-        // print('constant'+UtilSharedPreferences.getObj("constant").toString() );
       }
     }
     );
   }
 
-  void _imageLoad() async{
-    setState(()=>_isLoading1=true);
-    _image.image.resolve(ImageConfiguration.empty).addListener(
-      ImageStreamListener(
-              (ImageInfo info, bool syncCall) {
-                if(!completer.isCompleted)
-                completer.complete();}
-      )
-    );
-    await completer.future;
-    setState(()=> _isLoading1=false);
-    _delay(5);
-  }
+  // void _imageLoad() async{
+  //   setState(()=>_isLoading1=true);
+  //   _image.image.resolve(ImageConfiguration.empty).addListener(
+  //     ImageStreamListener(
+  //             (ImageInfo info, bool syncCall) {
+  //               if(!completer.isCompleted)
+  //               completer.complete();}
+  //     )
+  //   );
+  //   await completer.future;
+  //   setState(() => _isLoading1=false);
+  //   _delay(3);
+  // }
 }

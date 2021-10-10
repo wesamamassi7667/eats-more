@@ -22,7 +22,7 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
   Widget build(BuildContext context) {
     return HeaderComponent(
       child: Padding(
-        padding: EdgeInsetsDirectional.only(top:0,bottom:20),
+        padding: EdgeInsetsDirectional.only(top:43,bottom:20),
         child: Column(
           children: [
             Text(
@@ -30,7 +30,7 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
               style: TextStyle(
                 fontFamily: 'DIN Next LT Arabic',
                 fontSize: 18,
-                color: background,
+                color: black4,
                 fontWeight: FontWeight.w500,
 
               ),
@@ -52,22 +52,21 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
                     padding: EdgeInsetsDirectional.only(top: 21,bottom: 20.8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22.0),
-                      border: Border.all(width: 1.0, color: background),
+                      border: Border.all(width: 1.0, color: primaryIconColor),
                     ),
                     child: Column(
                       children: [
                       index==0&&_isLoading?CupertinoActivityIndicator(): Icon(
                           Icons.location_on,
-                          color: background,
+                          color: black2,
                           size: 30,
                         ),
-                        SizedBox(height: 5,),
                         Text(
                           index==0?  'عنوان خريطة':"من الفرع",
                           style: TextStyle(
                             fontFamily: 'DIN Next LT Arabic',
                             fontSize: 18,
-                            color: background,
+                            color: black3,
                             height: 1.4444444444444444,
                           ),
 

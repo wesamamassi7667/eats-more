@@ -18,8 +18,8 @@ import '../component/product_sheet.dart';
 import 'app_localization.dart';
 
 class Helper {
-  static Setting setting;
   static String fcmToken;
+  static Setting constants;
 
   static Color convertColor(String color) {
     color = color.replaceAll("#", "");
@@ -62,9 +62,7 @@ class Helper {
                             controller: controller1,
                             logo: logo,
                             name: name
-                        )
-                    )
-                );
+                        )));
               });
         });
     return addCart;
@@ -131,8 +129,15 @@ class Helper {
       );
   }
 
-  static CachedNetworkImageProvider buildCachedNetworkImageProvider(
-      String url) => CachedNetworkImageProvider(url);
+  static ImageProvider buildCachedNetworkImageProvider(
+      String url) {
+   try{
+     return  CachedNetworkImageProvider(url??"");
+   }
+   catch(err){
+     return AssetImage('assets/images/edit.svg');
+   }
+  }
 
   static Future<dynamic> showModalBottom(BuildContext context, Widget widget,{bool isDrag=true}) {
     return showModalBottomSheet(

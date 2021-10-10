@@ -107,7 +107,7 @@ class _ListAddressSheetState extends State<ListAddressSheet> {
                                     ),
                                     zoom: 10.0))).then((value) {
                                       model.clearMarks();
-                                      Navigator.push(context,MaterialPageRoute(builder: (context)=>ResturantScreen()));
+                                      Navigator.push(context,MaterialPageRoute(builder: (context)=>RestaurantScreen()));
                             });
                           },
                           child: Padding(

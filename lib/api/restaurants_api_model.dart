@@ -23,9 +23,9 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
  class RestaurantsApiModel extends Model{
-  static final String url = "https://api.yalago.net/api/vendor/sliderhouse/";
+  static final String url = "https://api.yalago.net/api/enterprise/eats/";
   RestaurantsApiModel() {
-   if(UtilSharedPreferences.getObj('constant') != null)
+   if(UtilSharedPreferences.getString('gif') != null)
     _getConstant();
     if (UtilSharedPreferences.getObj("user") != null){
       _currentUser=User.fromJson(UtilSharedPreferences.getObj("user"));
@@ -263,7 +263,7 @@ final Set<Marker> _markers = Set<Marker>();
   }
   Future<MenuResponse> viewMenuProduct(int idMenu) {
     return http.get(
-        Uri.parse(url+'menu?category_id=$idMenu') ,
+        Uri.parse(url + 'menu/$idMenu') ,
         headers: headers()
     ).then((response) {
       print(response.body);
@@ -504,7 +504,7 @@ final Set<Marker> _markers = Set<Marker>();
 
   Future <SettingResponse> listConstants() async {
     return http.get(
-      Uri.parse( url + 'vendor-settings'),
+      Uri.parse( url + 'enterprise-settings'),
       headers: headers(),)
         .then((response) {
       print(response.body);
@@ -666,12 +666,16 @@ final Set<Marker> _markers = Set<Marker>();
   }
 
   void _getConstant() async {
+     String gif=UtilSharedPreferences.getString('gif');
     await listConstants().then((value) {
-      if(value.status.status){
-       Setting setting= Setting.fromJson(UtilSharedPreferences.getObj('constant'));
-       if(setting.gif!=value.data.gif)
-         UtilSharedPreferences.setObj('constant',value.data);
+      if(value.status.status) {
+        Helper.constants=value.data;
+        if (gif != value.data.gif) {
+          print("new gif");
+          UtilSharedPreferences.setString('newGif', value.data.gif);
+        }
       }
+
     });
   }
 }
