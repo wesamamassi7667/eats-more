@@ -1,6 +1,6 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eat_more_app/component/vendor_widget.dart';
+import 'package:eat_more_app/widgets/vendor_widget.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/home_response.dart';

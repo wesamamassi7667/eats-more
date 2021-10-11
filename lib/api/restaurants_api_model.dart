@@ -682,6 +682,20 @@ final Set<Marker> _markers = Set<Marker>();
      }
      );
    }
+   Future <DynamicResponse> getFavorite() async {
+     return http.get(
+       Uri.parse( url + 'auth/favorite'),
+       headers: headers(),
+     ).then((response) {
+       print(response.body);
+       if (response.statusCode != 200) {
+         print(response.reasonPhrase);
+         print(response.body);
+       }
+       return DynamicResponse.fromJson(jsonDecode(response.body));
+     }
+     );
+   }
 
   void _getConstant() async {
      String gif=UtilSharedPreferences.getString('gif');

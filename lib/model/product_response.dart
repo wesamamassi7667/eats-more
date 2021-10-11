@@ -64,6 +64,8 @@ class ProductInfo {
   double price_with_addons;
   String custom_meal_addons;
   String product_calories;
+  bool is_joined;
+
   ProductInfo(
       this.product_id,
       this.product_name,
@@ -81,7 +83,8 @@ class ProductInfo {
       this.order_pool_id,
       this.price_with_addons,
       this.custom_meal_addons,
-      this.product_calories
+      this.product_calories,
+      this.is_joined
       );
 
   factory ProductInfo.fromJson(Map<String, dynamic> json) =>

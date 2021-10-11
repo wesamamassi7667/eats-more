@@ -11,7 +11,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
-import 'cached_network_image_component.dart';
+import '../component/cached_network_image_component.dart';
 class CategoryProductItem extends StatefulWidget {
   const CategoryProductItem({Key key, this.tap, this.animation, this.product, this.index}) : super(key: key);
   final Animation animation;
@@ -23,12 +23,19 @@ class CategoryProductItem extends StatefulWidget {
 }
 
 class _CategoryProductItemState extends State<CategoryProductItem> {
+  bool _isFavorite;
+  ProductInfo _product;
 
-  IconData _icon=CupertinoIcons.heart;
+  @override
+  void initState() {
+    _product =widget.product;
+    _isFavorite=_product.is_joined;
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    ProductInfo _product =widget.product;
     return GestureDetector(
       onTap:widget.tap,
       child: SlideTransition(
@@ -120,7 +127,7 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
               CupertinoButton(
                 onPressed: ()=>_addToFavorite(context,_product.product_id),
                 child: Icon(
-                  _icon,
+                  _isFavorite?CupertinoIcons.heart_fill:CupertinoIcons.heart,
                   color: red,
                   size: 15,
                 ),
@@ -142,7 +149,7 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
       AppDialog.showMe(context, response.status.HTTP_response);
     }
     else{
-      setState(()=>_icon=CupertinoIcons.heart_fill);
+      setState(()=>_isFavorite=true);
     }
   }
 }

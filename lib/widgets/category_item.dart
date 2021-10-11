@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
-import 'cached_network_image_component.dart';
+import '../component/cached_network_image_component.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem({Key key, this.index, this.selectedIndex, this.restaurant, this.tap, this.type}) : super(key: key);
