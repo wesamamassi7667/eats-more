@@ -4,10 +4,8 @@ import 'dart:async';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
-import 'package:eat_more_app/model/setting_response.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/login_screen.dart';
-import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -25,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   // Image _image ;
   final Completer<void> completer = Completer<void>();
   String gif;
-  DecorationImage _image;
 
   @override
   initState() {
@@ -109,7 +106,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         UtilSharedPreferences.setString('gif', value.data.gif);
         gif=UtilSharedPreferences.getString('gif');
         Helper.constants=value.data;
-        setState(() =>_image =decorationImage());
         // _imageLoad();
       }
       setState(()=>_isLoading1=false);});
@@ -120,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if(UtilSharedPreferences.getString("token")==null)
         Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context)=>LoginScreen()));
       else{
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>RestaurantScreen(id: 18,idWay: 1,)));
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>HomeScreen()));
         print('token'+UtilSharedPreferences.getString("token") );
       }
     }

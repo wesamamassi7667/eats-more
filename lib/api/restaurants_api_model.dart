@@ -9,6 +9,7 @@ import 'package:eat_more_app/model/branch_response.dart';
 import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/check_out_response.dart';
 import 'package:eat_more_app/model/contact_response.dart';
+import 'package:eat_more_app/model/dynamic_response.dart';
 import 'package:eat_more_app/model/faq_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/login_response.dart';
@@ -665,6 +666,23 @@ final Set<Marker> _markers = Set<Marker>();
     );
   }
 
+   //favorite
+   Future <DynamicResponse> addFavorite(body) async {
+     return http.post(
+       Uri.parse( url + 'auth/favorite'),
+       body: body,
+       headers: headers(),
+     ).then((response) {
+       print(response.body);
+       if (response.statusCode != 200) {
+         print(response.reasonPhrase);
+         print(response.body);
+       }
+       return DynamicResponse.fromJson(jsonDecode(response.body));
+     }
+     );
+   }
+
   void _getConstant() async {
      String gif=UtilSharedPreferences.getString('gif');
     await listConstants().then((value) {
@@ -678,4 +696,5 @@ final Set<Marker> _markers = Set<Marker>();
 
     });
   }
+
 }

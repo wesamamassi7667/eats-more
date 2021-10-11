@@ -3,6 +3,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
@@ -11,6 +12,7 @@ import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../color.dart';
@@ -31,6 +33,7 @@ class Helper {
       return Color(int.parse("0x" + color));
     }
   }
+
 
   static Future<AddCart> showProductSheet(BuildContext context, int id,
       AnimationController controller1, int vendorId, String logo,
@@ -129,17 +132,17 @@ class Helper {
       );
   }
 
-  static ImageProvider buildCachedNetworkImageProvider(
-      String url) {
-   try{
-     return  CachedNetworkImageProvider(url??"");
-   }
-   catch(err){
-     return AssetImage('assets/images/edit.svg');
-   }
+  static ImageProvider buildCachedNetworkImageProvider(String url) {
+    try {
+      return CachedNetworkImageProvider(url ?? "");
+    }
+    catch (err) {
+      return AssetImage('assets/images/edit.svg');
+    }
   }
 
-  static Future<dynamic> showModalBottom(BuildContext context, Widget widget,{bool isDrag=true}) {
+  static Future<dynamic> showModalBottom(BuildContext context, Widget widget,
+      {bool isDrag = true}) {
     return showModalBottomSheet(
         context: context,
         enableDrag: isDrag,
@@ -154,7 +157,18 @@ class Helper {
         builder: (context) => widget
     );
   }
+
+ static showSingleAnimationDialog(BuildContext context) {
+    return showDialog(context: context,builder: (context)=>
+      Center(
+        child:  MyProgressIndicator(),
+      ),
+    );
+
+
+  }
 }
+
 
 class AddCart{
   List<ProductCart> carts;

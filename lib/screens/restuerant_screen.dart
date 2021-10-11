@@ -78,7 +78,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  expandedHeight: 356.0,
+                  expandedHeight: 310.0,
                   floating: false,
                   pinned: false,
                   leading: CloseButton(
@@ -284,8 +284,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     key: _listKey,
                                     itemBuilder: (context, index1,animation){
                                       return CategoryProductItem(
+                                        product: _products[index1],
                                         index: index1,
-                                        products: _products,
                                         animation:animation,
                                         tap:() => _navigateToDetailsScreen(index1),
                                       );

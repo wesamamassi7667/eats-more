@@ -40,7 +40,6 @@ class CartDialog extends StatelessWidget {
                 padding: EdgeInsetsDirectional.only(bottom: 33,top: 28,start: 16,end: 16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-
                   children: [
                     Text(
                       AppLocalization.of(context).translate("addition_to_order"),
