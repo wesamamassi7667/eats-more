@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/count_widget.dart';
+import 'package:eat_more_app/component/delete_button.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/order_response.dart';
@@ -125,13 +126,7 @@ class _CartItemState extends State<CartItem> {
                   ? SizedBox(
                 height: 0,
               )
-                  : CupertinoButton(
-                onPressed:widget. press,
-                child: Icon(
-                  Icons.cancel_outlined,
-                  color: grey4.withOpacity(0.79),
-                ),
-              ),
+                  : DeleteButton(press:widget.press,)
             ],
           ),
           widget.order!=null?SizedBox.shrink():Padding(

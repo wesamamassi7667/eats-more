@@ -11,6 +11,7 @@ import 'package:eat_more_app/model/check_out_response.dart';
 import 'package:eat_more_app/model/contact_response.dart';
 import 'package:eat_more_app/model/dynamic_response.dart';
 import 'package:eat_more_app/model/faq_response.dart';
+import 'package:eat_more_app/model/favorite_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/login_response.dart';
 import 'package:eat_more_app/model/my_myfatoorah_response.dart';
@@ -682,9 +683,23 @@ final Set<Marker> _markers = Set<Marker>();
      }
      );
    }
-   Future <DynamicResponse> getFavorite() async {
+   Future <FavoriteResponse> getFavorite() async {
      return http.get(
        Uri.parse( url + 'auth/favorite'),
+       headers: headers(),
+     ).then((response) {
+       print(response.body);
+       if (response.statusCode != 200) {
+         print(response.reasonPhrase);
+         print(response.body);
+       }
+       return FavoriteResponse.fromJson(jsonDecode(response.body));
+     }
+     );
+   }
+   Future <DynamicResponse> deleteFavorite(int favoriteId) async {
+     return http.delete(
+       Uri.parse( url + 'auth/favorite/$favoriteId'),
        headers: headers(),
      ).then((response) {
        print(response.body);
@@ -696,7 +711,6 @@ final Set<Marker> _markers = Set<Marker>();
      }
      );
    }
-
   void _getConstant() async {
      String gif=UtilSharedPreferences.getString('gif');
     await listConstants().then((value) {

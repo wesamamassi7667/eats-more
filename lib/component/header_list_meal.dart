@@ -4,6 +4,7 @@ import 'package:eat_more_app/component/list_meal_height.dart';
 import 'package:eat_more_app/component/list_width.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/home_response.dart';
+import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,6 @@ class _HeaderListMealState extends State<HeaderListMeal>
           child: Text(
             widget.item.sliderName,
             style: TextStyle(
-              fontFamily: 'DIN Next LT Arabic',
               fontSize: 22,
               color: Helper.convertColor(widget.item.color),
               fontWeight: FontWeight.w500,

@@ -18,8 +18,7 @@ class _ScaleAnimationState extends State<ScaleAnimation> with TickerProviderStat
         duration: Duration(milliseconds: 700), vsync: this);
     Animation scaleAnimation =
     Tween(begin: 1.0, end: 0.7).animate(ctrl);
-    selectItem(bool forward) =>
-        forward ? ctrl.forward() : ctrl.reverse();
+    selectItem(bool forward) => forward ? ctrl.forward() : ctrl.reverse();
     return ScaleTransition(
       scale: scaleAnimation,
       child: GestureDetector(

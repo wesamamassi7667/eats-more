@@ -71,9 +71,7 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
                       Text(
                     _product.product_name,
                         style: TextStyle(
-                          fontFamily:
-                          'DIN Next LT Arabic',
-                          fontSize: 18,
+                          fontSize: 15,
                           color: black2,
                         ),
                       ),
@@ -81,14 +79,13 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
                         _product.product_desc ??
                             "",
                         style: TextStyle(
-                          fontFamily:
-                          'DIN Next LT Arabic',
-                          fontSize: 13,
-                          color: const Color(0xc7707070),
+                          fontSize: 12,
+                          color: grey4,
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
+                      SizedBox(height: 15,),
                       Row(
                         children: [
                           Text(
@@ -96,7 +93,6 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
                                 " " +
                                 AppLocalization.of(context).translate("sr"),
                             style: TextStyle(
-                              fontFamily: 'DIN Next LT Arabic',
                               fontSize: 14,
                               color: primaryIconColor,
                               fontWeight: FontWeight.w300,

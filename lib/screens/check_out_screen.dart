@@ -24,6 +24,7 @@ import 'package:eat_more_app/model/check_out_response.dart';
 import 'package:eat_more_app/model/login_response.dart';
 import 'package:eat_more_app/model/order_response.dart';
 import 'package:eat_more_app/screens/edit_profile_screen.dart';
+import 'package:eat_more_app/widgets/empty_widget_column.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfatoorah_flutter/model/initpayment/MFInitiatePaymentRequest.dart';
@@ -118,25 +119,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     )
                   : (widget.carts?.isEmpty ?? true) && widget.order == null
                       ? ContainerComponent(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Icon(
-                                  CupertinoIcons.shopping_cart,
-                                  size: 100,
-                                  color: grey1,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(AppLocalization.of(context).translate("no_items_added_cart")),
-                              SizedBox(
-                                height: 40,
-                              ),
-                            ],
-                          ),
+                          child: EmptyWidgetColumn(
+                            message: 'no_items_added_cart',
+                            icon: CupertinoIcons.cart,
+                          )
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.only(

@@ -6,10 +6,14 @@ import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/app_text_field.dart';
 import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/pick_date_widget.dart';
 import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/app_theme.dart';
+import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
+import 'package:eat_more_app/model/login_response.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +34,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController _mobileController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
-  var _isLoading1 = false;
   bool _isMale = true;
   bool _iSFemale = false;
   var _isEnable=false;
   List<PlatformFile> _paths=[];
   String _filePath;
+  User user;
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +63,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             top: 10,
             child: _isLoading
                 ?  ContainerComponent(
-                      child: Center(
-                      child: CupertinoActivityIndicator(),
+                      child: MyProgressIndicator(),
                     )
-            )
+
                 :ContainerComponent(
                           child: SingleChildScrollView (
                             child: Padding(
@@ -72,45 +75,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     key: _formKey,
                                     child: Column(
                                         children: [
-                                          _filePath != null
-                                              ? ClipOval(
-                                                  child: Image.file(
-                                                    File(_filePath),
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 100,
-                                                  ),
-                                                )
-                                              : ProfileAvatar(),
+                                          ProfileAvatar(filePath:_filePath),
                                       !_isEnable?SizedBox.shrink(): TextButton(
-                                            onPressed: () async {
-                                              FocusScope.of(context).unfocus();
-                                              try {
-                                                _paths = (await FilePicker.platform.pickFiles(
-                                                  type: FileType.image,
-                                                  allowMultiple: false,
-                                                  allowCompression: true,
-                                                ))
-                                                    .files;
-                                              } catch (ex) {
-                                                print(ex);
-                                              }
-                                              print(_paths);
-                                              setState(() {
-                                                if(_paths.isNotEmpty){
-                                                _filePath = _paths != null
-                                                    ? _paths.map((e) => e.path).toString()
-                                                    : '...';
-                                                _filePath = _filePath.substring(
-                                                    1, _filePath.length - 1);}
-                                                print(_filePath);
-                                              });
-                                            },
+                                            style: AppThemeData.textButtonStyle(backgroundColor: Colors.transparent,primary: black4),
+                                            onPressed: ()=>_pickProfileImage(),
                                             child: Text(
-                                              AppLocalization.of(context)
-                                                  .translate("choose_image_profile"),
-                                              style:
-                                                  TextStyle(fontFamily: 'DIN Next LT Arabic'),
+                                              AppLocalization.of(context).translate("choose_image_profile"),
                                             ),
                                           ),
                                           SizedBox(
@@ -290,7 +260,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               maxLines: 1,
               // textAlign: TextAlign.end,
               style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
                 fontSize: 14,
                 color: black1,
                 fontWeight: FontWeight.w300,
@@ -312,22 +281,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _getProfileInfo() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .getProfileInfo("auth/info", {}).then((value) {
-      if (value.status.status) {
-        ScopedModel.of<RestaurantsApiModel>(context).changeUser(value.data);
-        if (value.data.phone != null) _mobileController.text = value.data.phone;
-        if (value.data.fname != null)
-          _displayNameController.text = value.data.fname;
-        if (value.data.lname != null) if (value.data.lname != null)
-          _familyNameController.text = value.data.last_name;
-        if (value.data.email != null) if (value.data.email != null)
-          _emailController.text = value.data.email;
-        if (value.data.gender == 'male')
+    setState(() =>_isLoading = true);
+    ProfileResponse response= await ScopedModel.of<RestaurantsApiModel>(context)
+        .getProfileInfo("auth/info", {});
+      if (response.status.status) {
+         user=response.data;
+        ScopedModel.of<RestaurantsApiModel>(context).changeUser(user);
+         _mobileController.text = user.phone??"";
+          _displayNameController.text = user.fname??"";
+          _familyNameController.text = user.last_name??"";
+          _emailController.text = user.email??"";
+           _birthdayController.text=user.birthday.replaceAll("00:00:00", '')??"";
+        if (user.gender == 'male')
           setState(() {
             _isMale = true;
             _iSFemale = false;
@@ -338,42 +303,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             _iSFemale = true;
           });
       }
-      setState(() {
-        _isLoading = false;
-      });
-    });
+      setState(() =>_isLoading = false);
   }
 
   void _updateProfile() async {
-    // if(_filePath==null){
-    //   AppDialog.showMe(context, 'ddddd');
-    //   return;
-    // }
-    setState(() {
-      _isLoading1 = true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context)
+    Helper.showSingleAnimationDialog(context);
+
+   ProfileResponse response= await ScopedModel.of<RestaurantsApiModel>(context)
         .updateProfileInfo(
             _filePath,
             _displayNameController.text.trim(),
             _familyNameController.text.trim(),
             _isMale && !_iSFemale ? 'male' : 'female',
             _emailController.text.trim(),
-            '')
-        .then((value) {
-      if (!value.status.status)
-        AppDialog.showMe(context, value.status.HTTP_response);
+            _birthdayController.text.trim());
+      await Navigator.pop(context);
+      if (!response.status.status)
+        AppDialog.showMe(context, response.status.HTTP_response);
       else {
-        ScopedModel.of<RestaurantsApiModel>(context).changeUser(value.data);
-        UtilSharedPreferences.setObj('user', value.data);
-        setState(() {
-          _isEnable=false;
-        });
-        AppDialog.showMe(context, value.status.HTTP_response, isError: false);
+        user=response.data;
+        ScopedModel.of<RestaurantsApiModel>(context).changeUser(user);
+        UtilSharedPreferences.setObj('user',user );
+        setState(() => _isEnable=false);
+        AppDialog.showMe(context, response.status.HTTP_response, isError: false);
       }
-      setState(() {
-        _isLoading1 = false;
-      });
+
+  }
+
+  _pickProfileImage() async{
+    FocusScope.of(context).unfocus();
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+      type: FileType.image,
+          allowMultiple: false,
+          allowCompression: true,
+      ))
+        .files;
+    } catch (ex) {
+    print(ex);
+    }
+    setState(() {
+    if(_paths.isNotEmpty){
+    _filePath = _paths != null
+    ? _paths.map((e) => e.path).toString()
+        : '...';
+    _filePath = _filePath.substring(
+    1, _filePath.length - 1);}
     });
   }
 }

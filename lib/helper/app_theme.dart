@@ -48,14 +48,15 @@ class AppThemeData {
     );
   }
 
-  static ButtonStyle textButtonStyle({double borderRadius=20.0,double fontSize=14.0}){
+  static ButtonStyle textButtonStyle({double borderRadius=20.0,double fontSize=14.0,Color backgroundColor=primaryIconColor,
+    Color primary=background}){
     return TextButton.styleFrom(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius))
       ),
-      primary: background, // This is a text color
-      backgroundColor:primaryIconColor ,
-      textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize,fontFamily:'DIN Next LT Arabic'),
+      primary: primary, // This is a text color
+      backgroundColor:backgroundColor ,
+      textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize),
     );
   }
 

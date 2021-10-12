@@ -68,14 +68,16 @@ class CartButton extends StatelessWidget {
                                 text: total == null ? "0.0 " : '$total ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: orange)),
+                                    color: orange)
+                            ),
                             TextSpan(
                                 text:
                                     AppLocalization.of(context).translate("sr"),
                                 style: TextStyle(
                                   color: white2,
                                   fontWeight: FontWeight.w600,
-                                ))
+                                )
+                            )
                           ]),
                         ),
                       ),

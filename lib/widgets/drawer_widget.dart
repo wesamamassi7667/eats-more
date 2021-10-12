@@ -9,6 +9,7 @@ import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/screens/contact_us_screen.dart';
 import 'package:eat_more_app/screens/edit_profile_screen.dart';
 import 'package:eat_more_app/screens/faq_screen.dart';
+import 'package:eat_more_app/screens/favorite_screen.dart';
 import 'package:eat_more_app/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +24,7 @@ class DrawerWidget extends StatelessWidget {
 
   CustomProgressDialog pr;
   var _lang;
+
   @override
   Widget build(BuildContext context) {
     return  Drawer(
@@ -105,7 +107,7 @@ class DrawerWidget extends StatelessWidget {
                       name: AppLocalization.of(context).translate("favorite"),
                       icon: Icons.favorite,
                       tap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FavoriteScreen(title:AppLocalization.of(context).translate("favorite"))));
                       },
                     ),
                     TileDrawer(

@@ -29,7 +29,6 @@ class CategoryItem extends StatelessWidget {
         ),
         padding: EdgeInsetsDirectional.only(
             top: 10, start: 5, end: 5),
-        height: 94,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
               index ==selectedIndex ? 5 : 0),

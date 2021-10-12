@@ -89,6 +89,7 @@ ProductInfo _$ProductInfoFromJson(Map<String, dynamic> json) {
     json['custom_meal_addons'] as String,
     json['product_calories'] as String,
     json['is_joined'] as bool,
+    json['description'] as String,
   );
 }
 
@@ -112,6 +113,7 @@ Map<String, dynamic> _$ProductInfoToJson(ProductInfo instance) =>
       'custom_meal_addons': instance.custom_meal_addons,
       'product_calories': instance.product_calories,
       'is_joined': instance.is_joined,
+      'description': instance.description,
     };
 
 ProductOffer _$ProductOfferFromJson(Map<String, dynamic> json) {

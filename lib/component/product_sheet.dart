@@ -74,7 +74,7 @@ class _ProductSheetState extends State<ProductSheet> {
               ),
               ItemDetailColumn(
                 quantity: _quantity,
-                item: _product,
+                item: _product.product_info,
                 pressMines: _quantity == 1
                     ? null
                     : () {

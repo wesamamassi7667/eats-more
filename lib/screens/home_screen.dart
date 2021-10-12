@@ -3,6 +3,7 @@ import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_bar_home.dart';
 import 'package:eat_more_app/component/custom_progress_dialog.dart';
 import 'package:eat_more_app/component/dot.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/component/restaurent_list.dart';
 import 'package:eat_more_app/component/slider_image.dart';
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                   key1: _scaffoldKey,
                 ),
                 drawer: DrawerWidget(),
-                body: _isLoading?Center(child: CupertinoActivityIndicator()):SingleChildScrollView(
+                body: _isLoading?MyProgressIndicator():SingleChildScrollView(
                   child: Column(
                     children: [
                       SizedBox(

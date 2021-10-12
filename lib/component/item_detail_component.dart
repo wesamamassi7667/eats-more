@@ -7,22 +7,29 @@ import 'package:flutter/material.dart';
 import '../color.dart';
 
 class ItemDetailColumn extends StatefulWidget {
-  final Product item;
+  final ProductInfo item;
   final Function pressPlus,pressMines;
  final List<int> lengthTrue;
   final int quantity;
   final List<List<bool>> isChecked;
-  const ItemDetailColumn({
-    Key key, this.item, this.pressPlus, this.pressMines, this.quantity, this.isChecked, this.lengthTrue
+  final double totalPriceProduct;
+  final Function callBack;
+ ItemDetailColumn({
+    Key key, this.item, this.pressPlus, this.pressMines, this.quantity, this.isChecked, this.lengthTrue, this.totalPriceProduct, this.callBack
   }) : super(key: key);
   @override
   _ItemDetailColumnState createState() => _ItemDetailColumnState();
 }
 
 class _ItemDetailColumnState extends State<ItemDetailColumn> {
+  ProductInfo _product;
+  List<AddonCategory> addonCategoryList;
+  double _totalProductPrise;
   @override
   void initState() {
-
+    _product=widget.item;
+    addonCategoryList=_product.addons?.addon_category??[];
+    _totalProductPrise=widget.totalPriceProduct;
     // TODO: implement initState
 
     super.initState();
@@ -39,58 +46,55 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
         Padding(
           padding: const EdgeInsetsDirectional.only(start: 16, end: 16),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                 Text(
-                    widget.item.product_info.product_name,
+                    _product.product_name,
                     style: TextStyle(
-                      fontFamily: 'DIN Next LT Arabic',
                       fontSize: 20,
                       color: black2,
+                      height: 0.9
                     ),
                   ),
               Spacer(),
-              TextWithLine(isOffer: widget.item.product_info.product_offer!=null, price:widget.item.product_info.price ,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TextWithLine(isOffer: _product.product_offer==null?false:true, price:_product.price ,),
+                  _product.product_offer==null? SizedBox.shrink():Text(
+                    "${_product.product_offer.offer_new_price}" +" "+AppLocalization.of(context).translate("sr"),
+                    style:TextStyle(
+                      fontSize: 16,
+                      color: black,
+                      height: 0.9
+                    ),
+                  ),
+                ],
+              ),
 
             ],
           ),
         ),
-        widget.item.product_info.product_offer==null? SizedBox.shrink():Padding(
-          padding: const EdgeInsetsDirectional.only(end: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                widget.item.product_info.product_offer.offer_new_price +" "+AppLocalization.of(context).translate("sr"),
-                style:TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
-                  fontSize: 16,
-                  color: black,
-                ),
-              ),
-            ],
-          ),
-        ),
+
         SizedBox(
           height: 22,
         ),
-        widget.item.product_info.product_desc==null?SizedBox.shrink(): Padding(
+        _product.product_desc==null?SizedBox.shrink(): Padding(
           padding: EdgeInsetsDirectional.only(start: 16,end: 16),
           child: Text(
-            widget.item.product_info.product_desc,
+            _product.product_desc,
             style: TextStyle(
-              fontFamily: 'DIN Next LT Arabic',
               fontSize: 13,
               color: grey4.withOpacity(0.78),
             ),
             maxLines: 3,
           ),
         ),
-        widget.item.product_info.product_calories==null?SizedBox.shrink():  Padding(
+        _product.product_calories==null?SizedBox.shrink():  Padding(
           padding: const EdgeInsetsDirectional.only(start: 16,top: 3),
           child: Text(
-            '${widget.item.product_info.product_calories} ' + AppLocalization.of(context).translate('calorie') ,
+            '${_product.product_calories} ' + AppLocalization.of(context).translate('calorie') ,
             style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
                 fontSize: 13,
                 color: grey4.withOpacity(0.78)
             ),
@@ -157,7 +161,7 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
             color: grey4.withOpacity(0.24),
           ),
         ),
-        widget.item.product_info.addons?.addon_category==null?SizedBox.shrink():  Column(
+        _product.addons?.addon_category==null?SizedBox.shrink():  Column(
           children: [
             SizedBox(height: 12.4,),
             Row(
@@ -179,11 +183,13 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
             ),
             // SizedBox(height: 15,),
             ListView.builder(
-                itemCount: widget.item.product_info.addons.addon_category.length,
+                itemCount: addonCategoryList.length,
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 itemBuilder: (context,index){
 
+                  AddonCategory addonCategory=addonCategoryList[index];
+                  int _lengthChecked=widget.lengthTrue[index];
 
                   return ExpansionTile(
                       title:   Row(
@@ -192,10 +198,9 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
                            Container(
                              width:MediaQuery.of(context).size.width-200,
                              child: Text(
-                                    widget.item.product_info.addons.addon_category[index].cat_name +
-                                        '${widget.item.product_info.addons.addon_category[index].cat_is_mandatory == true?"*":""}',
+                                    addonCategory.cat_name +
+                                        '${addonCategory.cat_is_mandatory == true?"*":""}',
                                     style: TextStyle(
-                                      fontFamily: 'DIN Next LT Arabic',
                                       fontSize: 15,
                                       color: black1,
                                     ),
@@ -206,18 +211,17 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
 
 
                           Spacer(),
-                         widget.item.product_info.addons.addon_category[index].cat_choose_type=='multi'? Text(
+                              addonCategory.cat_choose_type=='multi'? Text(
                               widget.isChecked[index].contains(true)?
-                              '${widget.lengthTrue[index]}/${widget.item.product_info.addons.addon_category[index].cat_choose_maximum}'
-                              :AppLocalization.of(context).translate('choose') +' ${widget.item.product_info.addons.addon_category[index].cat_choose_maximum}' ,
+                              '$_lengthChecked/${addonCategory.cat_choose_maximum}'
+                              :AppLocalization.of(context).translate('choose') +' ${addonCategory.cat_choose_maximum}' ,
                               style: TextStyle(
-                                fontFamily: 'DIN Next LT Arabic',
                                 fontSize: 12,
                                 color: black1,
                               ),
 
                             ):Text(
-                            '${widget.item.product_info.addons.addon_category[index].cat_choose_maximum}',
+                            '${addonCategory.cat_choose_maximum}',
                            style: TextStyle(
                              fontFamily: 'DIN Next LT Arabic',
                              fontSize: 15,
@@ -231,43 +235,50 @@ class _ItemDetailColumnState extends State<ItemDetailColumn> {
                         Icons.add,
                         color: black,
                       ),
-                      children: List.generate(widget.item.product_info.addons.addon_category[index].addons.length, (index1) {
+                      children: List.generate(addonCategory.addons.length, (index1) {
+                        Addons addons=addonCategory.addons[index1];
+                        bool _isChecked=widget.isChecked[index][index1];
                         return Row(
                           children: [
                             Transform.scale(
                               scale: 0.8,
                               child: Checkbox(
                                   activeColor: black,
-                                  value: widget.isChecked[index][index1], onChanged:(v){
-                                    setState(() {
-                                      if(widget.lengthTrue[index]!=widget.item.product_info.addons.addon_category[index].cat_choose_maximum){
-                                        widget.isChecked[index][index1]=v;
-                                      if(widget.isChecked[index][index1])
-                                        widget.lengthTrue[index]=widget.lengthTrue[index]+1;
-                                      else
-                                        widget.lengthTrue[index]--;
-                                        print(widget.lengthTrue[index]);
-                                      }
-                                      else if(widget.isChecked[index][index1]){
-                                        widget.isChecked[index][index1]=!widget.isChecked[index][index1];
-                                     widget.lengthTrue[index]=widget.lengthTrue[index]-1;
-                                     print(widget.lengthTrue[index]);}
-                                    });
+                                  value: _isChecked, onChanged:(v){
+                                setState(() {
+                                  if(_lengthChecked!=addonCategory.cat_choose_maximum){
+                                    widget.isChecked[index][index1]=v;
+                                    if(widget.isChecked[index][index1]){
+                                      widget.lengthTrue[index]=widget.lengthTrue[index]+1;
+                                      widget.callBack(widget.totalPriceProduct+addons.addon_price);
+                                    }
+                                    else{
+                                      widget.lengthTrue[index]--;
+                                      widget.callBack(widget.totalPriceProduct-addons.addon_price);
+                                    }
+                                    print(widget.lengthTrue[index]);
+                                  }
+                                  else if(widget.isChecked[index][index1]){
+                                    widget.isChecked[index][index1]=!widget.isChecked[index][index1];
+                                    widget.lengthTrue[index]=widget.lengthTrue[index]-1;
+                                    widget.callBack(widget.totalPriceProduct-addons.addon_price);
+
+                                    print(widget.lengthTrue[index]);}
+                                });
                               }),
                             ),
                             Text(
-                              widget.item.product_info.addons.addon_category[index].addons[index1].addon_name ,
+                             addons.addon_name ,
                               style: TextStyle(
-                                fontFamily: 'DIN Next LT Arabic',
                                 fontSize: 15,
                                 color:black1,
                               ),
                             ),
                             Spacer(),
-                            widget.item.product_info.addons.addon_category[index].addons[index1].addon_price.toString().trim()=="0.0"?  SizedBox.shrink():Padding(
+                            addons.addon_price.toString().trim()=="0.0"?  SizedBox.shrink():Padding(
                               padding: const EdgeInsetsDirectional.only(end:8.0),
                               child: Text(
-                                '${widget.item.product_info.addons.addon_category[index].addons[index1].addon_price}' +' '+AppLocalization.of(context).translate("sr"),
+                                '${addons.addon_price}' +' '+AppLocalization.of(context).translate("sr"),
                                 style: TextStyle(
                                   fontFamily: 'DIN Next LT Arabic',
                                   fontSize: 13,
