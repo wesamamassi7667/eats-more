@@ -1,21 +1,8 @@
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myfatoorah_flutter/model/executepayment/MFExecutePaymentRequest.dart';
-import 'package:myfatoorah_flutter/model/paymentstatus/SDKPaymentStatusResponse.dart';
-part 'my_myfatoorah_response.g.dart';
-
-@JsonSerializable()
-class MyFatoorahResponse{
-  StatusResponse status;
-  MyFatoorah data;
 
 
-  MyFatoorahResponse(this.status, this.data);
-  factory MyFatoorahResponse.fromJson(Map<String, dynamic> json) =>
-      _$MyFatoorahResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MyFatoorahResponseToJson(this);
-}
 @JsonSerializable()
 class MyFatoorah {
   String base_url;
@@ -23,22 +10,13 @@ class MyFatoorah {
 
   MyFatoorah(this.base_url, this.token);
   factory MyFatoorah.fromJson(Map<String, dynamic> json) =>
-      _$MyFatoorahFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MyFatoorahToJson(this);
+      MyFatoorah(
+        json['base_url'] as String,
+        json['token'] as String,
+      );
 
 }
-@JsonSerializable()
-class MyFatoorahPaymentResponse{
-  StatusResponse status;
-  MyFatoorahPayment data;
 
-  MyFatoorahPaymentResponse(this.status, this.data);
-  factory MyFatoorahPaymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$MyFatoorahPaymentResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MyFatoorahPaymentResponseToJson(this);
-}
 @JsonSerializable()
 class MyFatoorahPayment {
   String NotificationOption;
@@ -47,15 +25,15 @@ class MyFatoorahPayment {
   String MobileCountryCode;
   String CustomerMobile;
   String CustomerEmail;
-  double InvoiceValue;
+  // double InvoiceValue;
   String Language;
   int CustomerReference;
   String UserDefinedField;
   String ApiCustomFileds;
   String API_Token;
-  List<InvoiceItem> InvoiceItems;
+  // List<InvoiceItem> InvoiceItems;
   String API_URL;
-  List<Supplier> Suppliers;
+  // List<Supplier> Suppliers;
 
 
   MyFatoorahPayment(
@@ -65,22 +43,42 @@ class MyFatoorahPayment {
       this.MobileCountryCode,
       this.CustomerMobile,
       this.CustomerEmail,
-      this.InvoiceValue,
+      // this.InvoiceValue,
       this.Language,
-
       this.CustomerReference,
       this.UserDefinedField,
       this.ApiCustomFileds,
       this.API_Token,
-      this.InvoiceItems,
+      // this.InvoiceItems,
       this.API_URL,
-      this.Suppliers
+      // this.Suppliers
       );
 
   factory MyFatoorahPayment.fromJson(Map<String, dynamic> json) =>
-      _$MyFatoorahPaymentFromJson(json);
+      MyFatoorahPayment(
+        json['NotificationOption'] as String,
+        json['CustomerName'] as String,
+        json['DisplayCurrencyIso'] as String,
+        json['MobileCountryCode'] as String,
+        json['CustomerMobile'] as String,
+        json['CustomerEmail'] as String,
+        // (json['InvoiceValue'] as num)?.toDouble(),
+        json['Language'] as String,
+        json['CustomerReference'] as int,
+        json['UserDefinedField'] as String,
+        json['ApiCustomFileds'] as String,
+        json['API_Token'] as String,
+        // (json['InvoiceItems'] as List)
+        //     ?.map((e) =>
+        // e == null ? null : InvoiceItem.fromJson(e as Map<String, dynamic>))
+        //     ?.toList(),
+        json['API_URL'] as String,
+        // (json['Suppliers'] as List)
+        //     ?.map((e) =>
+        // e == null ? null : Supplier.fromJson(e as Map<String, dynamic>))
+        //     ?.toList(),
+      );
 
-  Map<String, dynamic> toJson() => _$MyFatoorahPaymentToJson(this);
 }
 
 

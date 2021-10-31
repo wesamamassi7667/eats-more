@@ -1,47 +1,124 @@
-
 import 'dart:convert';
-
 import 'package:eat_more_app/helper/shared_preference.dart';
+import 'package:eat_more_app/model/generic_response.dart';
+import 'package:eat_more_app/typdef/model_creator.dart';
 import 'package:http/http.dart' as http;
 
 class HttpManager {
+  static final String url = "https://api.yalago.net/api/enterprise/eats/";
 
-  static Map<String, String> getHeader() {
+  static String token;
+  static Map<String, String> getHeader({String token}) {
     return {
-      'Authorization': 'Bearer ${UtilSharedPreferences.getString('token')}',
-      "Content-Type": "application/json",
+      'language': UtilSharedPreferences.getInt('lang')==0?'en':'ar',
+      'Authorization': UtilSharedPreferences.getString('token'),
+      'token':token
+
     };
   }
 
   ///POST Method
-  static Future<http.Response> post({
-    String baseUrl,
-    String path,
-    Map<String, dynamic> body,
-  }) async {
+  static Future<T> post<T>(
+    String subUrl,
+    body,
+    ModelCreator<T> createModel,
+    {String token}
+  ) async {
     try {
-      final response = await http.post(
-          Uri.https(baseUrl , '/api$path'),
-          headers: getHeader(), body: json.encode(body));
-      return response;
+         final response=await http.post(
+          Uri.parse('$url' +subUrl),
+             body: body,
+             headers:getHeader(token: token)
+         );
+         print(response.body);
+          GenericResponse genericResponse=GenericResponse.fromJson(json.decode(response.body),createModel);
+          if(genericResponse.status.status){
+            print(genericResponse.data);
+            return genericResponse.data;
+          }
+      else{
+        return Future.error(genericResponse.status.HTTP_response);
+      }
     } catch (error) {
-      return null;
+      // environment error
+      print('error $error');
+      return Future.error(error);
+    }
+  }
+
+  ///DELETE Method
+  static Future<T> delete<T>(
+      String subUrl,
+      ModelCreator<T> createModel,
+      ) async {
+    try {
+      final response=await http.delete(
+          Uri.parse('$url' +subUrl),
+          headers: getHeader()
+      );
+      print(response.body);
+      GenericResponse genericResponse=GenericResponse.fromJson(json.decode(response.body),createModel);
+      if(genericResponse.status.status){
+        print(genericResponse.data);
+        return genericResponse.data;
+      }
+      else{
+        return Future.error(genericResponse.status.HTTP_response);
+      }
+    } catch (error) {
+      // environment error
+      print('error $error');
+      return Future.error(error);
+    }
+  }
+  //PUT METHOD
+  static Future<T> put<T>(
+      String subUrl,
+      body,
+      ModelCreator<T> createModel,
+      ) async {
+    try {
+      final response=await http.put(
+          Uri.parse('$url' +subUrl),
+          headers: getHeader(),
+           body: body
+      );
+      print(response.body);
+      GenericResponse genericResponse=GenericResponse.fromJson(json.decode(response.body),createModel);
+      if(genericResponse.status.status){
+        print(genericResponse.data);
+        return genericResponse.data;
+      }
+      else{
+        return Future.error(genericResponse.status.HTTP_response);
+      }
+    } catch (error) {
+      // environment error
+      print('error $error');
+      return Future.error(error);
     }
   }
 
   ///GET Method
-  static Future<http.Response> get({
-    String baseUrl,
-   String path,
-    Map<String, dynamic> parameters,
-  }) async {
+  static Future<T> get<T>(
+      String subUrl,
+      ModelCreator<T> createModel,
+      ) async {
     try {
-      final response = await http.get(
-          Uri.https(baseUrl, path, parameters),
-          headers: getHeader());
-      return response;
+      final response = await http.get(Uri.parse('$url$subUrl') , headers: getHeader());
+      print(response.body);
+      GenericResponse genericResponse=GenericResponse.fromJson(json.decode(response.body),createModel);
+      if(genericResponse.status.status){
+        print(genericResponse.data);
+        return genericResponse.data;
+      }
+      else{
+        return Future.error(genericResponse.status.HTTP_response);
+      }
     } catch (error) {
-      return null;
+      print(error);
+      print('error $error');
+      return Future.error(error);
     }
   }
 }

@@ -1,17 +1,16 @@
-import 'dart:io';
 
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/app_text_field.dart';
+import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/pick_date_widget.dart';
 import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
-import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/login_response.dart';
 import 'package:file_picker/file_picker.dart';
@@ -22,6 +21,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  final String title;
+
+  const EditProfileScreen({Key key, this.title}) : super(key: key);
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -46,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       backgroundColor: primaryIconColor,
       appBar: AppBarWidget(
-        title: AppLocalization.of(context).translate("profile"),
+        title: widget.title,
         isProfile:true,
         press: (){
           setState(() {
@@ -285,30 +287,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     ProfileResponse response= await ScopedModel.of<RestaurantsApiModel>(context)
         .getProfileInfo("auth/info", {});
       if (response.status.status) {
-         user=response.data;
-        ScopedModel.of<RestaurantsApiModel>(context).changeUser(user);
-         _mobileController.text = user.phone??"";
-          _displayNameController.text = user.fname??"";
-          _familyNameController.text = user.last_name??"";
-          _emailController.text = user.email??"";
-           _birthdayController.text=user.birthday.replaceAll("00:00:00", '')??"";
-        if (user.gender == 'male')
-          setState(() {
-            _isMale = true;
-            _iSFemale = false;
-          });
-        else
-          setState(() {
-            _isMale = false;
-            _iSFemale = true;
-          });
+        _initializeUserInformation(response);
       }
       setState(() =>_isLoading = false);
   }
 
   void _updateProfile() async {
-    Helper.showSingleAnimationDialog(context);
-
+    Common.showSingleAnimationDialog(context);
    ProfileResponse response= await ScopedModel.of<RestaurantsApiModel>(context)
         .updateProfileInfo(
             _filePath,
@@ -317,7 +302,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             _isMale && !_iSFemale ? 'male' : 'female',
             _emailController.text.trim(),
             _birthdayController.text.trim());
-      await Navigator.pop(context);
+      Navigator.pop(context);
       if (!response.status.status)
         AppDialog.showMe(context, response.status.HTTP_response);
       else {
@@ -350,5 +335,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _filePath = _filePath.substring(
     1, _filePath.length - 1);}
     });
+  }
+
+  void _initializeUserInformation(ProfileResponse response) {
+    user=response.data;
+    ScopedModel.of<RestaurantsApiModel>(context).changeUser(user);
+    _mobileController.text = user.phone??"";
+    _displayNameController.text = user.fname??"";
+    _familyNameController.text = user.last_name??"";
+    _emailController.text = user.email??"";
+    _birthdayController.text=user.birthday?.replaceAll("00:00:00", '')??"";
+    UtilSharedPreferences.setObj('user',user );
+    if (user.gender == 'male')
+      setState(() {
+        _isMale = true;
+        _iSFemale = false;
+      });
+    else
+      setState(() {
+        _isMale = false;
+        _iSFemale = true;
+      });
   }
 }

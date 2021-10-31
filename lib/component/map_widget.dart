@@ -98,7 +98,6 @@ class MapWidget extends StatelessWidget {
                 : Text(
               covered,
               style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
                 fontSize: 18,
                 color: branches.isEmpty?red:green1,
                 fontWeight: FontWeight.bold,
@@ -138,7 +137,6 @@ class MapWidget extends StatelessWidget {
                 AppLocalization.of(context)
                     .translate("address_confirmation"),
                 style: TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
                   color: branches.isEmpty ? grey2 : background,
                 ),
               ),

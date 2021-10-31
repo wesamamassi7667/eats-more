@@ -1,5 +1,6 @@
 import 'package:eat_more_app/color.dart';
-import 'package:eat_more_app/component/yes_no_buttons.dart';
+import 'package:eat_more_app/component/row_buttons.dart';
+import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -90,13 +91,15 @@ class _SchedulingOrderSheetState extends State<SchedulingOrderSheet> {
                 SizedBox(
                   height: 20,
                 ),
-                YesNoButtons(
+                RowButtons(
+                  text1: AppLocalization.of(context).translate("yes"),
+                  text2: AppLocalization.of(context).translate("no"),
                   tap: () {
                     setState(() {
                       _showSecond = true;
                     });
                   },
-                  pressNo: (){
+                  pressSecond: (){
                   _pop();
                   },
                   width: MediaQuery.of(context).size.width * 0.4,

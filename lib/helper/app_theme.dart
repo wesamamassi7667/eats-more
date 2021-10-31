@@ -52,15 +52,16 @@ class AppThemeData {
     Color primary=background}){
     return TextButton.styleFrom(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius))
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       ),
       primary: primary, // This is a text color
       backgroundColor:backgroundColor ,
+
       textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize),
     );
   }
 
-  static ButtonStyle buttonStyle({double borderRadius=20.0,double fontSize=14.0}){
+  static ButtonStyle buttonStyle({double borderRadius=20.0,double fontSize=14.0,double width=64,double height=36}){
     return OutlinedButton.styleFrom(
       textStyle: TextStyle(fontWeight:FontWeight.w400,fontSize:fontSize,fontFamily:'DIN Next LT Arabic'),
       primary: primaryIconColor,
@@ -69,26 +70,24 @@ class AppThemeData {
           color: primaryIconColor,
           style: BorderStyle.solid,
       ),
+      minimumSize: Size(width, height),
       padding: EdgeInsets.all(0),
      shape: RoundedRectangleBorder(
+
           borderRadius:  BorderRadius.all(Radius.circular(borderRadius))
       ),
     );
   }
-  static ButtonStyle elevatedButtonStyle(){
+  static ButtonStyle elevatedButtonStyle({borderRadius=22.0,}){
     return ElevatedButton.styleFrom(
       textStyle: TextStyle(
-        fontFamily: 'DIN Next LT Arabic',
         fontSize: 18,
         color: background,
       ),
         primary: primaryIconColor,
-        side: BorderSide(
-          color: green,
-          width: 1,
-        ),
+
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22))
+            borderRadius: BorderRadius.circular(borderRadius))
     );
   }
 }

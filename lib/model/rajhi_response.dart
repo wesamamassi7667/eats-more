@@ -1,19 +1,6 @@
 
-import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'rajhi_response.g.dart';
 
-@JsonSerializable()
-class RajhiResponse{
-  StatusResponse status;
-  RajhiAuth data;
-
-  RajhiResponse(this.status, this.data);
-  factory RajhiResponse.fromJson(Map<String, dynamic> json) =>
-      _$RajhiResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RajhiResponseToJson(this);
-}
 
 @JsonSerializable()
 class RajhiAuth {
@@ -21,23 +8,12 @@ class RajhiAuth {
   String access_token;
   RajhiAuth(this.token_type, this.access_token);
   factory RajhiAuth.fromJson(Map<String, dynamic> json) =>
-      _$RajhiAuthFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RajhiAuthToJson(this);
+      RajhiAuth(
+        json['token_type'] as String,
+        json['access_token'] as String,
+      );
 }
 
-@JsonSerializable()
-class RajhiPaymentResponse{
-  StatusResponse status;
-  RajhiPayment data;
-
-  RajhiPaymentResponse(this.status, this.data);
-
-  factory RajhiPaymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$RajhiPaymentResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RajhiPaymentResponseToJson(this);
-}
 @JsonSerializable()
 class RajhiPayment {
   TitleRajhi title;
@@ -48,9 +24,14 @@ class RajhiPayment {
   RajhiPayment(this.title, this.priceBeforeDiscount, this.couponDiscountAmount,
       this.finalPrice);
   factory RajhiPayment.fromJson(Map<String, dynamic> json) =>
-      _$RajhiPaymentFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RajhiPaymentToJson(this);
+      RajhiPayment(
+        json['title'] == null
+            ? null
+            : TitleRajhi.fromJson(json['title'] as Map<String, dynamic>),
+        json['priceBeforeDiscount'] as String,
+        json['couponDiscountAmount'] as String,
+        json['finalPrice'] as String,
+      );
 }
 @JsonSerializable()
 class TitleRajhi {
@@ -61,9 +42,14 @@ class TitleRajhi {
 
   TitleRajhi(this.message, this.status, this.requestID,this.otp);
   factory TitleRajhi.fromJson(Map<String, dynamic> json) =>
-      _$TitleRajhiFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TitleRajhiToJson(this);
+      TitleRajhi(
+        json['message'] as String,
+        json['status'] as int,
+        json['requestID'] as String,
+        json['otp'] == null
+            ? null
+            : OTP.fromJson(json['otp'] as Map<String, dynamic>),
+      );
 }
 
 @JsonSerializable()
@@ -74,22 +60,13 @@ class OTP {
 
   OTP(this.currency, this.otp_token_expired_in_min, this.otp_token);
   factory OTP.fromJson(Map<String, dynamic> json) =>
-      _$OTPFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OTPToJson(this);
+      OTP(
+        json['currency'] as String,
+        json['otp_token_expired_in_min'] as String,
+        json['otp_token'] as String,
+      );
 }
 
-@JsonSerializable()
-class CheckOtpCodeResponse{
-  StatusResponse status;
-  CheckOtpCode data;
-
-  CheckOtpCodeResponse(this.status, this.data);
-  factory CheckOtpCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckOtpCodeResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CheckOtpCodeResponseToJson(this);
-}
 @JsonSerializable()
 class CheckOtpCode {
   String message;
@@ -97,7 +74,9 @@ class CheckOtpCode {
   int transactionID;
   CheckOtpCode(this.message, this.status, this.transactionID);
   factory CheckOtpCode.fromJson(Map<String, dynamic> json) =>
-      _$CheckOtpCodeFromJson(json) ;
-
-  Map<String, dynamic> toJson() => _$CheckOtpCodeToJson(this);
+      CheckOtpCode(
+        json['message'] as String,
+        json['status'] as int,
+        json['transactionID'] as int,
+      );
 }

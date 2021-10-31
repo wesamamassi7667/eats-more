@@ -34,7 +34,8 @@ class APPTextField extends StatelessWidget {
           if(value.length==1&&maxLength==1){
             focusNode.unfocus();
             if(nextFocus!=null)
-              FocusScope.of(context).requestFocus(nextFocus);}
+              FocusScope.of(context).requestFocus(nextFocus);
+          }
           if(onChange!=null)
           onChange(value);
 

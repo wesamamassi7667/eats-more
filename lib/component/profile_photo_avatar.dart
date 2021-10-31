@@ -7,6 +7,7 @@ import 'package:eat_more_app/helper/helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProfileAvatar extends StatelessWidget {
@@ -17,7 +18,9 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<RestaurantsApiModel>(
         builder: (context, child, model) {
-      if (model.loggedUser?.avatar != null)
+      if (model.loggedUser?.avatar != null){
+        print("dd");
+        print(model.loggedUser.avatar);
         return CircleAvatar(
           radius: 40,
           backgroundImage: filePath!=null?Image.file(
@@ -28,7 +31,7 @@ class ProfileAvatar extends StatelessWidget {
           ).image: Helper.buildCachedNetworkImageProvider(
               model.loggedUser?.avatar??"",
             ),
-          );
+          );}
       else {
         // final placeholderCharSources = <String>[
         //   model.loggedUser?.fname,

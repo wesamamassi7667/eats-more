@@ -20,7 +20,6 @@ class RestaurantsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -30,7 +29,6 @@ class RestaurantsList extends StatelessWidget {
               Text(
                 AppLocalization.of(context).translate("restaurants"),
                 style: TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
                   fontSize: 21,
                   color: black1,
                   fontWeight: FontWeight.w500,
@@ -46,7 +44,6 @@ class RestaurantsList extends StatelessWidget {
                     child: Text(
                       AppLocalization.of(context).translate("more"),
                       style: TextStyle(
-                        fontFamily: 'DIN Next LT Arabic',
                         fontSize: 14,
                         color: primaryIconColor,
                       ),

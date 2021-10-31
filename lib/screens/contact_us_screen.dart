@@ -16,6 +16,9 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
 class ContactUsScreen extends StatefulWidget {
+  final String title;
+
+  const ContactUsScreen({Key key, this.title}) : super(key: key);
   @override
   _ContactUsScreenState createState() => _ContactUsScreenState();
 }
@@ -44,7 +47,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return Scaffold(
       backgroundColor: primaryIconColor,
       appBar: AppBarWidget(
-        title: AppLocalization.of(context).translate("call"),
+        title:widget.title,
       ),
       body: Stack(
         children: [

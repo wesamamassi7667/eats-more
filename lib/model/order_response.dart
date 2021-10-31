@@ -7,22 +7,11 @@ import 'package:json_annotation/json_annotation.dart';
 import 'cart_response.dart';
 part 'order_response.g.dart';
 
-@JsonSerializable()
-class OrderResponse{
-  StatusResponse status;
-  Order data;
 
-  OrderResponse(this.status, this.data);
-  factory OrderResponse.fromJson(Map<String, dynamic> json) =>
-      _$OrderResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OrderResponseToJson(this);
-}
 @JsonSerializable()
 class Order {
   int order_id;
   double price_before_discount;
-  // String price_after_discount;
   List<Distance> distance_in_km;
   String order_number;
   String order_date;
@@ -45,7 +34,6 @@ class Order {
   Order(
       this.order_id,
       this.price_before_discount,
-      // this.price_after_discount,
       this.distance_in_km,
       this.order_number,
       this.order_date,
@@ -66,11 +54,42 @@ class Order {
       this.longitude,
       this.products);
 
-  factory Order.fromJson(Map<String, dynamic> json) =>
-      _$OrderFromJson(json);
+  factory Order.fromJson(Map<String, dynamic> json) =>Order(
+    json['order_id'] as int,
+    (json['price_before_discount'] as num)?.toDouble(),
+    (json['distance_in_km'] as List)
+        ?.map((e) =>
+    e == null ? null : Distance.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['order_number'] as String,
+    json['order_date'] as String,
+    json['is_schedule'] as bool,
+    json['branch'] == null
+        ? null
+        : Branch.fromJson(json['branch'] as Map<String, dynamic>),
+    json['order_status'] == null
+        ? null
+        : OrderStatus.fromJson(json['order_status'] as Map<String, dynamic>),
+    (json['delivery_cost'] as num)?.toDouble(),
+    (json['discount'] as num)?.toDouble(),
+    (json['total_without_discount'] as num)?.toDouble(),
+    (json['total'] as num)?.toDouble(),
+    json['payment_type'] as String,
+    json['tip'] as String,
+    json['order_type'] as String,
+    json['is_paid'] as bool,
+    json['vendor_id'] as int,
+    json['order_address'] as String,
+    json['latitude'] as String,
+    json['longitude'] as String,
+    (json['products'] as List)
+        ?.map((e) =>
+    e == null ? null : ProductCart.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
 
-  Map<String, dynamic> toJson() => _$OrderToJson(this);
 }
+
 @JsonSerializable()
 class OrderStatus {
   int id;
@@ -79,10 +98,14 @@ class OrderStatus {
 
   OrderStatus(this.id, this.name, this.desc);
   factory OrderStatus.fromJson(Map<String, dynamic> json) =>
-      _$OrderStatusFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OrderStatusToJson(this);
+      OrderStatus(
+        json['id'] as int,
+        json['name'] as String,
+        json['desc'] as String,
+      );
 }
+
+
 @JsonSerializable()
 class Distance {
   int branch_id;
@@ -92,9 +115,12 @@ class Distance {
 
   Distance(this.branch_id, this.latitude, this.longitude, this.distance_in_km);
   factory Distance.fromJson(Map<String, dynamic> json) =>
-      _$DistanceFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DistanceToJson(this);
+      Distance(
+        json['branch_id'] as int,
+        json['latitude'] as String,
+        json['longitude'] as String,
+        (json['distance_in_km'] as num)?.toDouble(),
+      );
 }
 
 @JsonSerializable()
@@ -103,9 +129,15 @@ class AllOrderResponse{
   List<Order> data;
   AllOrderResponse(this.status, this.data);
   factory AllOrderResponse.fromJson(Map<String, dynamic> json) =>
-      _$AllOrderResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AllOrderResponseToJson(this);
+      AllOrderResponse(
+        json['status'] == null
+            ? null
+            : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+        (json['data'] as List)
+            ?.map(
+                (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 
 @JsonSerializable()

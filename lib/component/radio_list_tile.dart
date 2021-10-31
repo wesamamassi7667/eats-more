@@ -9,9 +9,9 @@ class RadioListTilePayment extends StatelessWidget {
   final Function onChanged;
   final int index;
   final int selectedIndex;
- final List<Payment> paymentMethods;
+ final Payment paymentType;
 
-  const RadioListTilePayment({Key key, this.onChanged, this.index, this.selectedIndex, this.paymentMethods}) : super(key: key);
+  const RadioListTilePayment({Key key, this.onChanged, this.index, this.selectedIndex, this.paymentType}) : super(key: key);
 
 
 
@@ -23,18 +23,18 @@ class RadioListTilePayment extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CachedNetworkImageComponent(
-              url: paymentMethods[index].image,
+              url: paymentType.image,
               width: 30,
               height: 30,
             ),
             SizedBox(
               width: 10,
             ),
-            Text(paymentMethods[index].key??""),
+            Text(paymentType.value??""),
           ],
         ),
-        value: selectedIndex,
-        groupValue: index,
+        value: index,
+        groupValue: selectedIndex,
         onChanged: onChanged) ;
   }
 }

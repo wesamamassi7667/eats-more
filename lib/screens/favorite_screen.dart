@@ -1,3 +1,4 @@
+import 'package:eat_more_app/api/operation/favorite_operation.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
@@ -6,6 +7,8 @@ import 'package:eat_more_app/component/second_header_component.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/dynamic_response.dart';
 import 'package:eat_more_app/model/favorite_response.dart';
+import 'package:eat_more_app/model/product_response.dart';
+import 'package:eat_more_app/model/stauts.dart';
 import 'package:eat_more_app/widgets/empty_widget_column.dart';
 import 'package:eat_more_app/widgets/favourite_item.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 class FavoriteScreen extends StatefulWidget {
   final String title;
-  const FavoriteScreen({Key key, this.title}) : super(key: key);
+  final FavoriteOperation operation;
+  const FavoriteScreen({Key key, this.title, this.operation}) : super(key: key);
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -43,7 +47,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         padding: const EdgeInsets.only(top: 25),
         child: ListView.separated(
             itemBuilder: (_, index) => _buildFavoriteItem(
-                _favorites[index], index),
+                _favorites[index].product, index),
             separatorBuilder: (context, index) => Divider(
               color: grey4.withOpacity(0.11),
               thickness: 1,
@@ -62,23 +66,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     setState(() => _isLoading = false);
   }
 
-  _buildFavoriteItem(Favorite favorite, index) {
+  _buildFavoriteItem(ProductInfo product, index) {
     return FavoriteItem(
-      press: () => _deleteFavoriteItem(favorite.member_meal_favorite, index),
-      product: favorite.product,
+      press: () => _deleteFavoriteItem(product.product_id, index),
+      product: product,
     );
   }
 
-  _deleteFavoriteItem(int favoriteId, index) async {
-    Helper.showSingleAnimationDialog(context);
-    DynamicResponse response =
-        await ScopedModel.of<RestaurantsApiModel>(context)
-            .deleteFavorite(favoriteId);
-    if (response.status.status) {
+  _deleteFavoriteItem(int productId, index) async {
+    try{
+       await widget.operation.deleteFavorite(context, productId);
       setState(() => _favorites.removeAt(index));
-    } else {
-      AppDialog.showMe(context, response.status.HTTP_response);
     }
-    Navigator.pop(context);
+    catch(err){
+      AppDialog.showMe(context, err.toString());
+    }
   }
 }

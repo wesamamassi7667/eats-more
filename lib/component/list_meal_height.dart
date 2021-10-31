@@ -32,10 +32,7 @@ class ListMealHeight extends StatelessWidget {
               bottom: 26.9,
               top: 24.5
           ),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.39,
+          width: MediaQuery.of(context).size.width * 0.39,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
             color: background,

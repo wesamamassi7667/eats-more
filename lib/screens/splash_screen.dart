@@ -114,9 +114,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void _delay(second) {
     Future.delayed(Duration(seconds: second),(){
       if(UtilSharedPreferences.getString("token")==null)
-        Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context)=>LoginScreen()));
+        Navigator.pushReplacementNamed(context,'/login');
       else{
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>HomeScreen()));
+        Navigator.pushReplacementNamed(context,'/home');
         print('token'+UtilSharedPreferences.getString("token") );
       }
     }

@@ -42,7 +42,7 @@ packages:
       name: back_button_interceptor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.2"
+    version: "5.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -370,7 +370,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.11"
+    version: "0.4.0"
   geocoder:
     dependency: "direct main"
     description:
@@ -504,6 +504,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.1"
   matcher:
     dependency: transitive
     description:
@@ -531,7 +538,7 @@ packages:
       name: myfatoorah_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.18"
+    version: "2.1.0"
   octo_image:
     dependency: transitive
     description:
@@ -686,6 +693,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  share:
+    dependency: "direct main"
+    description:
+      name: share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -922,6 +936,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.13"
   win32:
     dependency: transitive
     description:
@@ -951,5 +972,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.13.0 <3.0.0"
   flutter: ">=2.2.0"

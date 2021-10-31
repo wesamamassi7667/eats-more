@@ -1,8 +1,9 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/yes_no_buttons.dart';
+import 'package:eat_more_app/component/row_buttons.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/model/arguments/restaurent_argument.dart';
 import 'package:eat_more_app/model/branch_response.dart';
 import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,8 +65,11 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
           SizedBox(
             height: 46.8,
           ),
-         YesNoButtons(isLoading: _isLoading,tap:(){_saveAddress();},width: MediaQuery.of(context).size.width * 0.4,
-           pressNo: (){
+         RowButtons(
+           text1: AppLocalization.of(context).translate("yes"),
+           text2:AppLocalization.of(context).translate("no") ,
+           isLoading: _isLoading,pressFirst:(){_saveAddress();},width: MediaQuery.of(context).size.width * 0.4,
+           pressSecond: (){
              navigateToVendorScreen();
            },
          )
@@ -110,13 +114,8 @@ class _SaveAddressSheetState extends State<SaveAddressSheet> {
 
   void navigateToVendorScreen() {
     var _count = 0;
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>RestaurantScreen(
-        idWay: 0,
-        branch: widget.branches[0],
-        address:_address,
-        id: widget.id,
-        lat :widget.lat,
-        lng:widget.lng
-    )), (route) => _count++ == 1);
+    RestaurantArgument _argument = RestaurantArgument(
+        id: widget.id, idWay: 0, branch: widget.branches[0],address:_address, lat :widget.lat,lng:widget.lng);
+    Navigator.pushNamedAndRemoveUntil(context,'/restaurant',(route) => _count++ == 1,arguments: _argument);
   }
 }

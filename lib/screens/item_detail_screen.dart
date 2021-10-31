@@ -1,26 +1,25 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/cart_button.dart';
-import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/item_detail_component.dart';
 import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/vendor_logo.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/helper/helper.dart';
+import 'package:eat_more_app/model/arguments/item_detail_argument.dart';
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+
 // ignore: must_be_immutable
 class ItemDetailsScreen extends StatefulWidget {
-  final int id;
-   double total;
-  final String logo;
-  final int vendorId;
- ItemDetailsScreen({Key key, this.id, this.total, this.logo, this.vendorId}) : super(key: key);
+  final ItemDetailsArgument arguments;
+ ItemDetailsScreen(this.arguments,{Key key}) : super(key: key);
 
   @override
   _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
@@ -30,18 +29,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   var _isLoading=false;
   var _quantity=1;
   var _isLoading1=false;
-  List<List<bool>> _isCheckedAddons;
+  List<List<int>> selectedItems;
   Product _product;
-  List<int> _lengthTrue;
   double _totalPriceProduct;
-
-
+  List<AddonCategory> _addonCategories;
+  String _addons;
 
   @override
   void initState() {
-    _lengthTrue=[];
     // TODO: implement initState
-    _isCheckedAddons=[];
+    selectedItems=[];
     super.initState();
     _getProductInfo();
   }
@@ -50,166 +47,155 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     return Scaffold(
           backgroundColor: background,
           body: _isLoading?MyProgressIndicator():
-          NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  expandedHeight: 287.0,
-                  floating: false,
-                  pinned: true,
-                  leading: CloseButton(),
-                  flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: VendorLogo(
-                          width: 40.0,height: 40.0,url:widget.logo
-                      ),
-                      background: Container(
-                          height: 287.0,
-                          decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: Helper.buildCachedNetworkImageProvider(_product.product_info.image_preview,),
-                            fit: BoxFit.cover,
-                          )
+          ScopedModelDescendant<RestaurantsApiModel>(
+            builder:(context,child,model)=> NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    expandedHeight: 287.0,
+                    floating: false,
+                    pinned: true,
+                    leading: CloseButton(),
+                    flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        title: VendorLogo(
+                            width: 40.0,height: 40.0,url:widget.arguments.vendorLogo
                         ),
-                        child:
-                        _product.product_info.product_offer==null?SizedBox.shrink():
-                        Banner(
-                                message: AppLocalization.of(context).translate('offer'),
-                                location: BannerLocation.bottomEnd,
-                                color: Colors.red,
-                        ),
-                        ),
-                        ),
-                      )
-
-
-              ];
-            },
-            body:   Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                          ItemDetailColumn(
-                              quantity:_quantity,
-                              item:_product.product_info,
-                              pressMines:()=>_pressMinesButton(),
-                              pressPlus:()=>_pressPlusButton(),
-                              isChecked:_isCheckedAddons,
-                              lengthTrue: _lengthTrue,
-                              totalPriceProduct: _totalPriceProduct,
-                              callBack: this._updateTotalProductCallBack,
+                        background: Container(
+                            height: 287.0,
+                            decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: Helper.buildCachedNetworkImageProvider(_product.product_info.image_preview,),
+                              fit: BoxFit.cover,
+                            )
                           ),
-                      ],
-                    ),
-                ),
-                PositionedDirectional(
-                  start: 50,
-                  end: 50,
-                  bottom: 20,
-                  child: CartButton(
-                      isLoading: _isLoading1,
-                      tap: (){
+                          child:
+                          _product.product_info.product_offer==null?SizedBox.shrink():
+                          Banner(
+                                  message: AppLocalization.of(context).translate('offer'),
+                                  location: BannerLocation.bottomEnd,
+                                  color: Colors.red,
+                          ),
+                          ),
+                          ),
+                        )
+
+
+                ];
+              },
+              body:   Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: ItemDetailColumn(
+                                quantity:_quantity,
+                                item:_product.product_info,
+                                pressMines:()=>_pressMinesButton(),
+                                pressPlus:()=>_pressPlusButton(),
+                                totalPriceProduct: _totalPriceProduct,
+                                callBack: this._updateTotalProductCallBack,
+                                 selectedItems: selectedItems,
+                            ),
+                  ),
+                  PositionedDirectional(
+                    start: 30,
+                    end: 30,
+                    bottom: 30,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        if(!model.isLoggedIn()){
+                          Common.showSlideUpLoginView(context);
+                          return;
+                        }
                         _addToCart();
                       },
-                      color: primaryIconColor,
-                      total:_totalPriceProduct,
-                      text: AppLocalization.of(context).translate('add_cart'),
-                    ),
-                ),
+                      style: AppThemeData.elevatedButtonStyle(borderRadius: 10.0),
+                      child:_isLoading1?Center(child: CupertinoActivityIndicator()): Row(
+                        children: [
+                          Text(
+                            AppLocalization.of(context).translate('add_cart') ,
+                          ),
+                          Spacer(),
+                          RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text:'$_totalPriceProduct ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      color: orange
+                                  )
+                              ),
+                              TextSpan(
+                                  text:
+                                  AppLocalization.of(context).translate("sr"),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  )
+                              )
+                            ]),
+                          ),
+                          // Text('$_totalPriceProduct ' + AppLocalization.of(context).translate('sr'))
+                        ],
+                      ),
+                    )
+                  ),
 
-              ],
-            ),
-            ),
+                ],
+              ),
+              ),
+          ),
       );
   }
   void _addToCart() async{
-    var addonsArray="";
     if(_product.product_info.addons!=null) {
-      addonsArray = "{\"addons\":[";
-
-      for(var i1=0;i1<_product.product_info.addons.addon_category.length;i1++){
-      for(var i=0;i<_product.product_info.addons.addon_category[i1].addons.length;i++){
-        if(_isCheckedAddons[i1][i]){
-          // _lengthTrue[i1]++;
-          addonsArray +=
-          "{\"addon_id\": \"${_product.product_info.addons.addon_category[i1].addons[i].addon_id.toString()}\"}," ;
+      if(!_checkAddons()){
+        return;
       }
+      else{
+      getAddonsString();
       }
-        print(addonsArray);
-      if(_product.product_info.addons.addon_category[i1].cat_is_mandatory)
-        if(_lengthTrue[i1]!=_product.product_info.addons.addon_category[i1].cat_choose_maximum){
-          AppDialog.showMe(context,    'You must add ' + '${_product.product_info.addons.addon_category[i1].cat_choose_maximum}'+
-              " additions from the " + _product.product_info.addons.addon_category[i1].cat_name);
-          return;
-        }}
-      addonsArray=addonsArray.substring(0,addonsArray.length-1);
-      addonsArray += "]}";
     }
-    setState(() {
-      _isLoading1=true;
-    });
+    setState(() => _isLoading1=true);
     var _body={
       "product_quantity":_quantity.toString(),
       "product_id":_product.product_info.product_id.toString(),
-      "vendor_id":widget.vendorId.toString(),
-      'product_addons':addonsArray,
+      "vendor_id":widget.arguments.vendorId.toString(),
+      'product_addons':_addons??"",
       "custom_addons":"test custom product"
     };
-    print(_body);
 
-    await ScopedModel.of<RestaurantsApiModel>(context).addToCart(_body).then((value) {
-      if(value.status.status){
-
-        if(mounted)
-          _getCart();
-      }
-
-    });
+    try{
+    await AppApi.cartClient.addCart(_body);
+      _getCart();
+    }
+    catch(err){
+      setState(() => _isLoading1=false);
+      AppDialog.showMe(context, err.toString());
+    }
   }
+
   void _getCart() async {
-    await  ScopedModel.of<RestaurantsApiModel>(context).getCart(widget.vendorId).then((value) {
-      if(value.status.status){
-         setState(() {
-           widget.total=value.data.products_price;
-         });
-        Navigator.pop(context,AddCart(value.data.products,value.data.products_price));
+    final response=await  AppApi.cartClient.listCart(widget.arguments.vendorId);
+         setState(() => widget.arguments.totalCart=response.products_price);
+        Navigator.pop(context,AddCart(response.products,response.products_price));
+        setState(()=> _isLoading1=false);
 
-      }
-
-      setState(() {
-        _isLoading1=false;
-      });
-    });
   }
 
   void _getProductInfo() async{
-    setState(() {
-      _isLoading=true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context).getProductInfo(widget.id).then((value){
+    setState(()=> _isLoading=true);
+    await ScopedModel.of<RestaurantsApiModel>(context).getProductInfo(widget.arguments.product_id).then((value){
       if(value.status.status){
         setState(() {
           _product=value.data;
           _totalPriceProduct=double.parse(_product.product_info?.price);
+          _addonCategories=_product.product_info?.addons?.addon_category??[];
         });
-        print(_product.product_info.product_id);
-        if(_product.product_info.addons?.addon_category!=null)
-          for(var i=0;i<_product.product_info.addons.addon_category.length;i++){
-            List<bool> _isChecked=[];
-            _lengthTrue.add(0);
-          for(var i1=0;i1<_product.product_info.addons.addon_category[i].addons.length;i1++)
-            _isChecked.add(false);
-          _isCheckedAddons.add(_isChecked);
-            print(_isCheckedAddons);
-            print(i);
-          }
-
+        _initializeArray();
       }
-      setState(() {
-        _isLoading=false;
-      });
+      setState(() => _isLoading=false);
     });
   }
 
@@ -227,9 +213,46 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       _totalPriceProduct=_totalPriceProduct+double.parse(_product.product_info.price);
     });
   }
+
   _updateTotalProductCallBack(newTotalPrice){
     setState(()=> _totalPriceProduct=newTotalPrice);
   }
+
+  void  getAddonsString() {
+    _addons = "{\"addons\":[";
+    for(var i1=0;i1<_addonCategories.length;i1++) {
+      for(var i=0;i<_addonCategories[i1].addons.length;i++){
+        Addons _addon=_addonCategories[i1].addons[i];
+        if(selectedItems[i1].contains(_addon.addon_id)){
+          _addons += "{\"addon_id\": \"${_product.product_info.addons.addon_category[i1].addons[i].addon_id.toString()}\"}," ;
+        }
+      }
+    }
+    _addons=_addons.substring(0,_addons.length-1);
+    _addons += "]}";
+
+  }
+
+  bool _checkAddons(){
+    for(var i1=0;i1<_addonCategories.length;i1++) {
+      if (_addonCategories[i1].cat_is_mandatory)
+        if (selectedItems[i1].length != _addonCategories[i1].cat_choose_maximum) {
+          AppDialog.showMe(context,
+              'You must add ' + '${_addonCategories[i1].cat_choose_maximum}' +
+                  " additions from the " + _addonCategories[i1].cat_name);
+          return false;
+        }
+    }
+    return true;
+
+  }
+
+  _initializeArray(){
+    for(int i=0;i<_addonCategories.length;i++){
+      selectedItems.add([]);
+    }
+ }
+
 
 
 }

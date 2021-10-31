@@ -1,8 +1,19 @@
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/color.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
+import 'package:eat_more_app/model/arguments/check_out_argument.dart';
+import 'package:eat_more_app/model/arguments/item_detail_argument.dart';
+import 'package:eat_more_app/model/order_response.dart';
+import 'package:eat_more_app/screens/branch_screen.dart';
+import 'package:eat_more_app/screens/checkout_screen.dart';
+import 'package:eat_more_app/screens/delivery_ways_screen.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
+import 'package:eat_more_app/screens/item_detail_screen.dart';
+import 'package:eat_more_app/screens/login_screen.dart';
+import 'package:eat_more_app/screens/order_detail_screen.dart';
+import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:eat_more_app/screens/splash_screen.dart';
+import 'package:eat_more_app/screens/verification_code_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +21,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 import 'helper/app_localization.dart';
 import 'helper/helper.dart';
 import 'helper/shared_preference.dart';
+import 'model/arguments/restaurent_argument.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -70,6 +81,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  final _scaffoldKeyHome = new GlobalKey<ScaffoldState>();
+   final GlobalKey<NavigatorState> n=GlobalKey<NavigatorState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -121,13 +134,12 @@ class _MyAppState extends State<MyApp> {
     return ScopedModelDescendant<RestaurantsApiModel>(
         builder: (context, child, model) {
       return MaterialApp(
+
         builder: (context, child) {
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child);
         },
-
-
         localizationsDelegates: [
           AppLocalization.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -143,6 +155,9 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
             primaryColor: Colors.white,
             unselectedWidgetColor: black,
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: primaryIconColor
+            ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: AppThemeData.elevatedButtonStyle()
             ),
@@ -155,10 +170,46 @@ class _MyAppState extends State<MyApp> {
 
             // <-- your colorprimaryIconTheme: IconThemeData(color: background),
             scaffoldBackgroundColor: background),
-        home: SplashScreen(),
+        initialRoute: '/',
+          routes: {
+            "/": (context) => SplashScreen(),
+            "/login": (context) => LoginScreen(),
+            "/home": (context) => HomeScreen(),
+          },
+        onGenerateRoute: (setting){
+          if(setting.name=='/code'){
+            final arguments = setting.arguments as Map;
+            return MaterialPageRoute(builder: (_)=>VerificationCodeScreen(phone: arguments['phone'], memberCase: arguments['member_case'],));
+          }
+          else if(setting.name=='/deliveryMethod'){
+            final arguments = setting.arguments as int;
+            return MaterialPageRoute(builder: (_)=>DeliveryMethodsScreen(id:arguments));
+          }
+          else if(setting.name=='/branch'){
+            final arguments  = setting.arguments as Map;
+            return MaterialPageRoute(builder: (_)=>BranchScreen(idWay: arguments['idWay'],id: arguments['id']));
+          }
+          else if(setting.name=='/restaurant'){
+            final arguments = setting.arguments as RestaurantArgument;
+            return MaterialPageRoute(builder: (_)=>RestaurantScreen(arguments));
+          }
+          else if(setting.name=='/checkOut'){
+            final arguments = setting.arguments as CheckOutArgument;
+            return MaterialPageRoute(builder: (_)=>CheckOutScreen(arguments));
+          }
+          else if(setting.name=='/productDetail'){
+            final arguments = setting.arguments as ItemDetailsArgument;
+            return MaterialPageRoute(builder: (_)=>ItemDetailsScreen(arguments));
+          }
+
+
+          return null;
+        },
+
       );
     });
   }
+
 
   void setupInteractedMessage() async{
     // Get any messages which caused the application to open from

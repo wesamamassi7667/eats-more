@@ -1,17 +1,18 @@
-
-import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/app_text_field.dart';
-import 'package:eat_more_app/component/close_button_sheet.dart';
-import 'package:eat_more_app/component/radio_list_tile.dart';
-import 'package:eat_more_app/component/rajhi_sheet.dart';
+import 'package:eat_more_app/component/mobile_text_field.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
+import 'package:eat_more_app/component/row_buttons.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/helper/shared_preference.dart';
+import 'package:eat_more_app/model/arguments/rajhi_rgument.dart';
 import 'package:eat_more_app/model/check_out_response.dart';
+import 'package:eat_more_app/widgets/coupon_payment_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'common/common.dart';
+import 'cupertinoTextField.dart';
 
-import '../color.dart';
 class CouponSheet extends StatefulWidget {
   final List<Payment> types;
   final int id;
@@ -24,134 +25,175 @@ class CouponSheet extends StatefulWidget {
 }
 
 class _CouponSheetState extends State<CouponSheet> {
-  FocusNode _codeFocusNode = new FocusNode();
-  TextEditingController _code = new TextEditingController();
-  var _showSecond=false;
-  var _isLoading=false;
-  int _selectedIndex=0;
-  var _selectedType='';
+  // FocusNode _codeFocusNode = new FocusNode();
+  TextEditingController _controller = new TextEditingController();
+  TextEditingController _discount = new TextEditingController();
+
+  final duration = Duration(milliseconds: 300);
+  String _selectedKeyCoupon = "";
+  var _isRajhi = false;
+  String _token;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getToken();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 400),
-      child: AnimatedCrossFade(
-        crossFadeState:
-        _showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        duration: Duration(milliseconds: 400),
-        firstChild: DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.45,
-          minChildSize: 0.45,
-          maxChildSize: 0.7,
-          builder:(context,controller)=>  SingleChildScrollView(
-               controller: controller,
-              child: Container(
-                  padding: EdgeInsetsDirectional.only(top: 10,bottom: 30),
-                  child: Column(
-                    children: [
-                      Text(AppLocalization.of(context).translate("coupon_type"),style: TextStyle(
-                        fontFamily: 'DIN Next LT Arabic',
-                        fontWeight: FontWeight.w500
-                      ),),
-                      SizedBox(height: 10,),
-                      ListView.separated(
-                           shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemBuilder: (context,index){
-                            return RadioListTilePayment(
-                              index: index,
-                              paymentMethods: widget.types,
-                              selectedIndex: _selectedIndex,
-                              onChanged: (v){
-                                setState(() {
-                                  _selectedIndex=index;
-                                  _selectedType=widget.types[_selectedIndex].key;
-                                });
-                              },
-                            );
-                          }, separatorBuilder: (context,index){
-                            return Divider(
-                              color: grey4.withOpacity(0.24),
-                              thickness: 1,
-                            );
-                          }, itemCount:widget.types.length ),
-
-                      SizedBox(height: 15,),
-                      Container(
-                        width:double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        child: ElevatedButton(
-                          child:Text(AppLocalization.of(context).translate("select")) ,
-                          onPressed: (){
-                            setState(() {
-                              _showSecond=true;
-
-                            });
-                          },
-                        ),
-                      )
-                    ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.only(bottom: MediaQuery
+            .of(context)
+            .viewInsets
+            .bottom),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 33.0, 16.0, 30.0),
+          child: _isLoading?MyProgressIndicator():Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  AppLocalization.of(context).translate('more_coupon'),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500
                   ),
                 ),
-            ),
-        ),
-        secondChild: _selectedType=='rajhi'?RajhiSheet(total:widget.total):Container(
-          height: 254,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CloseButtonSheet(),
-                SizedBox(height: 30,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 33),
-                  child: APPTextField(
-                    hintText: AppLocalization.of(context).translate("coupon_code"),
-                    focusNode: _codeFocusNode,
-                    nextFocus: null,
-                    textEditingController: _code,
-                    textType: TextInputType.name,
-                    // errMessage: 'الاسم مطلوب',
+              ),
+              SizedBox(height: 20.6,),
+              CouponPaymentList(
+                  coupons: widget.types,
+                  isCoupon: true, callBack: this._updateKeyCoupon),
+              SizedBox(height: _isRajhi ? 17.5 : 48,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: CupertinoField(
+                    controller: _controller,
+                    hint: _isRajhi ?
+                    AppLocalization.of(context).translate('mobile_number') :
+                    AppLocalization.of(context).translate('coupon_code'),
+                   // : _isRajhi?Text("+966"):null,
+                ),
+              ),
+              AnimatedContainer(
+                  duration: duration,
+                  height: _isRajhi ? 13 : 0,
+                  child: SizedBox()
+              ),
+              _isRajhi ? Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                width: 100,
+                child: CupertinoField(
+                  controller: _discount,
+                  hint: AppLocalization.of(context).translate(
+                      'discount_amount'),
+                  fontSize: 10,
+                  suffix: Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 13.0),
+                    child: Text(AppLocalization.of(context).translate('sr')),
                   ),
                 ),
-                SizedBox(height: 20,),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 33),
-                  child: ElevatedButton(
-                    child: Text(AppLocalization.of(context).translate("add")),
-                    onPressed: ()=> _applyCoupon(),
+              ) : SizedBox.shrink(),
+              AnimatedContainer(
+                  duration: duration,
+                  height: _isRajhi ? 40 : 54,
+                  child: SizedBox()),
+              RowButtons(
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.4,
+                text1: AppLocalization.of(context).translate('activate_code'),
+                text2: AppLocalization.of(context).translate('cancel'),
+                pressFirst: () {
+                  if (_selectedKeyCoupon.trim() == 'rajhi') {
+                   _paymentRajhi();
+                  }
+                },
+                pressSecond: () => Navigator.pop(context),
+              )
 
-                  ),
-                )
-              ],
-            ),
+            ],
           ),
         ),
       ),
+
     );
   }
 
-  void _applyCoupon() async{
-    FocusScope.of(context).unfocus();
-    setState(() {
-      _isLoading=true;
-    });
-    var _body={
-      "code_coupon":_code.text.trim(),
-      "type":widget.type,
-    };
-    await ScopedModel.of<RestaurantsApiModel>(context).applyCoupon(widget.id,_body ).then((value) {
-      if(value.status.status){
-        Navigator.pop(context,[value.data.couponDiscountAmount,value.data.finalPrice,value.data.couponCode,"",""]);
-        AppDialog.showMe(context, value.status.HTTP_response,isError: false);
+  _updateKeyCoupon(String key) {
+    setState(() => _selectedKeyCoupon = key);
+    if (_selectedKeyCoupon.trim() == 'rajhi') {
+      setState(() => _isRajhi = true);
+    }
+    else {
+      setState(() => _isRajhi = false);
+    }
+  }
+
+  void _getToken() async {
+    setState(() =>_isLoading=true);
+    var response = await AppApi.checkOutClient.getRajhiToken();
+    if (response != null) {
+      _token = response;
+      print("soma " +_token);
+    }
+    setState(() =>_isLoading=false);
+  }
+
+  void _paymentRajhi() async {
+    try{
+      var _body = {
+        "mobileRajhi": "+966"+ _controller.text.trim(),
+        "amount": widget.total.toString(),
+        "currency": "SAR",
+        "lang": UtilSharedPreferences.getInt('lang')==0?"en":"ar",
+        "discount": _discount.text.trim(),
+        "type": "coupon"
+      };
+      print(_body);
+      Common.showSingleAnimationDialog(context);
+      final response = await AppApi.checkOutClient.checkMobileRajhi(_body, _token);
+      Navigator.pop(context);
+      if (response != null) {
+        if(response.title.status==200){
+          RajhiArgument _rajhiArgument=RajhiArgument(response.couponDiscountAmount,double.parse(response.finalPrice),
+              _token, response.title.otp.otp_token);
+          Navigator.pop(context,_rajhiArgument);
+        }
+        else{
+          AppDialog.showMe(context,response.title.message);
+        }
       }
-      else{
-        AppDialog.showMe(context, value.status.HTTP_response);}
-      setState(() {
-        _isLoading=false;
-      });
-    });
+    }
+    catch(err){
+      Common.showError(err, context);
+    }
   }
 }
+
+
+//     await ScopedModel.of<RestaurantsApiModel>(context).paymentRajhi(
+//         _token, _body).then((value) {
+//       if(value.data.title.status==200){
+//         Navigator.pop(context,[value.data.couponDiscountAmount,value.data.finalPrice," ",value.data.title.otp.otp_token,_token]);}
+//       else{
+//         Navigator.pop(context);
+//         AppDialog.showMe(context, value.data.title.message);}
+//       if(mounted)
+//         setState(() {
+//           _isLoading1 = false;
+//         });
+//
+//     });
+//   }
+//
+// }
+
+
+
 

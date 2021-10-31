@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:eat_more_app/animation/scale_animation.dart';
 import 'package:eat_more_app/component/ads_image.dart';
 import 'package:eat_more_app/component/list_meal_height.dart';
 import 'package:eat_more_app/component/list_width.dart';
 import 'package:eat_more_app/helper/helper.dart';
+import 'package:eat_more_app/model/arguments/item_detail_argument.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/screens/item_detail_screen.dart';
@@ -49,19 +52,14 @@ class _HeaderListMealState extends State<HeaderListMeal>
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return  ScaleAnimation(
-                   tap: (v)=>
-                     Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                             builder: (context) => ItemDetailsScreen(
-                                 id: widget
-                                     .item.product[index].product_id,
-                                 logo: widget
-                                     .item.product[index].vendor.logo,
-                                 vendorId: widget.item.product[index]
-                                     .vendor.vendor_id)
-                         )
-                     ),
+                   tap: (v){
+                     ItemDetailsArgument _arguments = ItemDetailsArgument(
+                         widget.item.product[index].product_id,
+                         null,
+                         widget.item.product[index].vendor.logo,
+                         widget.item.product[index].vendor.vendor_id);
+                     Navigator.pushNamed(context, '/productDetail',arguments: _arguments);
+                   },
                   child: widget.item?.viewType?.isEmpty??""?
                       ListMealWidth(
                         item:widget.item,

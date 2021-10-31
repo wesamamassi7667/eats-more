@@ -7,7 +7,6 @@ import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/helper/app_theme.dart';
 import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,14 +14,15 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../color.dart';
 import 'home_screen.dart';
+import 'login_screen.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
+
   final String phone;
   final String memberCase;
 
+  const VerificationCodeScreen({Key key, this.phone, this.memberCase}) : super(key: key);
 
-  const VerificationCodeScreen({Key key, this.phone, this.memberCase})
-      : super(key: key);
 
   @override
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
@@ -37,6 +37,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
   String signCode;
   var _isIgonre=false;
   var _isLoading = false;
+  RestaurantsApiModel _apiModel;
 
   @override
   void dispose() {
@@ -49,6 +50,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
 
   @override
   void initState() {
+    _apiModel=ScopedModel.of<RestaurantsApiModel>(context);
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
@@ -214,13 +216,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
       _isLoading = true;
     });
     var body = {
-      "phone": widget.phone.toString(),
+      "phone":widget.phone.toString(),
       "member_case": widget.memberCase,
       "code": _code.text.trim()
     };
-    print(body);
 
-    await ScopedModel.of<RestaurantsApiModel>(context).loginUser(body,'auth/submitcode').then((
+    await _apiModel.loginUser(body,'auth/submitcode').then((
         value) {
       if (!value.status.status) {
         AppDialog.showMe(context, value.status.HTTP_response,isError: true);
@@ -229,11 +230,10 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
         _updateFcmToken(Helper.fcmToken);
         UtilSharedPreferences.setString('token',"Bearer "+value.data.token);
         UtilSharedPreferences.setObj('user',value.data);
-          ScopedModel.of<RestaurantsApiModel>(context).changeUser(value.data.member_full_info);
+          ScopedModel.of<RestaurantsApiModel>(context).changeUser(value.data);
           _updateFcmToken(Helper.fcmToken);
           var _count=0;
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => _count++==2);
-
+          Navigator.pushNamedAndRemoveUntil(context,'/home', (route) => _count++==2);
       };
       setState(() {
         _isLoading = false;
@@ -245,7 +245,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> with Ti
     var _body={
       "fcm_token":newToken
     };
-    await ScopedModel.of<RestaurantsApiModel>(context).updateFcmToken(_body);
+    await _apiModel.updateFcmToken(_body);
   }
   void _resendCode() async {
     _controller.forward();

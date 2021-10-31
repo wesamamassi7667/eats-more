@@ -1,7 +1,6 @@
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'home_response.g.dart';
 
 @JsonSerializable()
 class HomeResponse{
@@ -10,9 +9,16 @@ class HomeResponse{
 
   HomeResponse(this.status, this.data);
   factory HomeResponse.fromJson(Map<String, dynamic> json) =>
-      _$HomeResponseFromJson(json);
+      HomeResponse(
+        json['status'] == null
+            ? null
+            : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+        json['data'] == null
+            ? null
+            : Home.fromJson(json['data'] as Map<String, dynamic>),
+      );
 
-  Map<String, dynamic> toJson() => _$HomeResponseToJson(this);
+
 }
 
 @JsonSerializable()
@@ -24,10 +30,25 @@ List<SliderImage> ads;
 
 
 Home(this.slider, this.Vendor, this.spes_slider,this.ads);
-factory Home.fromJson(Map<String, dynamic> json) =>
-    _$HomeFromJson(json);
+factory Home.fromJson(Map<String, dynamic> json) =>Home(
+  (json['slider'] as List)
+      ?.map((e) =>
+  e == null ? null : SliderImage.fromJson(e as Map<String, dynamic>))
+      ?.toList(),
+  (json['Vendor'] as List)
+      ?.map((e) =>
+  e == null ? null : Restaurant.fromJson(e as Map<String, dynamic>))
+      ?.toList(),
+  (json['spes_slider'] as List)
+      ?.map((e) =>
+  e == null ? null : SpecSlider.fromJson(e as Map<String, dynamic>))
+      ?.toList(),
+  (json['ads'] as List)
+      ?.map((e) =>
+  e == null ? null : SliderImage.fromJson(e as Map<String, dynamic>))
+      ?.toList(),
+);
 
-Map<String, dynamic> toJson() => _$HomeToJson(this);
 }
 
 @JsonSerializable()
@@ -42,9 +63,17 @@ class SpecSlider {
   SpecSlider(this.id, this.sliderName, this.viewType, this.color, this.sort,
       this.product);
   factory SpecSlider.fromJson(Map<String, dynamic> json) =>
-      _$SpecSliderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SpecSliderToJson(this);
+      SpecSlider(
+        json['id'] as int,
+        json['sliderName'] as String,
+        json['viewType'] as String,
+        json['color'] as String,
+        json['sort'] as int,
+        (json['product'] as List)
+            ?.map((e) =>
+        e == null ? null : ProductHome.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 @JsonSerializable()
 class ProductHome{
@@ -62,9 +91,20 @@ class ProductHome{
   ProductHome(this.product_id, this.product_name, this.description, this.image,
       this.meal_price,this.vendor,this.vendor_id,this.product_offer);
   factory ProductHome.fromJson(Map<String, dynamic> json) =>
-      _$ProductHomeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProductHomeToJson(this);
+      ProductHome(
+        json['product_id'] as int,
+        json['product_name'] as String,
+        json['description'] as String,
+        json['image'] as String,
+        json['meal_price'] as String,
+        json['vendor'] == null
+            ? null
+            : Restaurant.fromJson(json['vendor'] as Map<String, dynamic>),
+        json['vendor_id'] as int,
+        json['product_offer'] == null
+            ? null
+            : ProductOffer.fromJson(json['product_offer'] as Map<String, dynamic>),
+      );
 }
 
 @JsonSerializable()
@@ -74,9 +114,14 @@ class VendorResponse{
 
   VendorResponse(this.status, this.data);
   factory VendorResponse.fromJson(Map<String, dynamic> json) =>
-      _$VendorResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VendorResponseToJson(this);
+      VendorResponse(
+        json['status'] == null
+            ? null
+            : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+        json['data'] == null
+            ? null
+            : Restaurant.fromJson(json['data'] as Map<String, dynamic>),
+      );
 }
 @JsonSerializable()
 class Restaurant {
@@ -98,6 +143,8 @@ class Restaurant {
   int vat_percentage;
   String status_open;
   List<MenuCategory> menu_categories;
+  String VAT_NO;
+
 
 
   Restaurant(
@@ -118,12 +165,36 @@ class Restaurant {
       this.minimum_charge,
       this.vat_percentage,
       this.status_open,
-      this.menu_categories);
+      this.menu_categories,
+      this.VAT_NO
+      );
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantFromJson(json);
+      Restaurant(
+        json['vendor_name'] as String,
+        json['vendor_image'] as String,
+        json['vendor_id'] as int,
+        json['logo'] as String,
+        json['rest_name'] as String,
+        json['vendor_desc'] as String,
+        json['vendor_cover_img'] as String,
+        json['vendor_uuid'] as String,
+        (json['delivery_cost'] as num)?.toDouble(),
+        (json['delivery_time'] as num)?.toDouble(),
+        json['can_pickup'] as bool,
+        json['can_delivery'] as bool,
+        json['wt_start_at'] as String,
+        json['wt_end_at'] as String,
+        (json['minimum_charge'] as num)?.toDouble(),
+        json['vat_percentage'] as int,
+        json['status_open'] as String,
+        (json['menu_categories'] as List)
+            ?.map((e) =>
+        e == null ? null : MenuCategory.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+        json['VAT_NO'] as String,
 
-  Map<String, dynamic> toJson() => _$RestaurantToJson(this);
+      );
 }
 @JsonSerializable()
 class MenuCategory {
@@ -136,9 +207,13 @@ class MenuCategory {
   MenuCategory(this.category_id, this.category_name, this.category_image,
       this.category_sort, this.category_status);
   factory MenuCategory.fromJson(Map<String, dynamic> json) =>
-      _$MenuCategoryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MenuCategoryToJson(this);
+      MenuCategory(
+        json['category_id'] as int,
+        json['category_name'] as String,
+        json['category_image'] as String,
+        json['category_sort'] as int,
+        json['category_status'] as int,
+      );
 }
 
 
@@ -155,9 +230,17 @@ class SliderImage {
   SliderImage(this.image, this.target, this.vendor, this.product_id, this.link,this.product,this.display_slider_id);
 
   factory SliderImage.fromJson(Map<String, dynamic> json) =>
-      _$SliderImageFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SliderImageToJson(this);
+      SliderImage(
+        json['image'] as String,
+        json['target'] as String,
+        json['vendor'] as String,
+        json['product_id'] as String,
+        json['link'] as String,
+        json['product'] == null
+            ? null
+            : ProductHome.fromJson(json['product'] as Map<String, dynamic>),
+        json['display_slider_id'] as int,
+      );
 }
 @JsonSerializable()
 class VendorCategoryResponse{
@@ -166,9 +249,14 @@ class VendorCategoryResponse{
 
   VendorCategoryResponse(this.status, this.data);
   factory VendorCategoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$VendorCategoryResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VendorCategoryResponseToJson(this);
+   VendorCategoryResponse(
+  json['status'] == null
+  ? null
+      : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+  json['data'] == null
+  ? null
+      : VendorCategoryData.fromJson(json['data'] as Map<String, dynamic>),
+  );
 }
 @JsonSerializable()
 class VendorCategoryData {
@@ -176,9 +264,13 @@ class VendorCategoryData {
 
   VendorCategoryData(this.vendoor_category);
   factory VendorCategoryData.fromJson(Map<String, dynamic> json) =>
-      _$VendorCategoryDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VendorCategoryDataToJson(this);
+      VendorCategoryData(
+        (json['vendoor_category'] as List)
+            ?.map((e) => e == null
+            ? null
+            : VendorCategory.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 
 @JsonSerializable()
@@ -190,9 +282,11 @@ class VendorCategory {
   VendorCategory(this.vendor_category_id, this.resturant_category_image,
       this.vendoor_category_name);
   factory VendorCategory.fromJson(Map<String, dynamic> json) =>
-      _$VendorCategoryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VendorCategoryToJson(this);
+      VendorCategory(
+        json['vendor_category_id'] as int,
+        json['resturant_category_image'] as String,
+        json['vendoor_category_name'] as String,
+      );
 }
 @JsonSerializable()
 class AllVendorResponse{
@@ -201,9 +295,14 @@ class AllVendorResponse{
 
   AllVendorResponse(this.status, this.data);
   factory AllVendorResponse.fromJson(Map<String, dynamic> json) =>
-      _$AllVendorResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AllVendorResponseToJson(this);
+      AllVendorResponse(
+        json['status'] == null
+            ? null
+            : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+        json['data'] == null
+            ? null
+            : AllVendor.fromJson(json['data'] as Map<String, dynamic>),
+      );
 }
 @JsonSerializable()
 class AllVendor {
@@ -211,7 +310,10 @@ class AllVendor {
 
   AllVendor(this.vendor);
   factory AllVendor.fromJson(Map<String, dynamic> json) =>
-      _$AllVendorFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AllVendorToJson(this);
+      AllVendor(
+        (json['vendor'] as List)
+            ?.map((e) =>
+        e == null ? null : Restaurant.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }

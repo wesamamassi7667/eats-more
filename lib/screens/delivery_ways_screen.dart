@@ -1,10 +1,14 @@
+import 'package:eat_more_app/api/app_api.dart';
+import 'package:eat_more_app/api/clients/service_client.dart';
 import 'package:eat_more_app/color.dart';
+import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/header_component.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
-import 'package:eat_more_app/screens/branch_screen.dart';
+import 'package:eat_more_app/model/service_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:eat_more_app/api/clients/service_client.dart';
 class DeliveryMethodsScreen extends StatefulWidget {
   final int id;
 
@@ -15,9 +19,17 @@ class DeliveryMethodsScreen extends StatefulWidget {
 
 class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
 
-  Position _currentPosition;
   var _isLoading=false;
+  List<Services> services;
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    services=[];
+    super.initState();
+    _getServices();
+  }
   @override
   Widget build(BuildContext context) {
     return HeaderComponent(
@@ -28,7 +40,6 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
             Text(
               AppLocalization.of(context).translate("select_method_delivery"),
               style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
                 fontSize: 18,
                 color: black4,
                 fontWeight: FontWeight.w500,
@@ -36,35 +47,27 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
               ),
             ),
             SizedBox(height:40 ,),
-            Wrap(
+           _isLoading?MyProgressIndicator(): Wrap(
               runSpacing: 16,
               spacing: 15,
-              children: List.generate(2, (index){
+              children: List.generate(services.length, (index){
+                Services s=services[index];
                 return InkWell(
-                  onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=>BranchScreen(
-                        id:widget.id,idWay:index
-                    ) ));
-                  },
+                  onTap: ()=> Navigator.pushNamed(context, '/branch',arguments: {"id":widget.id,"idWay":s.service}),
                   child: Container(
                     width: 136,
                     height: 115,
-                    padding: EdgeInsetsDirectional.only(top: 21,bottom: 20.8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22.0),
                       border: Border.all(width: 1.0, color: primaryIconColor),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      index==0&&_isLoading?CupertinoActivityIndicator(): Icon(
-                          Icons.location_on,
-                          color: black2,
-                          size: 30,
-                        ),
+                        CachedNetworkImageComponent(url: s.image,),
                         Text(
-                          index==0?  'عنوان خريطة':"من الفرع",
+                           '${s.name}',
                           style: TextStyle(
-                            fontFamily: 'DIN Next LT Arabic',
                             fontSize: 18,
                             color: black3,
                             height: 1.4444444444444444,
@@ -82,6 +85,10 @@ class _DeliveryMethodsScreenState extends State<DeliveryMethodsScreen> {
       ),
     );
   }
-
+  void _getServices() async{
+    setState(() =>_isLoading=true);
+   services=await AppApi.serviceClient.listService(widget.id);
+   setState(() =>_isLoading=false);
+  }
 }
 

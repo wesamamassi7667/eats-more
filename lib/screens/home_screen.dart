@@ -28,14 +28,17 @@ import 'contact_us_screen.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  final GlobalKey keyHome;
+
+  const HomeScreen({Key key, this.keyHome}) : super(key: key);
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<SliderImage> _images;
-  List<Restaurant> _resturant;
+  List<Restaurant> _restaurant;
   List<SpecSlider> _specSlider;
   List<SliderImage> _ads;
   var _isLoading=false;
@@ -43,13 +46,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   Animation<RelativeRect> _animation;
   var _currentIndex = 0;
   CustomProgressDialog pr;
-  var _lang;
 
 
   _change(index, r) {
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() =>_currentIndex = index);
   }
 
 
@@ -65,13 +65,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     _controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 3000), value: 0.0);
     _images=[];
-    _resturant=[];
+    _restaurant=[];
     _specSlider=[];
     _ads=[];
 
     // TODO: implement initState
     super.initState();
-    _getHomeProduct();
+    getHomeProduct();
   }
 
   @override
@@ -98,14 +98,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                       SizedBox(
                         height: 20,
                       ),
-                      SliderWidget(
+                   _images.isEmpty?SizedBox.shrink():  SliderWidget(
                         sliders: _images,
                         change: _change,
                       ),
                       SizedBox(
                         height: 3.16,
                       ),
-                      Row(
+                      _images.isEmpty?SizedBox.shrink():  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: map<Widget>(_images, _handler),
                       ),
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         height: 11,
                       ),
                       RestaurantsList(
-                        list:_resturant,
+                        list:_restaurant,
                       ),
                       ListView.builder(
                           shrinkWrap: true,
@@ -161,16 +161,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     return _currentIndex == index ? ActiveDot() : UnActiveDotHome();
   }
 
-  void _getHomeProduct() async{
-    setState(() {
-      _isLoading=true;
-    });
+  void getHomeProduct() async{
+    setState(() => _isLoading=true);
     await ScopedModel.of<RestaurantsApiModel>(context).listHome().then((value) {
       if(value.status.status){
         setState(() {
           _specSlider.addAll(value.data.spes_slider);
-          _images.addAll(value.data.slider);
-          _resturant.addAll(value.data.Vendor);
+          _images.addAll(value.data.slider??[]);
+          _restaurant.addAll(value.data.Vendor);
           if(value.data.ads!=null)
           _ads.addAll(value.data.ads);
           _isLoading=false;
@@ -179,15 +177,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     });
   }
 
-  void _logOut() async{
-    pr.showDialog();
-    await ScopedModel.of<RestaurantsApiModel>(context).logout().whenComplete(() => pr.hideDialog()).then((value){
-      UtilSharedPreferences.clear();
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => LoginScreen()),
-              (route) => false);
-    });
-  }
+  // void _logOut() async{
+  //   pr.showDialog();
+  //   await ScopedModel.of<RestaurantsApiModel>(context).logout().whenComplete(() => pr.hideDialog()).then((value){
+  //     UtilSharedPreferences.clear();
+  //     Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(builder: (_) => LoginScreen()),
+  //             (route) => false);
+  //   });
+  // }
 }
 

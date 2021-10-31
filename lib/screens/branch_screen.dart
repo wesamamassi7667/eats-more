@@ -1,6 +1,7 @@
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
-import 'package:eat_more_app/component/branch_widget.dart';
+import 'package:eat_more_app/widgets/branch_widget.dart';
 import 'package:eat_more_app/component/header_component.dart';
 import 'package:eat_more_app/component/list_address_sheet.dart';
 import 'package:eat_more_app/component/map_widget.dart';
@@ -54,8 +55,8 @@ class _BranchScreenState extends State<BranchScreen> {
           children: [
             HeaderComponent(
               id: widget.idWay,
-              title: widget.idWay == 0 ? "العنوان" : 'عنوان الفرع',
-              child: widget.idWay == 0
+              title: widget.idWay == 2 ? "العنوان" : 'عنوان الفرع',
+              child: widget.idWay == 1
                   ? MapWidget(
                       onMapCreated: _onMapCreated,
                       markers: model.marker,
@@ -71,10 +72,10 @@ class _BranchScreenState extends State<BranchScreen> {
                       isLoading: _isLoading,
                       branches: _branches,
                       id: widget.id,
-                      idWay: widget.idWay,
+                      idWay: 2,
                     ),
             ),
-            widget.idWay == 1
+            widget.idWay == 2
                 ? SizedBox.shrink()
                 : SizedBox.expand(
                     child: DraggableScrollableSheet(
@@ -103,20 +104,16 @@ class _BranchScreenState extends State<BranchScreen> {
 
   void _getBranches(String lat, String lng, type) async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
-      await ScopedModel.of<RestaurantsApiModel>(context)
-          .listBranch(widget.id, lng, lat, type)
+      setState(()=> _isLoading = true);
+      await AppApi.serviceClient.listBranch(widget.id, lng, lat, type)
           .then((value) {
-        if (value.status.status) {
           _branches.clear();
-          if (widget.idWay == 0) {
+          if (widget.idWay == 1) {
             ScopedModel.of<RestaurantsApiModel>(context).clearMarks();
             _setMapPins();
           }
-          _branches.addAll(value.data.branches);
-          if (widget.idWay == 0) if (_branches.isNotEmpty) {
+          _branches.addAll(value);
+          if (widget.idWay == 1) if (_branches.isNotEmpty) {
             _covered = "Covered";
             ScopedModel.of<RestaurantsApiModel>(context).clearMarks();
             _setMapPins();
@@ -144,9 +141,7 @@ class _BranchScreenState extends State<BranchScreen> {
           } else {
             _covered = 'Not Covered';
           }
-        } else {
-          AppDialog.showMe(context, value.status.HTTP_response);
-        }
+
         setState(() {
           _isLoading = false;
         });
@@ -211,7 +206,7 @@ class _BranchScreenState extends State<BranchScreen> {
         lat = pos?.latitude ?? 0.0;
         lng = pos?.longitude ?? 0.0;
       });
-      if (widget.idWay == 1)
+      if (widget.idWay == 2)
         _getBranches(lat.toString(), lng.toString(), "pickup");
       else {
         setState(() {

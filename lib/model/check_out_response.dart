@@ -1,19 +1,6 @@
 
-import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'check_out_response.g.dart';
-@JsonSerializable()
-class CheckOutResponse{
-  StatusResponse status;
-  CheckOut data;
-
-  CheckOutResponse(this.status, this.data);
-  factory CheckOutResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckOutResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CheckOutResponseToJson(this);
-}
 @JsonSerializable()
 class CheckOut {
   List<Payment> payment_type;
@@ -21,9 +8,16 @@ class CheckOut {
 
   CheckOut(this.payment_type,this.coupon_type);
   factory CheckOut.fromJson(Map<String, dynamic> json) =>
-      _$CheckOutFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CheckOutToJson(this);
+      CheckOut(
+        (json['payment_type'] as List)
+            ?.map((e) =>
+        e == null ? null : Payment.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+        (json['coupon_type'] as List)
+            ?.map((e) =>
+        e == null ? null : Payment.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 
 @JsonSerializable()
@@ -34,23 +28,13 @@ class Payment {
 
   Payment(this.key, this.value,this.image);
   factory Payment.fromJson(Map<String, dynamic> json) =>
-      _$PaymentFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PaymentToJson(this);
-
+   Payment(
+      json['key'] as String,
+      json['value'] as String,
+      json['image'] as String,
+  );
 }
 
-@JsonSerializable()
-class CouponResponse{
-  StatusResponse status;
- Coupon data;
-
-  CouponResponse(this.status, this.data);
-  factory CouponResponse.fromJson(Map<String, dynamic> json) =>
-      _$CouponResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CouponResponseToJson(this);
-}
 @JsonSerializable()
 class Coupon {
   String couponCode;
@@ -63,9 +47,14 @@ class Coupon {
   Coupon(this.couponCode, this.couponId, this.title, this.priceBeforeDiscount,
       this.couponDiscountAmount, this.finalPrice);
   factory Coupon.fromJson(Map<String, dynamic> json) =>
-      _$CouponFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CouponToJson(this);
+      Coupon(
+        json['couponCode'] as String,
+        json['couponId'] as int,
+        json['title'] as String,
+        json['priceBeforeDiscount'] as String,
+        json['couponDiscountAmount'] as String,
+        json['finalPrice'] as String,
+      );
 
 }
 

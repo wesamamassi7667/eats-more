@@ -19,12 +19,9 @@ class VendorWidget extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
+    Restaurant vendor=list[index];
     return ScaleAnimation(
-      tap: (v)=> Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryMethodsScreen(
-            id:list[index].vendor_id
-        )
-        )
-        ),
+      tap: (v)=> Navigator.pushNamed(context, '/deliveryMethod',arguments:vendor.vendor_id),
       child: SecondContainerComponent(
         height: 122,
         width: list.length==2?MediaQuery.of(context).size.width*0.4:90,
@@ -39,15 +36,14 @@ class VendorWidget extends StatelessWidget {
             VendorLogo(
               width: 58.0,
               height: 58.0,
-              url: list[index].vendor_image,
+              url: vendor.vendor_image,
             ),
             SizedBox(
               height: 3,
             ),
             Text(
-              list[index].vendor_name,
+              vendor.vendor_name,
               style: TextStyle(
-                fontFamily: 'DIN Next LT Arabic',
                 fontSize: 16,
                 color: black2,
               ),

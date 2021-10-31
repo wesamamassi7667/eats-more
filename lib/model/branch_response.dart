@@ -1,30 +1,21 @@
 
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'branch_response.g.dart';
-
-@JsonSerializable()
-class BranchResponse{
-StatusResponse status;
-BranchData data;
-
-BranchResponse(this.status, this.data);
-factory BranchResponse.fromJson(Map<String, dynamic> json) =>
-    _$BranchResponseFromJson(json);
-
-Map<String, dynamic> toJson() => _$BranchResponseToJson(this);
-}
-
-
 @JsonSerializable()
 class BranchData{
   List<Branch> branches;
 
   BranchData(this.branches);
   factory BranchData.fromJson(Map<String, dynamic> json) =>
-      _$BranchDataFromJson(json);
+      BranchData(
+        (json['branches'] as List)
+            ?.map((e) =>
+        e == null ? null : Branch.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
 
-  Map<String, dynamic> toJson() => _$BranchDataToJson(this);
+      );
+
+
 }
 @JsonSerializable()
 class Branch {
@@ -55,8 +46,18 @@ class Branch {
       this.branch_long);
 
   factory Branch.fromJson(Map<String, dynamic> json) =>
-      _$BranchFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BranchToJson(this);
-
+      Branch(
+        json['branch_id'] as int,
+        json['branch_name'] as String,
+        (json['max_area_delivery'] as num)?.toDouble(),
+        (json['phone_code'] as num)?.toDouble(),
+        json['longitude'] as String,
+        json['latitude'] as String,
+        json['distance'] as String,
+        json['distance_type'] as String,
+        json['branch_address'] as String,
+        json['branch_lat'] as String,
+        json['branch_long'] as String,
+      );
 }
+

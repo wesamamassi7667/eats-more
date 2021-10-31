@@ -11,12 +11,12 @@ class API {
 
 
   ///Authentication APIs
-  static Future<APIResultModel> getRouteCoordinates(dynamic parameters) async {
-    print(parameters);
-    return APIResultModel.fromResponse(
-        response: await HttpManager.get(baseUrl: GET_COORDINATES_URL,
-            path: GET_COORDINATES_PATH,
-            parameters: parameters),
-        data: null);
-  }
+  // static Future<APIResultModel> getRouteCoordinates(dynamic parameters) async {
+  //   print(parameters);
+  //   return APIResultModel.fromResponse(
+  //       response: await HttpManager.get(baseUrl: GET_COORDINATES_URL,
+  //           subUrl: GET_COORDINATES_PATH,
+  //           parameters: parameters),
+  //       data: null);
+  // }
 }

@@ -293,20 +293,20 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
   }
 
   _setPolyLine() async {
-    final result = await MapRepository()
-        .getRouteCoordinates(branchLatLng, _recipientLatLng, googleAPIKey);
-    if (result.success) {
-      final route = result.data["routes"][0]["overview_polyline"]["points"];
-      setState(() {
-        _polyline.add(Polyline(
-            polylineId: PolylineId("tripRoute"),
-            //pass any string here
-            width: 3,
-            geodesic: true,
-            points: MapUtils.convertToLatLng(MapUtils.decodePoly(route)),
-            color: primaryIconColor));
-      });
-    }
+    // final result = await MapRepository()
+    //     .getRouteCoordinates(branchLatLng, _recipientLatLng, googleAPIKey);
+    // if (result.success) {
+    //   final route = result.data["routes"][0]["overview_polyline"]["points"];
+    //   setState(() {
+    //     _polyline.add(Polyline(
+    //         polylineId: PolylineId("tripRoute"),
+    //         //pass any string here
+    //         width: 3,
+    //         geodesic: true,
+    //         points: MapUtils.convertToLatLng(MapUtils.decodePoly(route)),
+    //         color: primaryIconColor));
+    //   });
+    // }
   }
   void _back() {
     if (!widget.isOrder)

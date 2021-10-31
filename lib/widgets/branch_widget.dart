@@ -1,5 +1,7 @@
 import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/model/arguments/restaurent_argument.dart';
 import 'package:eat_more_app/model/branch_response.dart';
 import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +28,7 @@ class BranchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(child: CupertinoActivityIndicator())
+        ? MyProgressIndicator()
         : ClipRRect(
             borderRadius: BorderRadius.circular(40.0),
             child: SingleChildScrollView(
@@ -37,7 +39,6 @@ class BranchWidget extends StatelessWidget {
                     Text(
                       AppLocalization.of(context).translate("select_branch"),
                       style: TextStyle(
-                        fontFamily: 'DIN Next LT Arabic',
                         fontSize: 20,
                         color: black4,
                         fontWeight: FontWeight.w500,
@@ -48,32 +49,31 @@ class BranchWidget extends StatelessWidget {
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
                         itemBuilder: (context, index) {
+                          Branch _branch = _branches[index];
                           return InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RestaurantScreen(
-                                            id: id,
-                                            branch: _branches[index],
-                                            idWay: idWay,
-                                          )
-                                  )
-                              );
+                              RestaurantArgument _argument = RestaurantArgument(
+                                  id: id, idWay: idWay, branch: _branch);
+                              Navigator.pushNamed(context, '/restaurant',
+                                  arguments: _argument);
                             },
                             child: SecondContainerComponent(
-                                start: 13, end: 13, top: index == 35 ? 0 : 12,
-                                startP: 8, endP: 4, topP: 5, bottomP: 5,
-                                 radius: BorderRadius.circular(5.0),
+                              start: 13,
+                              end: 13,
+                              top: index == 35 ? 0 : 12,
+                              startP: 8,
+                              endP: 4,
+                              topP: 5,
+                              bottomP: 5,
+                              radius: BorderRadius.circular(5.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
                                       Text(
-                                        _branches[index].branch_name,
+                                        _branch.branch_name,
                                         style: TextStyle(
-                                          fontFamily: 'DIN Next LT Arabic',
                                           fontSize: 20,
                                           color: black1,
                                         ),
@@ -91,9 +91,8 @@ class BranchWidget extends StatelessWidget {
                                   _branches[index].branch_address == null
                                       ? SizedBox.shrink()
                                       : Text(
-                                          _branches[index].branch_address ?? "",
+                                          _branch.branch_address ?? "",
                                           style: TextStyle(
-                                            fontFamily: 'DIN Next LT Arabic',
                                             fontSize: 16,
                                             color: black1,
                                             fontWeight: FontWeight.w300,
@@ -103,11 +102,10 @@ class BranchWidget extends StatelessWidget {
                                     height: 3,
                                   ),
                                   Text(
-                                    _branches[index].distance +
+                                    _branch.distance +
                                         " " +
-                                        _branches[index].distance_type,
+                                        _branch.distance_type,
                                     style: TextStyle(
-                                      fontFamily: 'DIN Next LT Arabic',
                                       fontSize: 16,
                                       color: black1,
                                       fontWeight: FontWeight.w300,

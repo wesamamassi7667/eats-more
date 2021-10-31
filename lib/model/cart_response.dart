@@ -1,18 +1,7 @@
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'cart_response.g.dart';
-@JsonSerializable()
-class CartResponse{
-  StatusResponse status;
-  Cart data;
 
-  CartResponse(this.status, this.data);
-  factory CartResponse.fromJson(Map<String, dynamic> json) =>
-      _$CartResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CartResponseToJson(this);
-}
 @JsonSerializable()
 class Cart{
  double products_price;
@@ -22,9 +11,15 @@ class Cart{
 
  Cart(this.products_price, this.products_count, this.order_id, this.products);
  factory Cart.fromJson(Map<String, dynamic> json) =>
-     _$CartFromJson(json);
-
- Map<String, dynamic> toJson() => _$CartToJson(this);
+     Cart(
+       (json['products_price'] as num)?.toDouble(),
+       json['products_count'] as int,
+       json['order_id'] as int,
+       (json['products'] as List)
+           ?.map((e) =>
+       e == null ? null : ProductCart.fromJson(e as Map<String, dynamic>))
+           ?.toList(),
+     );
 }
 @JsonSerializable()
 class ProductCart {
@@ -40,6 +35,7 @@ class ProductCart {
   ProductOffer product_offer;
   List<Addons> addons;
   String image;
+  String product_desc;
   List<Addons> addon;
 
 
@@ -56,11 +52,33 @@ class ProductCart {
       this.product_offer,
       this.addons,
       this.image,
+      this.product_desc,
       this.addon
       );
   factory ProductCart.fromJson(Map<String, dynamic> json) =>
-      _$ProductCartFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProductCartToJson(this);
+      ProductCart(
+        json['basket_product_id'] as int,
+        json['custom_addons'] as String,
+        json['product_id'] as int,
+        json['product_name'] as String,
+        json['product_image'] as String,
+        json['quantity'] as int,
+        (json['one_product_price'] as num)?.toDouble(),
+        json['product_addons_price'] as String,
+        json['final_price'] as String,
+        json['product_offer'] == null
+            ? null
+            : ProductOffer.fromJson(json['product_offer'] as Map<String, dynamic>),
+        (json['addons'] as List)
+            ?.map((e) =>
+        e == null ? null : Addons.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+        json['image'] as String,
+        json['description'] as String,
+        (json['addon'] as List)
+            ?.map((e) =>
+        e == null ? null : Addons.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 

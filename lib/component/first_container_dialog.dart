@@ -1,6 +1,6 @@
 
 import 'package:eat_more_app/color.dart';
-import 'package:eat_more_app/component/yes_no_buttons.dart';
+import 'package:eat_more_app/component/row_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,7 +32,7 @@ class FirstContainerDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30,),
-            YesNoButtons(
+            RowButtons(
             tap: tap,
               width: 133,
             )

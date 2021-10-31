@@ -33,9 +33,8 @@ class HeaderOrderDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '#' + '${order.order_id}',
+                '#' + '${order.order_number}',
                 style: TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
                   fontSize: 18,
                   color: black2.withOpacity(0.76),
                 ),
@@ -46,7 +45,6 @@ class HeaderOrderDetails extends StatelessWidget {
               Text(
                 order.order_date,
                 style: TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
                   fontSize: 13,
                   color: grey4.withOpacity(0.78),
                 ),
@@ -57,7 +55,6 @@ class HeaderOrderDetails extends StatelessWidget {
               Text(
                 order.order_status.name,
                 style: TextStyle(
-                  fontFamily: 'DIN Next LT Arabic',
                   fontSize: 14,
                   color: orange,
                   fontWeight: FontWeight.w300,

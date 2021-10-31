@@ -19,15 +19,15 @@ import 'package:eat_more_app/model/order_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:eat_more_app/model/rajhi_response.dart';
 import 'package:eat_more_app/model/setting_response.dart';
-import 'package:eat_more_app/model/stauts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
  class RestaurantsApiModel extends Model{
   static final String url = "https://api.yalago.net/api/enterprise/eats/";
+  final String gif=UtilSharedPreferences.getString('gif');
   RestaurantsApiModel() {
-   if(UtilSharedPreferences.getString('gif') != null)
+   if(gif != null)
     _getConstant();
     if (UtilSharedPreferences.getObj("user") != null){
       _currentUser=User.fromJson(UtilSharedPreferences.getObj("user"));
@@ -175,25 +175,7 @@ final Set<Marker> _markers = Set<Marker>();
     }
     );
   }
-  Future<BranchResponse> listBranch(int id,String longitude,String latitude,String type) {
-    try{
-      return http.get(
-        Uri.parse(url + 'branches?vendor_id=$id&type=$type&longitude=$longitude&latitude=$latitude') ,
-        headers: headers(),
-      ).then((response) {
-        print(response.body);
-        if (response.statusCode != 200) {
-          print(response.reasonPhrase);
-          print(response.body);
-        }
-        return BranchResponse.fromJson(json.decode(response.body));
-      }
-      );
-    }
-    catch(err){
-      throw err;
-    }
-  }
+
   Future<LoginResponse> loginUser(body,String subUrl){
     return http
         .post(
@@ -205,7 +187,8 @@ final Set<Marker> _markers = Set<Marker>();
 
       return LoginResponse.fromJson(json.decode(response.body));
     }
-    );}
+    );
+   }
   Future<AddressResponse> getAddress() {
     return http.get(
         Uri.parse(url + 'auth/address') ,
@@ -277,129 +260,7 @@ final Set<Marker> _markers = Set<Marker>();
     }
     );
   }
-  Future<CartResponse> addToCart(body) {
-    return http.post(
-        Uri.parse(url + 'auth/basket') ,
-        body: body,
-        headers: headers()
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-  Future<CartResponse> getCart(int vendorId) {
-    return http.get(
-        Uri.parse(url + 'auth/basket?vendor_id=$vendorId') ,
-        headers: headers()
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-  Future<CartResponse> deleteCart(int cartId) {
-    return http.delete(
-        Uri.parse(url + 'auth/basket/$cartId') ,
-        headers: headers()
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-  Future<CartResponse> updateCart(int cartId,body) {
-    return http.put(
-        Uri.parse(url + 'auth/basket/$cartId') ,
-        headers: headers(),
-       body: body,
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-  Future<CheckOutResponse> listPayment(int vendorId,body) {
-    return http.post(
-        Uri.parse(url + 'auth/orders/checkout?vendor_id=$vendorId'),
-        headers: headers(),
-        body: body,
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CheckOutResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-  Future<MyFatoorahResponse> getMyFatoorah(int vendorId) {
-    return http.get(
-      Uri.parse(url + 'auth/payment/myfatoorah-auth?vendor_id=$vendorId') ,
-      headers: headers(),
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return MyFatoorahResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
 
-  Future<MyFatoorahPaymentResponse> paymentByMyFatoorah(int vendorId,body) {
-   try{
-     return http.post(
-       Uri.parse(url + "auth/payment/myfatoorah-handler?vendor_id=$vendorId"),
-       body:body,
-       headers: headers(),
-     ).then((response) {
-       print(response.body);
-       if (response.statusCode != 200) {
-         print(response.reasonPhrase);
-         print(response.body);
-       }
-       return MyFatoorahPaymentResponse.fromJson(json.decode(response.body));
-     }
-     );
-   }
-   catch(err){
-     throw err;
-   }
-  }
-  Future<OrderResponse> makeOrder(body) {
-    return http.post(
-      Uri.parse(url + "auth/orders/confirm-new-order"),
-      body:body,
-      headers: headers(),
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return OrderResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
   Future<ProfileResponse> getProfileInfo(String subUrl,body) {
     return http.post(
       Uri.parse(url + subUrl),
@@ -546,83 +407,29 @@ final Set<Marker> _markers = Set<Marker>();
     }
     );
   }
-  Future <CouponResponse> applyCoupon(int vendorId,body) async {
-    return http.post(
-      Uri.parse( url + 'auth/coupon/check?vendor_id=$vendorId'),
-      headers: headers(),
-      body: body
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CouponResponse.fromJson(jsonDecode(response.body));
-    }
-    );
-  }
-  Future <RajhiResponse> getTokenRajhi() async {
-    return http.get(
-        Uri.parse( url + 'auth/payment/Rajhi-GenerateOAuth'),
-        headers: headers(),
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return RajhiResponse.fromJson(jsonDecode(response.body));
-    }
-    );
-  }
 
-
-  Future <RajhiPaymentResponse> paymentRajhi(String token,body) async {
-    Map<String, String> headers1() {
-      return <String, String>{
-        'language': language==0||UtilSharedPreferences.getInt('lang')==0?'en':'ar',
-        'Authorization': UtilSharedPreferences.getString('token'),
-        "token":token
-      };
-    }
-    print(token);
-    print(headers1());
-    return http.post(
-      Uri.parse( url + 'auth/payment/Rajhi-checkMobile'),
-      headers: headers1(),
-      body: body
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return RajhiPaymentResponse.fromJson(jsonDecode(response.body));
-    }
-    );
-  }
-  Future <CheckOtpCodeResponse> checkOtpCode(String token,body) async {
-    Map<String, String> headers1() {
-      return <String, String>{
-        'language': language==0||UtilSharedPreferences.getInt('lang')==0?'en':'ar',
-        'Authorization': UtilSharedPreferences.getString('token'),
-        "token":token
-      };
-    }
-    return http.post(
-        Uri.parse( url + 'auth/payment/Rajhi-checkOTPCode'),
-        headers: headers1(),
-        body: body
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return CheckOtpCodeResponse.fromJson(jsonDecode(response.body));
-    }
-    );
-  }
+  // Future <CheckOtpCodeResponse> checkOtpCode(String token,body) async {
+  //   Map<String, String> headers1() {
+  //     return <String, String>{
+  //       'language': language==0||UtilSharedPreferences.getInt('lang')==0?'en':'ar',
+  //       'Authorization': UtilSharedPreferences.getString('token'),
+  //       "token":token
+  //     };
+  //   }
+  //   return http.post(
+  //       Uri.parse( url + 'auth/payment/Rajhi-checkOTPCode'),
+  //       headers: headers1(),
+  //       body: body
+  //   ).then((response) {
+  //     print(response.body);
+  //     if (response.statusCode != 200) {
+  //       print(response.reasonPhrase);
+  //       print(response.body);
+  //     }
+  //     return CheckOtpCodeResponse.fromJson(jsonDecode(response.body));
+  //   }
+  //   );
+  // }
   Future <void> updateFcmToken(body) async {
     return http.post(
       Uri.parse( url + 'auth/updateFcm_token'),
@@ -712,7 +519,6 @@ final Set<Marker> _markers = Set<Marker>();
      );
    }
   void _getConstant() async {
-     String gif=UtilSharedPreferences.getString('gif');
     await listConstants().then((value) {
       if(value.status.status) {
         Helper.constants=value.data;

@@ -13,7 +13,7 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
         : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
     json['data'] == null
         ? null
-        : Login.fromJson(json['data'] as Map<String, dynamic>),
+        : User.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 
@@ -23,8 +23,10 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'data': instance.data,
     };
 
-Login _$LoginFromJson(Map<String, dynamic> json) {
-  return Login(
+User _$UserFromJson(Map<String, dynamic> json) {
+  return User(
+    json['id'] as int,
+    json['enterprise_id'] as int,
     json['member_case'] as String,
     json['phone'] as String,
     json['sms_sent_status'] as bool,
@@ -32,22 +34,6 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
         ? null
         : User.fromJson(json['member_full_info'] as Map<String, dynamic>),
     json['token'] as String,
-  );
-}
-
-Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
-      'member_case': instance.member_case,
-      'phone': instance.phone,
-      'sms_sent_status': instance.sms_sent_status,
-      'member_full_info': instance.member_full_info,
-      'token': instance.token,
-    };
-
-User _$UserFromJson(Map<String, dynamic> json) {
-  return User(
-    json['id'] as int,
-    json['enterprise_id'] as int,
-    json['phone'] as String,
     json['member_image'] as String,
     json['lname'] as String,
     json['fname'] as String,
@@ -68,7 +54,11 @@ User _$UserFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'enterprise_id': instance.enterprise_id,
+      'member_case': instance.member_case,
       'phone': instance.phone,
+      'sms_sent_status': instance.sms_sent_status,
+      'member_full_info': instance.member_full_info,
+      'token': instance.token,
       'member_image': instance.member_image,
       'lname': instance.lname,
       'fname': instance.fname,
