@@ -1,3 +1,4 @@
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/mobile_text_field.dart';
@@ -137,20 +138,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() async {
     FocusScope.of(context).unfocus();
-    setState(() => _isLoading = true);
-    var _body = {"phone": "966" + _number.text.trim()};
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .loginUser(_body, 'auth/login')
-        .then((value) async {
-      if (value.status.status) {
+    try{
+      setState(() => _isLoading = true);
+      var _body = {"phone": "966" + _number.text.trim()};
+      final response=await AppApi.authClient.loginUser(_body);
+      if(response!=null){
+        setState(() =>_isLoading=false);
         Navigator.pushNamed(context, '/code', arguments: {
-          'phone': value.data.phone,
-          'member_case': value.data.member_case
+          'phone':response.phone,
+          'member_case': response.member_case
         });
-      } else {
-        AppDialog.showMe(context, value.status.HTTP_response, isError: true);
       }
+    }
+    catch(err){
       setState(() => _isLoading = false);
-    });
+      AppDialog.showMe(context, err.toString());
+    }
   }
 }

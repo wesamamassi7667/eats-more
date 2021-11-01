@@ -1,4 +1,5 @@
 
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,12 @@ class UtilSharedPreferences {
   }
 
   static void setObj(String key, Object value) {
-    _prefs.setString(key, jsonEncode(value));
+    try{
+      _prefs.setString(key, jsonEncode(value));
+    }
+    catch(err){
+      throw err;
+    }
   }
 
   static Object getObj(String key) {

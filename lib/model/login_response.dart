@@ -4,17 +4,7 @@ import 'package:eat_more_app/model/stauts.dart';
 
 part 'login_response.g.dart';
 
-@JsonSerializable()
-class LoginResponse{
-  StatusResponse status;
-  User data;
 
-  LoginResponse(this.status, this.data);
-  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
-}
 
 @JsonSerializable()
 class User{
@@ -65,9 +55,59 @@ class User{
       this.member_id);
 
   factory User.fromJson(Map<String, dynamic> json) =>
-      _$UserFromJson(json);
+      User(
+        json['id'] as int,
+        json['enterprise_id'] as int,
+        json['member_case'] as String,
+        json['phone'] as String,
+        json['sms_sent_status'] as bool,
+        json['member_full_info'] == null
+            ? null
+            : User.fromJson(json['member_full_info'] as Map<String, dynamic>),
+        json['token'] as String,
+        json['member_image'] as String,
+        json['lname'] as String,
+        json['fname'] as String,
+        json['last_name'] as String,
+        json['avatar'] as String,
+        json['gender'] as String,
+        json['birthday'] as String,
+        json['is_reg_active'] as int,
+        json['city'] as String,
+        json['nationality'] as String,
+        json['email'] as String,
+        json['username'] as String,
+        json['fcm_token'] as String,
+        json['member_id'] as int,
+      );
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> $UserToJson(User instance) => <String, dynamic>{
+    'id': instance.id,
+    'enterprise_id': instance.enterprise_id,
+    'member_case': instance.member_case,
+    'phone': instance.phone,
+    'sms_sent_status': instance.sms_sent_status,
+    'member_full_info': instance.member_full_info,
+    'token': instance.token,
+    'member_image': instance.member_image,
+    'lname': instance.lname,
+    'fname': instance.fname,
+    'last_name': instance.last_name,
+    'avatar': instance.avatar,
+    'gender': instance.gender,
+    'birthday': instance.birthday,
+    'is_reg_active': instance.is_reg_active,
+    'city': instance.city,
+    'nationality': instance.nationality,
+    'email': instance.email,
+    'username': instance.username,
+    'fcm_token': instance.fcm_token,
+    'member_id': instance.member_id,
+  };
+
+
+
+
 }
 
 @JsonSerializable()

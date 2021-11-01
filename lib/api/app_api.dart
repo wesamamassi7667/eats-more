@@ -1,4 +1,5 @@
 
+import 'clients/auth_client.dart';
 import 'clients/cart_client.dart';
 import 'clients/check_out_client.dart';
 import 'clients/configure_client.dart';
@@ -11,4 +12,6 @@ class AppApi {
   static CartClient cartClient = CartClient();
   static OrderClient orderClient = OrderClient();
   static ConfigureClient configureClient = ConfigureClient();
+  static AuthClient authClient = AuthClient();
+
 }

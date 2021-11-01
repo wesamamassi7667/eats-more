@@ -6,8 +6,6 @@ import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/track_order.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/order_response.dart';
-import 'package:eat_more_app/repositories/map_repository.dart';
-import 'package:eat_more_app/utils/map_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';

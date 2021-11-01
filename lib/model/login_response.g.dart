@@ -6,22 +6,22 @@ part of 'login_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
-  return LoginResponse(
-    json['status'] == null
-        ? null
-        : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
-    json['data'] == null
-        ? null
-        : User.fromJson(json['data'] as Map<String, dynamic>),
-  );
-}
-
-Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'data': instance.data,
-    };
+// LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
+//   return LoginResponse(
+//     json['status'] == null
+//         ? null
+//         : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
+//     json['data'] == null
+//         ? null
+//         : User.fromJson(json['data'] as Map<String, dynamic>),
+//   );
+// }
+//
+// Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
+//     <String, dynamic>{
+//       'status': instance.status,
+//       'data': instance.data,
+//     };
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(

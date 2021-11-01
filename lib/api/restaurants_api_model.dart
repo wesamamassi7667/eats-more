@@ -176,19 +176,6 @@ final Set<Marker> _markers = Set<Marker>();
     );
   }
 
-  Future<LoginResponse> loginUser(body,String subUrl){
-    return http
-        .post(
-         Uri.parse(url + '$subUrl'),
-        body: body,
-
-    ).then((response){
-      print(response.body);
-
-      return LoginResponse.fromJson(json.decode(response.body));
-    }
-    );
-   }
   Future<AddressResponse> getAddress() {
     return http.get(
         Uri.parse(url + 'auth/address') ,
@@ -372,21 +359,7 @@ final Set<Marker> _markers = Set<Marker>();
   //   }
   //   );
   // }
-  Future <void> updateFcmToken(body) async {
-    return http.post(
-      Uri.parse( url + 'auth/updateFcm_token'),
-      headers: headers(),
-      body: body
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return null;
-    }
-    );
-  }
+
   Future <VendorCategoryResponse> getVendorCategory() async {
     return http.get(
         Uri.parse( url + 'vendor-category'),
