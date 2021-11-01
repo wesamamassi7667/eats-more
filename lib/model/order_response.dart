@@ -124,23 +124,6 @@ class Distance {
 }
 
 @JsonSerializable()
-class AllOrderResponse{
-  StatusResponse status;
-  List<Order> data;
-  AllOrderResponse(this.status, this.data);
-  factory AllOrderResponse.fromJson(Map<String, dynamic> json) =>
-      AllOrderResponse(
-        json['status'] == null
-            ? null
-            : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
-        (json['data'] as List)
-            ?.map(
-                (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-      );
-}
-
-@JsonSerializable()
 class TrackOrderResponse{
   StatusResponse status;
   TrackOrder data;

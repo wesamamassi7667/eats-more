@@ -20,27 +20,23 @@ class OrderClient{
     }
   }
 
+
   Future <List<Order>> listOrders() async {
-    // try {
-    final  response = await HttpManager.get<List<Order>>(
+    try {
+    final  response = await HttpManager.get<dynamic>(
         'auth/orders/my-all-orders',
             (json) {
               return (json as List)
-                  ?.map(
-                      (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
-                  ?.toList();
+                    ?.map(
+                        (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
+                    ?.toList();
             } ,
-      );
-
-
-
-
-
-      return response??[];
-    // }
-    // catch (err) {
-    //   throw (err);
-    // }
+      ) ;
+    return response??[];
+    }
+    catch (err) {
+      throw (err);
+    }
   }
 
 }

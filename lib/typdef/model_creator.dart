@@ -1,4 +1,4 @@
 
-typedef ModelCreator<T> = T Function(Map<String, dynamic>);
+typedef ModelCreator<T> = T Function(dynamic);
 //is equal createModel(json)=>CheckOut.fromJson(json)
 

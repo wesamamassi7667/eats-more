@@ -99,23 +99,8 @@ Map<String, dynamic> _$DistanceToJson(Distance instance) => <String, dynamic>{
       'distance_in_km': instance.distance_in_km,
     };
 
-AllOrderResponse _$AllOrderResponseFromJson(Map<String, dynamic> json) {
-  return AllOrderResponse(
-    json['status'] == null
-        ? null
-        : StatusResponse.fromJson(json['status'] as Map<String, dynamic>),
-    (json['data'] as List)
-        ?.map(
-            (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
 
-Map<String, dynamic> _$AllOrderResponseToJson(AllOrderResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'data': instance.data,
-    };
+
 
 TrackOrderResponse _$TrackOrderResponseFromJson(Map<String, dynamic> json) {
   return TrackOrderResponse(

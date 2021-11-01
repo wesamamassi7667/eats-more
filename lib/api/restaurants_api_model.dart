@@ -307,35 +307,7 @@ final Set<Marker> _markers = Set<Marker>();
     return profileResponse;
   }
 
-  // Future<AllOrderResponse> contact(body) {
-  //   return http.post(
-  //     Uri.parse(url+'contact-us'),
-  //     headers: headers(),
-  //     body: body
-  //   ).then((response) {
-  //     print(response.body);
-  //     if (response.statusCode != 200) {
-  //       print(response.reasonPhrase);
-  //       print(response.body);
-  //     }
-  //     return AllOrderResponse.fromJson(json.decode(response.body));
-  //   }
-  //   );
-  // }
-  Future<ContactResponse> getSocialMediaLink() {
-    return http.get(
-        Uri.parse(url+'social-media-info'),
-        headers: headers(),
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return ContactResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
+
   Future<FAQResponse> getFAQs() {
     return http.get(
       Uri.parse(url+'faq'),

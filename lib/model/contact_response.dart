@@ -1,19 +1,7 @@
 import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'contact_response.g.dart';
 
-@JsonSerializable()
-class ContactResponse{
-  StatusResponse status;
-  SocialMedia data;
 
-  ContactResponse(this.status, this.data);
-  factory ContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$ContactResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ContactResponseToJson(this);
-
-}
 @JsonSerializable()
 class SocialMedia {
   String facebook;
@@ -28,7 +16,15 @@ class SocialMedia {
   SocialMedia(this.facebook, this.twitter, this.whatsapp, this.phone,
       this.website, this.instagram, this.snapchat, this.youtube);
   factory SocialMedia.fromJson(Map<String, dynamic> json) =>
-      _$SocialMediaFromJson(json);
+      SocialMedia(
+        json['facebook'] as String,
+        json['twitter'] as String,
+        json['whatsapp'] as String,
+        json['phone'] as String,
+        json['website'] as String,
+        json['instagram'] as String,
+        json['snapchat'] as String,
+        json['youtube'] as String,
+      );
 
-  Map<String, dynamic> toJson() => _$SocialMediaToJson(this);
 }

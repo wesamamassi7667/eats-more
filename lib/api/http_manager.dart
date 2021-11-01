@@ -22,7 +22,7 @@ class HttpManager {
     String subUrl,
     body,
     ModelCreator<T> createModel,
-    {String token}
+    {String token,bool showMessage=false}
   ) async {
     try {
          final response=await http.post(
@@ -34,7 +34,12 @@ class HttpManager {
           GenericResponse genericResponse=GenericResponse.fromJson(json.decode(response.body),createModel);
           if(genericResponse.status.status){
             print(genericResponse.data);
+            if(!showMessage)
             return genericResponse.data;
+            else
+              return Future.value(genericResponse.status.HTTP_response as T);
+
+
           }
       else{
         return Future.error(genericResponse.status.HTTP_response);
