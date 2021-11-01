@@ -1,8 +1,6 @@
-import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/color.dart';
-import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
-import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/second_header_component.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
@@ -11,9 +9,7 @@ import 'package:eat_more_app/screens/track_order_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:scoped_model/scoped_model.dart';
 
-import 'check_out_screen.dart';
 
 class OrderScreen extends StatefulWidget {
   final String title;
@@ -193,20 +189,10 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _getAllOrder() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .getAllOrder()
-        .then((value) {
-      if (value.status.status) if (value.data == null)
-        orders = [];
-      else
-        orders.addAll(value.data);
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    setState(() => _isLoading = true);
+    final response=await AppApi.orderClient.listOrders();
+    orders.addAll(response);
+    setState(() =>_isLoading=false);
   }
 
   Color _getColor(index) {

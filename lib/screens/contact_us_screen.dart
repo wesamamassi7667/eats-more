@@ -240,14 +240,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       setState(() {
         _isLoading = true;
       });
-      await ScopedModel.of<RestaurantsApiModel>(context).contact(_body).then((
-          value) {
-        AppDialog.showMe(context, value.status.HTTP_response,
-            isError: value.status.status ? false : true);
-        setState(() {
-          _isLoading = false;
-        });
-      });
+      // await ScopedModel.of<RestaurantsApiModel>(context).contact(_body).then((
+      //     value) {
+      //   AppDialog.showMe(context, value.status.HTTP_response,
+      //       isError: value.status.status ? false : true);
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      // });
     }
   }
 
