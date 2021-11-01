@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
 import 'package:eat_more_app/model/generic_response.dart';
 import 'package:eat_more_app/typdef/model_creator.dart';
@@ -12,7 +13,8 @@ class HttpManager {
     return {
       'language': UtilSharedPreferences.getInt('lang')==0?'en':'ar',
       'Authorization': UtilSharedPreferences.getString('token'),
-      'token':token
+      'token':token,
+      "platform":Helper.getPlatForm()
 
     };
   }

@@ -1,5 +1,3 @@
-import 'package:eat_more_app/component/image_card.dart';
-import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/model/order_response.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +22,8 @@ class HeaderOrderDetails extends StatelessWidget {
             image:AssetImage('assets/images/logo.jpg'),
             border: Border.all(
                 width: 1.0,
-                color: white2),
+                color: white2
+            ),
             colorShadow: black,
           ),
           SizedBox(

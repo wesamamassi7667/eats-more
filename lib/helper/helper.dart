@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
@@ -32,6 +33,13 @@ class Helper {
       // print(Color(int.parse("0x"+color)));
       return Color(int.parse("0x" + color));
     }
+  }
+
+  static String getPlatForm() {
+    if(Platform.isAndroid)
+      return "Android";
+
+    return "IOS";
   }
 
   static Future<AddCart> showProductSheet(
