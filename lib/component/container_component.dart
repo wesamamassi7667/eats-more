@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../color.dart';
+import 'common/common.dart';
 class ContainerComponent extends StatelessWidget {
   final Widget child;
 
@@ -12,9 +13,7 @@ class ContainerComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(44.0),
-          topRight: Radius.circular(44.0),),
+        borderRadius: Common.borderRadiusRightLeft(border: 44),
         color: background,
         // boxShadow: [
         //   BoxShadow(

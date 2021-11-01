@@ -8,21 +8,26 @@ import '../app_dialog.dart';
 import '../my_progress_indicator.dart';
 
 class Common {
-  // showBottomSheet: the sheet take full height and can sliding it
-  static BorderRadius borderRadiusRightLeft = BorderRadius.only(
-    topRight: Radius.circular(25),
-    topLeft: Radius.circular(25),
-  );
 
+
+
+  static BorderRadius borderRadiusRightLeft({double border=25.0}){
+    return BorderRadius.only(
+      topRight: Radius.circular(border),
+      topLeft: Radius.circular(border),
+    );
+  }
+
+  // showBottomSheet: the sheet take full height and can sliding it
   static showSlideUpLoginView(BuildContext context) {
     showBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
-          borderRadius:borderRadiusRightLeft
+          borderRadius:borderRadiusRightLeft()
         ),
         builder: (context) {
           return ClipRRect(
-            borderRadius: borderRadiusRightLeft,
+            borderRadius: borderRadiusRightLeft(),
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: LoginScreen(isSheet: true)),
@@ -39,7 +44,7 @@ class Common {
         isDismissible: false,
         isScrollControlled: isScrollControlled,
         shape: RoundedRectangleBorder(
-            borderRadius: borderRadiusRightLeft,
+            borderRadius: borderRadiusRightLeft(),
             side: BorderSide(width: 1, color: grey4)),
         builder: (context) => widget
     );

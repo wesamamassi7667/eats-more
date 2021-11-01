@@ -16,8 +16,9 @@ class CartList extends StatefulWidget {
   final int vendorId;
   final Function updateCartCallBack;
   final List<ProductCart> carts;
+  final bool isOrder;
 
-  const CartList({Key key, this.carts, this.vendorId, this.updateCartCallBack}) : super(key: key);
+  const CartList({Key key, this.carts, this.vendorId, this.updateCartCallBack, this.isOrder=false}) : super(key: key);
   @override
   _CartListState createState() => _CartListState();
 }
@@ -57,6 +58,7 @@ class _CartListState extends State<CartList> {
             return CartItem(
               productCart: widget.carts[index],
               index: index,
+              isOrder:widget.isOrder,
               pressPlus:()=>_updateQuantity(widget.carts[index],true,context),
               pressMines: ()=>widget.carts[index].quantity == 1
                   ? null:_updateQuantity(widget.carts[index], false, context),

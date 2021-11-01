@@ -7,21 +7,22 @@ class CheckOutRow extends StatelessWidget {
   final String title;
   final String text;
   final bool isPrice;
+  final bool isOrder;
   const CheckOutRow({
-    Key key, this.title, this.text, this.isPrice=true,
+    Key key, this.title, this.text, this.isPrice=true, this.isOrder=false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding:  EdgeInsets.symmetric(horizontal: isOrder?0: 30.0),
       child: Row(
         children: [
           Text(
             title,
             style: TextStyle(
               fontSize: 15,
-              color: background
+              color:isOrder?black: background
             ),
           ),
           Spacer(),
@@ -30,7 +31,7 @@ class CheckOutRow extends StatelessWidget {
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
-              color: background
+              color:isOrder?black: background
             ),
           )
         ],

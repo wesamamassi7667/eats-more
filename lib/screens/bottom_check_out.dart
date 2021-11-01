@@ -37,7 +37,7 @@ class CheckOutBottom extends StatelessWidget {
           minHeight: 100, maxHeight: size.height * 0.5),
       decoration: BoxDecoration(
         color: primaryIconColor,
-        borderRadius: Common.borderRadiusRightLeft,
+        borderRadius: Common.borderRadiusRightLeft(),
       ),
       child: SingleChildScrollView(
         child: Column(

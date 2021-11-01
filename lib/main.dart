@@ -201,6 +201,10 @@ class _MyAppState extends State<MyApp> {
             final arguments = setting.arguments as ItemDetailsArgument;
             return MaterialPageRoute(builder: (_)=>ItemDetailsScreen(arguments));
           }
+          else if(setting.name=='/OrderDetails'){
+            final arguments = setting.arguments as Order;
+            return MaterialPageRoute(builder: (_)=>OrderDetailsScreen(order: arguments,));
+          }
 
 
           return null;

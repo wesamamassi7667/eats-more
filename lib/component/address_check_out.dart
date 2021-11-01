@@ -28,46 +28,52 @@ class AddressCheckOutWidget extends StatelessWidget {
       radius: const BorderRadius.all(Radius.circular(5)),
       child: Row(
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-              decoration: BoxDecoration(
-                color: primaryIconColor.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(4),
+           Column(
+                crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                decoration: BoxDecoration(
+                  color: primaryIconColor.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  AppLocalization.of(context)
+                      .translate(address != null ? "deliver_to" : "pickup_from"),
+                  style: TextStyle(color: background, fontSize: 13),
+                ),
               ),
-              child: Text(
-                AppLocalization.of(context)
-                    .translate(address != null ? "deliver_to" : "pickup_from"),
-                style: TextStyle(color: background, fontSize: 13),
+              SizedBox(
+                height: 4,
               ),
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
+              Container(
+                width: MediaQuery.of(context).size.width-150,
+                child: Text(
+                  address == null || address.trim().isEmpty
+                      ? "${branch.branch_name}"
+                      : '$address',
+                  // maxLines: 3,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
               address == null || address.trim().isEmpty
-                  ? "${branch.branch_name}"
-                  : '$address',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            address == null || address.trim().isEmpty
-                ? Text(
-                    '${branch.branch_address}\n'
-                    " ${branch.distance} ${branch.distance_type}",
-                    maxLines: 2,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: black.withOpacity(0.76),
-                      fontWeight: FontWeight.w300,
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ]),
-          Spacer(),
-          OutlinedButton(
+                  ? Text(
+                      '${branch.branch_address}\n'
+                      " ${branch.distance} ${branch.distance_type}",
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: black.withOpacity(0.76),
+                        fontWeight: FontWeight.w300,
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ]),
+
+          isOrder?SizedBox():Spacer(),
+        isOrder?SizedBox.shrink():OutlinedButton(
             onPressed: () {},
             child: Text(
               AppLocalization.of(context).translate('change'),

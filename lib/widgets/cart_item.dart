@@ -17,6 +17,7 @@ class CartItem extends StatelessWidget {
   final Function pressPlus;
   final int selectedIndex;
   final Function pressMines;
+  final bool isOrder;
 
   const CartItem({
     Key key,
@@ -26,7 +27,7 @@ class CartItem extends StatelessWidget {
     this.productCart,
     this.pressPlus,
     this.selectedIndex,
-    this.pressMines,
+    this.pressMines, this.isOrder,
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class CartItem extends StatelessWidget {
             ImageCard(
               width: 84,
               height: 85,
-              url: productCart.product_image,
+              url:isOrder?productCart.image: productCart.product_image,
             ),
             SizedBox(
               width: 10,
@@ -91,7 +92,7 @@ class CartItem extends StatelessWidget {
                 ),
               ),
             ),
-            CountCartWidget(
+          isOrder?SizedBox.shrink(): CountCartWidget(
               isCart: true,
               quantity: productCart.quantity,
               pressPlus: pressPlus,
@@ -99,7 +100,7 @@ class CartItem extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
+        isOrder?SizedBox.shrink(): IconButton(
           onPressed: pressDelete,
           icon: Icon(
             Icons.delete_forever,
