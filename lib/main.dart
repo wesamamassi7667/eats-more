@@ -81,8 +81,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-  final _scaffoldKeyHome = new GlobalKey<ScaffoldState>();
-   final GlobalKey<NavigatorState> n=GlobalKey<NavigatorState>();
+  final _homeKey = GlobalKey<HomeScreenState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -174,7 +174,6 @@ class _MyAppState extends State<MyApp> {
           routes: {
             "/": (context) => SplashScreen(),
             "/login": (context) => LoginScreen(),
-            "/home": (context) => HomeScreen(),
           },
         onGenerateRoute: (setting){
           if(setting.name=='/code'){
@@ -205,6 +204,11 @@ class _MyAppState extends State<MyApp> {
             final arguments = setting.arguments as Order;
             return MaterialPageRoute(builder: (_)=>OrderDetailsScreen(order: arguments,));
           }
+          else if(setting.name=='/home'){
+            return MaterialPageRoute(builder: (_)=>HomeScreen(key: _homeKey,callBack:_updateLanguageCallBack));
+          }
+
+
 
 
           return null;
@@ -232,6 +236,9 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
+  _updateLanguageCallBack() async{
+    _homeKey.currentState.getHomeProduct();
+  }
   void _handleMessage(RemoteMessage initialMessage) {
     print(initialMessage.data);
   }

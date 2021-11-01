@@ -23,7 +23,9 @@ import '../color.dart';
 
 
 class DrawerWidget extends StatefulWidget {
+  final Function callBack;
 
+  const DrawerWidget({Key key, this.callBack}) : super(key: key);
 
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
@@ -141,11 +143,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     if (_lang == 'English') {
                       model.change(0);
                       UtilSharedPreferences.setInt('lang', 0);
+                      widget.callBack();
                       _lang = 'العربية';
                     } else {
                       model.change(1);
                       UtilSharedPreferences.setInt('lang', 1);
                       _lang = 'English';
+                      widget.callBack();
                     }
                   }),
               TileDrawer(

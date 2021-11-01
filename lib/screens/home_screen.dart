@@ -29,8 +29,9 @@ import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final GlobalKey keyHome;
+  final Function callBack;
 
-  const HomeScreen({Key key, this.keyHome}) : super(key: key);
+  const HomeScreen({Key key, this.keyHome, this.callBack}) : super(key: key);
   @override
   HomeScreenState createState() => HomeScreenState();
 }
@@ -91,7 +92,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 appBar: AppBarWidget(
                   key1: _scaffoldKey,
                 ),
-                drawer: DrawerWidget(),
+                drawer: DrawerWidget(callBack:widget.callBack),
                 body: _isLoading?MyProgressIndicator():SingleChildScrollView(
                   child: Column(
                     children: [
