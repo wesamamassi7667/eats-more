@@ -1,3 +1,4 @@
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/app_bar.dart';
 import 'package:eat_more_app/component/container_component.dart';
@@ -41,6 +42,7 @@ class _FAQScreenState extends State<FAQScreen> {
         child: ListView.builder(
             itemCount: faqs.length,
             itemBuilder:(context,index){
+
               return  ExpansionPanelList(
                 // key: UniqueKey(),
                 elevation: 1,
@@ -48,6 +50,7 @@ class _FAQScreenState extends State<FAQScreen> {
                 animationDuration: Duration(milliseconds: 1000),
                 children: [
                   ExpansionPanel(
+
                     headerBuilder: (context, isExpanded) {
                       return Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -56,7 +59,8 @@ class _FAQScreenState extends State<FAQScreen> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
-                              color: black5,),
+                              color: black5,
+                          ),
                         ),
                       );
 
@@ -76,17 +80,17 @@ class _FAQScreenState extends State<FAQScreen> {
                                   color: black,
                                   letterSpacing: 0.3,
                                   height: 1.3,
-                                  fontFamily: 'DIN Next LT Arabic'),
+                                 ),
                             ),
                           ),
                         ),
                       ],
                     ),
-
+                    canTapOnHeader: true,
                     isExpanded: _isExpanded[index],
                   ),
                 ],
-                expansionCallback: (int item, bool status) {
+                expansionCallback: (int index1, bool isExpanded) {
                   setState(() {
                     _isExpanded[index]=!_isExpanded[index];
                   });
@@ -99,19 +103,12 @@ class _FAQScreenState extends State<FAQScreen> {
   }
 
   void _getFAQs() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context).getFAQs().then((value) {
-      if (value.status.status) {
-        faqs.addAll(value.data.faq);
-        for(int i=0;i<=faqs.length;i++){
-          _isExpanded.add(false);
-        }
-      }
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    setState(() => _isLoading = true);
+    final response=await AppApi.configureClient.getFaq();
+    faqs.addAll(response??[]);
+    for(int i=0;i<=faqs.length;i++){
+      _isExpanded.add(false);
+    }
+    setState(() => _isLoading = false);
   }
 }

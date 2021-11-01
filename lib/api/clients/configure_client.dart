@@ -1,6 +1,7 @@
 
 
 import 'package:eat_more_app/model/contact_response.dart';
+import 'package:eat_more_app/model/faq_response.dart';
 
 import '../http_manager.dart';
 
@@ -25,6 +26,18 @@ class ConfigureClient{
         (json) =>SocialMedia.fromJson(json),
       );
       return response;
+    } catch (err) {
+      throw (err);
+    }
+  }
+
+  Future <List<Question>> getFaq() async {
+    try {
+      final response = await HttpManager.get<FAQ>(
+        'faq',
+            (json) =>FAQ.fromJson(json),
+      );
+      return response?.faq??[];
     } catch (err) {
       throw (err);
     }

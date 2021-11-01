@@ -1,6 +1,5 @@
 
 
-import 'package:eat_more_app/model/api_result_model.dart';
 
 import 'http_manager.dart';
 

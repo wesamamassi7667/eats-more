@@ -31,7 +31,7 @@ class OrderClient{
                         (e) => e == null ? null : Order.fromJson(e as Map<String, dynamic>))
                     ?.toList();
             } ,
-      ) ;
+      );
     return response??[];
     }
     catch (err) {

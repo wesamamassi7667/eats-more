@@ -307,22 +307,6 @@ final Set<Marker> _markers = Set<Marker>();
     return profileResponse;
   }
 
-
-  Future<FAQResponse> getFAQs() {
-    return http.get(
-      Uri.parse(url+'faq'),
-      headers: headers(),
-    ).then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return FAQResponse.fromJson(json.decode(response.body));
-    }
-    );
-  }
-
   Future <SettingResponse> listConstants() async {
     return http.get(
       Uri.parse( url + 'enterprise-settings'),
