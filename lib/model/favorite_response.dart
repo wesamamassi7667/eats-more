@@ -1,20 +1,8 @@
 
 import 'package:eat_more_app/model/product_response.dart';
-import 'package:eat_more_app/model/stauts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'favorite_response.g.dart';
 
-@JsonSerializable()
-class FavoriteResponse{
-  StatusResponse status;
-  FavoriteData data;
 
-  FavoriteResponse(this.status);
-  factory  FavoriteResponse.fromJson(Map<String, dynamic> json) =>
-      _$FavoriteResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FavoriteResponseToJson(this);
-}
 
 @JsonSerializable()
 class FavoriteData {
@@ -23,9 +11,12 @@ class FavoriteData {
   FavoriteData(this.favorite);
 
   factory  FavoriteData.fromJson(Map<String, dynamic> json) =>
-      _$FavoriteDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FavoriteDataToJson(this);
+      FavoriteData(
+        (json['favorite'] as List)
+            ?.map((e) =>
+        e == null ? null : Favorite.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+      );
 }
 
 @JsonSerializable()
@@ -35,7 +26,10 @@ class Favorite {
 
   Favorite(this.product,this.member_meal_favorite);
   factory  Favorite.fromJson(Map<String, dynamic> json) =>
-      _$FavoriteFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FavoriteToJson(this);
+      Favorite(
+        json['product'] == null
+            ? null
+            : ProductInfo.fromJson(json['product'] as Map<String, dynamic>),
+        json['member_meal_favorite'] as int,
+      );
 }

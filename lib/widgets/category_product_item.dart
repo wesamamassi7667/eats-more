@@ -1,19 +1,15 @@
-import 'package:eat_more_app/api/operation/favorite_operation.dart';
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
-import 'package:eat_more_app/component/app_dialog.dart';
 import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/container_component.dart';
 import 'package:eat_more_app/component/image_card.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
-import 'package:eat_more_app/model/dynamic_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
-import '../component/cached_network_image_component.dart';
 
 class CategoryProductItem extends StatefulWidget {
   const CategoryProductItem(
@@ -22,12 +18,10 @@ class CategoryProductItem extends StatefulWidget {
       this.animation,
       this.product,
       this.index,
-      this.operation,
       this.scaffoldKeys})
       : super(key: key);
   final Animation animation;
   final Function tap;
-  final FavoriteOperation operation;
   final GlobalKey<ScaffoldState> scaffoldKeys;
   final int index;
   final ProductInfo product;
@@ -160,24 +154,27 @@ class _CategoryProductItemState extends State<CategoryProductItem> {
   }
 
   _addToFavorite(BuildContext context, int id) async {
-    var _body = {"product_id": id.toString()};
-    Common.showSingleAnimationDialog(context);
-    DynamicResponse response =
-        await ScopedModel.of<RestaurantsApiModel>(context).addFavorite(_body);
-    Navigator.pop(context);
-    if (!response.status.status) {
-      AppDialog.showMe(context, response.status.HTTP_response);
-    } else {
+    try{
+      var _body = {"product_id": id.toString()};
+      Common.showSingleAnimationDialog(context);
+      await AppApi.favouriteClient.addFavourite(_body);
+      Navigator.pop(context);
       setState(() => _isFavorite = true);
+    }
+    catch(err){
+      Common.showError(err, context);
     }
   }
 
   _deleteFavoriteItem(int productId, index) async {
     try {
-      await widget.operation.deleteFavorite(context, productId);
+      Common.showSingleAnimationDialog(context);
+      await AppApi.favouriteClient.deleteFavourite(productId);
+      Navigator.pop(context);
       setState(() => _isFavorite = false);
+
     } catch (err) {
-      AppDialog.showMe(context, err.toString());
+      Common.showError(err, context);
     }
   }
 }

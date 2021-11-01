@@ -1,4 +1,3 @@
-import 'package:eat_more_app/api/operation/favorite_operation.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/custom_progress_dialog.dart';

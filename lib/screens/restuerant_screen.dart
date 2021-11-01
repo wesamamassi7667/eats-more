@@ -1,5 +1,4 @@
 import 'package:eat_more_app/api/app_api.dart';
-import 'package:eat_more_app/api/operation/favorite_operation.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/cached_network_image_component.dart';
 import 'package:eat_more_app/component/common/common.dart';
@@ -16,7 +15,6 @@ import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/cart_response.dart';
 import 'package:eat_more_app/model/home_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
-import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -323,7 +321,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                       return CategoryProductItem(
                                         product: _products[index1],
                                         index: index1,
-                                        operation: FavoriteOperation(),
                                         animation: animation,
                                         tap: () =>
                                             _navigateToDetailsScreen(index1),

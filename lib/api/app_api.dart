@@ -3,6 +3,7 @@ import 'clients/auth_client.dart';
 import 'clients/cart_client.dart';
 import 'clients/check_out_client.dart';
 import 'clients/configure_client.dart';
+import 'clients/favourite_client.dart';
 import 'clients/order_client.dart';
 import 'clients/service_client.dart';
 
@@ -13,5 +14,7 @@ class AppApi {
   static OrderClient orderClient = OrderClient();
   static ConfigureClient configureClient = ConfigureClient();
   static AuthClient authClient = AuthClient();
+  static FavouriteClient favouriteClient = FavouriteClient();
+
 
 }

@@ -1,23 +1,18 @@
-import 'package:eat_more_app/api/operation/favorite_operation.dart';
-import 'package:eat_more_app/api/restaurants_api_model.dart';
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/color.dart';
-import 'package:eat_more_app/component/app_dialog.dart';
+import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/second_header_component.dart';
-import 'package:eat_more_app/helper/helper.dart';
-import 'package:eat_more_app/model/dynamic_response.dart';
+
 import 'package:eat_more_app/model/favorite_response.dart';
 import 'package:eat_more_app/model/product_response.dart';
-import 'package:eat_more_app/model/stauts.dart';
 import 'package:eat_more_app/widgets/empty_widget_column.dart';
 import 'package:eat_more_app/widgets/favourite_item.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class FavoriteScreen extends StatefulWidget {
   final String title;
-  final FavoriteOperation operation;
-  const FavoriteScreen({Key key, this.title, this.operation}) : super(key: key);
+  const FavoriteScreen({Key key, this.title}) : super(key: key);
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -59,10 +54,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void _getFavoriteProduct() async {
     setState(() => _isLoading = true);
-    FavoriteResponse response =
-        await ScopedModel.of<RestaurantsApiModel>(context).getFavorite();
-    if (response.status.status)
-      _favorites.addAll(response.data?.favorite ?? []);
+    final response =
+        await AppApi.favouriteClient.listFavourite();
+      _favorites.addAll(response);
     setState(() => _isLoading = false);
   }
 
@@ -75,11 +69,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   _deleteFavoriteItem(int productId, index) async {
     try{
-       await widget.operation.deleteFavorite(context, productId);
-      setState(() => _favorites.removeAt(index));
+       Common.showSingleAnimationDialog(context);
+       await AppApi.favouriteClient.deleteFavourite(productId);
+       Navigator.pop(context);
+       setState(() => _favorites.removeAt(index));
     }
     catch(err){
-      AppDialog.showMe(context, err.toString());
+      Common.showError(err, context);
     }
   }
 }
