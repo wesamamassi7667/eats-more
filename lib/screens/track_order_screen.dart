@@ -1,17 +1,18 @@
 import 'dart:async';
 
-import 'package:eat_more_app/api/restaurants_api_model.dart';
-import 'package:eat_more_app/component/app_bar.dart';
-import 'package:eat_more_app/component/container_component.dart';
+import 'package:eat_more_app/api/app_api.dart';
+
+import 'package:eat_more_app/component/my_progress_indicator.dart';
+import 'package:eat_more_app/component/second_header_component.dart';
 import 'package:eat_more_app/component/track_order.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
+import 'package:eat_more_app/model/branch_response.dart';
 import 'package:eat_more_app/model/order_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 import '../color.dart';
 
@@ -21,6 +22,7 @@ class TrackOrderScreen extends StatefulWidget {
 
   const TrackOrderScreen({Key key, this.id, this.isOrder = false})
       : super(key: key);
+
   @override
   _TrackOrderScreenState createState() => _TrackOrderScreenState();
 }
@@ -51,11 +53,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
   LatLng driverLatLng;
   LatLng branchLatLng;
   LatLng _recipientLatLng;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (_currentPage == 0) _trackOrder();
+    if (_currentPage == 0)
+      _trackOrder();
   }
 
   @override
@@ -74,153 +78,143 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        _back();
-      },
-      child: Scaffold(
-        backgroundColor: primaryIconColor,
-        appBar: AppBarWidget(
-          title: AppLocalization.of(context).translate("track_order"),
-        ),
-        body: Stack(
-          children: [
-            PositionedDirectional(
-              start: 0,
-              end: 0,
-              bottom: 0,
-              top: 10,
-              child: _isLoading
-                  ? ContainerComponent(
-                      child: Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
-                    )
-                  : ContainerComponent(
-                      child: Column(
-                        children: [
-                          Flexible(
-                            child: _currentPage == 0
-                                ? Padding(
-                                    padding: const EdgeInsetsDirectional.only(
-                                      top: 30,
-                                      start: 30,
-                                      end: 30,
-                                    ),
-                                    child: TrackWidget(
-                                        orderStatus: _orderStatus,
-                                        icons: _icons,
-                                        status: _status))
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(44.0),
-                                      topRight: Radius.circular(44.0),
-                                    ),
-                                    child: GoogleMap(
-                                      myLocationEnabled: true,
-                                      compassEnabled: true,
-                                      tiltGesturesEnabled: false,
-                                      markers: _markers,
-                                      polylines: _polyline,
-                                      mapType: MapType.normal,
-                                      scrollGesturesEnabled: true,
-                                      zoomGesturesEnabled: true,
-                                      initialCameraPosition: CameraPosition(
-                                          target: branchLatLng, zoom: 11),
-                                      onMapCreated: _onMapCreated,
-                                    ),
-                                  ),
-                          ),
-                          _currentPage == 0
-                              ? SafeArea(
-                                  child: Align(
-                                    alignment:
-                                        AlignmentDirectional.bottomCenter,
-                                    child: Container(
-                                      color: grey14,
-                                      height: 83,
-                                      alignment: Alignment.center,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 22),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width:MediaQuery.of(context).size.width *0.38,
-                                            child: TextButton(
-                                              child: Text(AppLocalization.of(context).translate("track_order")),
-                                              onPressed: (){
-                                                setState(() {
-                                                  _currentPage = 1;
-                                                });
-                                                setSourceAndDestinationIcons();
-                                              },
-                                            ),
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context).size.width * 0.38,
-                                            child: OutlinedButton(
-                                              onPressed: () {},
-                                              child: Text(
-                                                  AppLocalization.of(context).translate("cancel_order")),
-                                            ),
-                                          )
-                                        ],
+        onWillPop: () {
+          _back();
+        },
+        child: SecondHeaderComponent(
+          title: AppLocalization.of(context).translate('track_order'),
+          child: _isLoading
+              ? MyProgressIndicator()
+              : Column(
+                  children: [
+                    Flexible(
+                      child: _currentPage == 0
+                          ? Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                top: 30,
+                                start: 30,
+                                end: 30,
+                              ),
+                              child: TrackWidget(
+                                  orderStatus: _orderStatus,
+                                  icons: _icons,
+                                  status: _status))
+                          : ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(44.0),
+                                topRight: Radius.circular(44.0),
+                              ),
+                              child: GoogleMap(
+                                myLocationEnabled: true,
+                                compassEnabled: true,
+                                tiltGesturesEnabled: false,
+                                markers: _markers,
+                                polylines: _polyline,
+                                mapType: MapType.normal,
+                                scrollGesturesEnabled: true,
+                                zoomGesturesEnabled: true,
+                                initialCameraPosition: CameraPosition(
+                                    target: branchLatLng, zoom: 11),
+                                onMapCreated: _onMapCreated,
+                              ),
+                            ),
+                    ),
+                    _currentPage == 0
+                        ? SafeArea(
+                            child: Align(
+                              alignment: AlignmentDirectional.bottomCenter,
+                              child: Container(
+                                color: grey14,
+                                height: 83,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(vertical: 22),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      child: TextButton(
+                                        child: Text(AppLocalization.of(context)
+                                            .translate("track_order")),
+                                        onPressed: () {
+                                          setState(() {
+                                            _currentPage = 1;
+                                          });
+                                          setSourceAndDestinationIcons();
+                                        },
                                       ),
                                     ),
-                                  ),
-                                )
-                              : SizedBox.shrink()
-                        ],
-                      ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      child: OutlinedButton(
+                                        onPressed: () {},
+                                        child: Text(AppLocalization.of(context)
+                                            .translate("cancel_order")),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink()
+                  ],
+                ),
+        ));
   }
 
   void _trackOrder() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await ScopedModel.of<RestaurantsApiModel>(context)
-        .trackOrder(widget.id)
-        .then((value) async {
-      if (value.status.status) {
-        _orderStatus = value.data;
-        if (value.data.track == null) {
-          setState(() {
-            lng = double.parse(value.data.branch.branch.branch_long);
-            lat = double.parse(value.data.branch.branch.branch_lat);
+    setState(() => _isLoading = true);
+    final response = await AppApi.orderClient.trackOrder(widget.id);
+    setState(() => _isLoading = false);
 
-            branchLatLng = LatLng(
-                double.parse(value.data.branch.branch.branch_lat),
-                double.parse(value.data.branch.branch.branch_long));
-          });
-          await _getCurrentLocation().then((value) {
-            setState(() {
-              _recipientLatLng = LatLng(value.latitude, value.longitude);
-            });
-          });
-        } else {
-          setState(() {
-            lng = double.parse(value.data.track.data.jobs[0].job_longitude);
-            lat = double.parse(value.data.track.data.jobs[0].job_latitude);
-            branchLatLng = LatLng(
-                double.parse(value.data.track.data.jobs[0].job_latitude),
-                double.parse(value.data.track.data.jobs[0].job_longitude));
-            _recipientLatLng = LatLng(
-                double.parse(value.data.track.data.jobs[1].job_latitude),
-                double.parse(value.data.track.data.jobs[1].job_longitude));
-          });
-        }
+    if (response != null) {
+      _orderStatus = response;
+      if(response.track==null){
+        _trackBranch(response);
       }
-      setState(() {
-        _isLoading = false;
-      });
-    });
+
+    }
+
+    // await ScopedModel.of<RestaurantsApiModel>(context)
+    //     .trackOrder(widget.id)
+    //     .then((value) async {
+    //   if (value.status.status) {
+    //     _orderStatus = value.data;
+    //     if (value.data.track == null) {
+    //       setState(() {
+    //         lng = double.parse(value.data.branch.branch.branch_long);
+    //         lat = double.parse(value.data.branch.branch.branch_lat);
+    //
+    //         branchLatLng = LatLng(
+    //             double.parse(value.data.branch.branch.branch_lat),
+    //             double.parse(value.data.branch.branch.branch_long));
+    //       });
+    //       await _getCurrentLocation().then((value) {
+    //         setState(() {
+    //           _recipientLatLng = LatLng(value.latitude, value.longitude);
+    //         });
+    //       });
+    //     } else {
+    //       setState(() {
+    //         lng = double.parse(value.data.track.data.jobs[0].job_longitude);
+    //         lat = double.parse(value.data.track.data.jobs[0].job_latitude);
+    //         branchLatLng = LatLng(
+    //             double.parse(value.data.track.data.jobs[0].job_latitude),
+    //             double.parse(value.data.track.data.jobs[0].job_longitude));
+    //         // _recipientLatLng = LatLng(
+    //         //     double.parse(value.data.track.data.jobs[1].job_latitude),
+    //         //     double.parse(value.data.track.data.jobs[1].job_longitude));
+    //       });
+    //     }
+    //   }
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // });
   }
 
   void setSourceAndDestinationIcons() async {
@@ -306,6 +300,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
     //   });
     // }
   }
+
   void _back() {
     if (!widget.isOrder)
       Navigator.pop(context);
@@ -314,8 +309,20 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
       Navigator.popUntil(context, (Route<dynamic> route) => _count++ == 5);
     }
   }
+
   Future<Position> _getCurrentLocation() {
     return Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
+  }
+
+  Future<void> _trackBranch(TrackOrder response) async {
+    Branch branch = response.branch.branch;
+    setState(() {
+      lng = double.parse(branch.branch_long);
+      lat = double.parse(branch.branch_lat);
+      branchLatLng = LatLng(lat, lng);
+    });
+    final currentLocation=await _getCurrentLocation();
+    setState(() => _recipientLatLng = LatLng(currentLocation?.latitude??0.0,currentLocation?.longitude??0.0));
   }
 }

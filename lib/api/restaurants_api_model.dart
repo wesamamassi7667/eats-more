@@ -322,20 +322,6 @@ final Set<Marker> _markers = Set<Marker>();
     }
     );
   }
-  Future <TrackOrderResponse> trackOrder(int orderId) async {
-    return http.get(
-      Uri.parse( url + 'auth/orders/tracking-order?order_id=$orderId'),
-      headers: headers(),)
-        .then((response) {
-      print(response.body);
-      if (response.statusCode != 200) {
-        print(response.reasonPhrase);
-        print(response.body);
-      }
-      return TrackOrderResponse.fromJson(jsonDecode(response.body));
-    }
-    );
-  }
 
   // Future <CheckOtpCodeResponse> checkOtpCode(String token,body) async {
   //   Map<String, String> headers1() {

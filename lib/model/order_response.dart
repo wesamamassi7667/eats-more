@@ -5,12 +5,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'cart_response.dart';
-part 'order_response.g.dart';
 
 
 @JsonSerializable()
 class Order {
-  int order_id;
+  int orderId;
   double price_before_discount;
   List<Distance> distance_in_km;
   String order_number;
@@ -32,7 +31,7 @@ class Order {
   String longitude;
   List<ProductCart> products;
   Order(
-      this.order_id,
+      this.orderId,
       this.price_before_discount,
       this.distance_in_km,
       this.order_number,
@@ -124,18 +123,6 @@ class Distance {
 }
 
 @JsonSerializable()
-class TrackOrderResponse{
-  StatusResponse status;
-  TrackOrder data;
-
-  TrackOrderResponse(this.status, this.data);
-  factory TrackOrderResponse.fromJson(Map<String, dynamic> json) =>
-      _$TrackOrderResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TrackOrderResponseToJson(this);
-
-}
-@JsonSerializable()
 class TrackOrder {
   Order order;
   List<StatusOrder> status;
@@ -143,9 +130,21 @@ class TrackOrder {
   Track track;
   TrackOrder(this.order, this.status,this.branch,this.track);
   factory TrackOrder.fromJson(Map<String, dynamic> json) =>
-      _$TrackOrderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TrackOrderToJson(this);
+      TrackOrder(
+        json['order'] == null
+            ? null
+            : Order.fromJson(json['order'] as Map<String, dynamic>),
+        (json['status'] as List)
+            ?.map((e) =>
+        e == null ? null : StatusOrder.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+        json['branch'] == null
+            ? null
+            : BranchSecond.fromJson(json['branch'] as Map<String, dynamic>),
+        json['track'] == null
+            ? null
+            : Track.fromJson(json['track'] as Map<String, dynamic>),
+      );
 
 }
 @JsonSerializable()
@@ -156,9 +155,13 @@ class Track {
 
  Track(this.message, this.status, this.data);
  factory Track.fromJson(Map<String, dynamic> json) =>
-     _$TrackFromJson(json);
-
- Map<String, dynamic> toJson() => _$TrackToJson(this);
+     Track(
+       json['message'] as String,
+       json['status'] as int,
+       json['data'] == null
+           ? null
+           : TrackData.fromJson(json['data'] as Map<String, dynamic>),
+     );
 }
 @JsonSerializable()
 class TrackData {
@@ -167,36 +170,45 @@ class TrackData {
 
   TrackData(this.jobs,this.setup);
   factory TrackData.fromJson(Map<String, dynamic> json) =>
-      _$TrackDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TrackDataToJson(this);
+      TrackData(
+        (json['jobs'] as List)
+            ?.map((e) => e == null ? null : Jop.fromJson(e as Map<String, dynamic>))
+            ?.toList(),
+        json['setup'] == null
+            ? null
+            : Setup.fromJson(json['setup'] as Map<String, dynamic>),
+      );
 }
 @JsonSerializable()
 class Setup {
   MapConfig map_config;
   Setup(this.map_config);
   factory Setup.fromJson(Map<String, dynamic> json) =>
-      _$SetupFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SetupToJson(this);
+      Setup(
+        json['map_config'] == null
+            ? null
+            : MapConfig.fromJson(json['map_config'] as Map<String, dynamic>),
+      );
 }
 @JsonSerializable()
 class MapConfig {
  GoogleMapData googleMap;
  MapConfig(this.googleMap);
  factory MapConfig.fromJson(Map<String, dynamic> json) =>
-     _$MapConfigFromJson(json);
-
- Map<String, dynamic> toJson() => _$MapConfigToJson(this);
+     MapConfig(
+       json['googleMap'] == null
+           ? null
+           : GoogleMapData.fromJson(json['googleMap'] as Map<String, dynamic>),
+     );
 }
 @JsonSerializable()
 class GoogleMapData {
   String api_key;
   GoogleMapData(this.api_key);
   factory GoogleMapData.fromJson(Map<String, dynamic> json) =>
-      _$GoogleMapDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GoogleMapDataToJson(this);
+      GoogleMapData(
+        json['api_key'] as String,
+      );
 }
 @JsonSerializable()
 class Jop {
@@ -207,9 +219,12 @@ class Jop {
 
   Jop(this.job_id, this.job_latitude, this.job_longitude,this.job_type);
   factory Jop.fromJson(Map<String, dynamic> json) =>
-      _$JopFromJson(json);
-
-  Map<String, dynamic> toJson() => _$JopToJson(this);
+      Jop(
+        json['job_id'] as int,
+        json['job_latitude'] as String,
+        json['job_longitude'] as String,
+        json['job_type'] as int,
+      );
 }
 
 @JsonSerializable()
@@ -217,9 +232,11 @@ class BranchSecond {
   Branch branch;
   BranchSecond(this.branch);
   factory BranchSecond.fromJson(Map<String, dynamic> json) =>
-      _$BranchSecondFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BranchSecondToJson(this);
+      BranchSecond(
+        json['branch'] == null
+            ? null
+            : Branch.fromJson(json['branch'] as Map<String, dynamic>),
+      );
 }
 @JsonSerializable()
 class StatusOrder {
@@ -232,9 +249,13 @@ class StatusOrder {
   StatusOrder(
       this.order_id, this.status_id, this.status_name, this.status_desc,this.status_time);
   factory StatusOrder.fromJson(Map<String, dynamic> json) =>
-      _$StatusOrderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StatusOrderToJson(this);
+      StatusOrder(
+        json['order_id'] as int,
+        json['status_id'] as int,
+        json['status_name'] as String,
+        json['status_desc'] as int,
+        json['status_time'] as String,
+      );
 }
 
 

@@ -107,7 +107,7 @@ class _OrderScreenState extends State<OrderScreen> {
                            Padding(
                              padding: const EdgeInsetsDirectional.only(start: 10),
                              child: Text(
-                               "#" +"${orders[index].order_id}",
+                               "#" +"${orders[index].orderId}",
                                style: TextStyle(fontWeight:FontWeight.w400,fontSize:16,color:black),
                              ),
                            ),
@@ -122,7 +122,7 @@ class _OrderScreenState extends State<OrderScreen> {
                            InkWell(
                              onTap: (){
                                Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen(
-                                   id:orders[index].order_id
+                                   id:orders[index].orderId
                                )));
                              },
                              child: Container(

@@ -1,9 +1,12 @@
 
 
 
+import 'package:eat_more_app/model/api_result_model.dart';
 import 'package:eat_more_app/model/order_response.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../http_manager.dart';
+import '../map_api.dart';
 
 class OrderClient{
   Future <String> makeOrder(body) async {
@@ -37,5 +40,25 @@ class OrderClient{
       throw (err);
     }
   }
+
+  Future <TrackOrder> trackOrder(int orderId) async {
+    try {
+      final response = await HttpManager.get<TrackOrder>(
+        'auth/orders/tracking-order?order_id=$orderId',
+            (json) => TrackOrder.fromJson(json),
+      );
+      return response;
+    } catch (err) {
+      throw (err);
+    }
+  }
+
+  // Future<APIResultModel> getRouteCoordinates(LatLng l1, LatLng l2) {
+  //   return API.getRouteCoordinates({
+  //     'origin': '${l1.latitude},${l1.longitude}',
+  //     'destination': '${l2.latitude},${l2.longitude}',
+  //     'key': Application.GOOGLE_MAPS_API_KEY,
+  //   });
+  // }
 
 }
