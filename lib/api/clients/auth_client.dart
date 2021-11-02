@@ -43,4 +43,15 @@ class AuthClient {
       throw (err);
     }
   }
+
+  Future<void> logout() async {
+    try {
+      await HttpManager.get<void>(
+        'auth/logout',
+       (json) {},
+      );
+    } catch (err) {
+      throw (err);
+    }
+  }
 }

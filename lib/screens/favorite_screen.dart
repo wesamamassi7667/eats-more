@@ -56,7 +56,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     setState(() => _isLoading = true);
     final response =
         await AppApi.favouriteClient.listFavourite();
-      _favorites.addAll(response);
+      _favorites.addAll(response??[]);
     setState(() => _isLoading = false);
   }
 

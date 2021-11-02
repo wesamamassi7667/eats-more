@@ -28,17 +28,11 @@ class FavouriteClient {
 
   Future<List<Favorite>> listFavourite() async {
     try {
-     final response= await HttpManager.get<List<Favorite>>(
+     final response= await HttpManager.get<FavoriteData>(
         'auth/favorite',
-        (json) {
-          return (json as List)
-              ?.map((e) => e == null
-                  ? null
-                  : Favorite.fromJson(e as Map<String, dynamic>))
-              ?.toList();
-        },
-      );
-     return response??[];
+        (json) =>FavoriteData.fromJson(json),);
+     return response?.favorite??[];
+
     } catch (err) {
       throw (err);
     }

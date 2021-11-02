@@ -6,7 +6,11 @@ import 'package:eat_more_app/model/arguments/item_detail_argument.dart';
 import 'package:eat_more_app/model/order_response.dart';
 import 'package:eat_more_app/screens/branch_screen.dart';
 import 'package:eat_more_app/screens/checkout_screen.dart';
+import 'package:eat_more_app/screens/contact_us_screen.dart';
 import 'package:eat_more_app/screens/delivery_ways_screen.dart';
+import 'package:eat_more_app/screens/edit_profile_screen.dart';
+import 'package:eat_more_app/screens/faq_screen.dart';
+import 'package:eat_more_app/screens/favorite_screen.dart';
 import 'package:eat_more_app/screens/home_screen.dart';
 import 'package:eat_more_app/screens/item_detail_screen.dart';
 import 'package:eat_more_app/screens/login_screen.dart';
@@ -25,6 +29,7 @@ import 'helper/app_localization.dart';
 import 'helper/helper.dart';
 import 'helper/shared_preference.dart';
 import 'model/arguments/restaurent_argument.dart';
+import 'screens/order_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -207,6 +212,27 @@ class _MyAppState extends State<MyApp> {
           else if(setting.name=='/home'){
             return MaterialPageRoute(builder: (_)=>HomeScreen(key: _homeKey,callBack:_updateLanguageCallBack));
           }
+          else if(setting.name=='/profile'){
+            final argument = setting.arguments as String;
+            return MaterialPageRoute(builder: (_)=>EditProfileScreen(title: argument,));
+          }
+          else if(setting.name=='/order'){
+            final argument = setting.arguments as String;
+            return MaterialPageRoute(builder: (_)=>OrderScreen(title: argument,));
+          }
+          else if(setting.name=='/favourite'){
+            final argument = setting.arguments as String;
+            return MaterialPageRoute(builder: (_)=>FavoriteScreen(title: argument,));
+          }
+          else if(setting.name=='/contact'){
+            final argument = setting.arguments as String;
+            return MaterialPageRoute(builder: (_)=>ContactUsScreen(title: argument,));
+          }
+          else if(setting.name=='/faq'){
+            final argument = setting.arguments as String;
+            return MaterialPageRoute(builder: (_)=>FAQScreen(title: argument,));
+          }
+
 
 
 

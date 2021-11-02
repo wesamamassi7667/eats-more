@@ -1,3 +1,4 @@
+import 'package:eat_more_app/api/app_api.dart';
 import 'package:eat_more_app/api/restaurants_api_model.dart';
 import 'package:eat_more_app/component/common/common.dart';
 import 'package:eat_more_app/component/custom_progress_dialog.dart';
@@ -5,13 +6,7 @@ import 'package:eat_more_app/component/profile_photo_avatar.dart';
 import 'package:eat_more_app/component/tile_drawer.dart';
 import 'package:eat_more_app/constant.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
-import 'package:eat_more_app/helper/helper.dart';
 import 'package:eat_more_app/helper/shared_preference.dart';
-import 'package:eat_more_app/screens/contact_us_screen.dart';
-import 'package:eat_more_app/screens/edit_profile_screen.dart';
-import 'package:eat_more_app/screens/faq_screen.dart';
-import 'package:eat_more_app/screens/favorite_screen.dart';
-import 'package:eat_more_app/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -114,26 +109,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               TileDrawer(
                 name: _titles[1],
                 icon: Icons.person,
-                tap: () =>returnOrNavigate(model,EditProfileScreen(title: _titles[1])),
+                tap: () =>returnOrNavigate(model,'/profile',_titles[1]),
               ),
               TileDrawer(
                 name: _titles[2],
                 icon: Icons.assignment,
-                tap: () => returnOrNavigate(model,OrderScreen(title: _titles[2])),
+                tap: () => returnOrNavigate(model,'/order',_titles[2]),
               ),
               TileDrawer(
                   name: _titles[3],
                   icon: Icons.favorite,
-                  tap: () =>returnOrNavigate(model,FavoriteScreen(title: _titles[3])),
+                  tap: () =>returnOrNavigate(model,'/favourite',_titles[3]),
               ),
               TileDrawer(
                   name: _titles[4],
                   icon: Icons.email,
-                  tap: () =>navigateToWidget(ContactUsScreen(title: _titles[4]))),
+                  tap: () =>navigateToWidget('/contact',_titles[4])),
               TileDrawer(
                   name: _titles[5],
                   icon: Icons.question_answer,
-                  tap: () =>navigateToWidget(FAQScreen(title: _titles[5]))
+                  tap: () =>navigateToWidget('/faq',_titles[5])
               ),
               TileDrawer(
                   name: _lang,
@@ -160,16 +155,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 name:model.isLoggedIn()? _titles[7]:_titles[8],
                 icon:model.isLoggedIn()? Icons.logout:Icons.login,
                 tap: () {
-                  Common.showAlertDialog(
-                      context,
-                      AppLocalization.of(context).translate('sure_log_out'),
-                      AppLocalization.of(context).translate("logout"), () {
-                    pr = CustomProgressDialog(
+                  if(model.isLoggedIn()){
+                    Common.showAlertDialog(
                         context,
-                        AppLocalization.of(context).translate("logout.."),
-                        () {});
-                    _logOut();
-                  });
+                        AppLocalization.of(context).translate('sure_log_out'),
+                        AppLocalization.of(context).translate("logout"), () {
+                       _logOut();
+                    });
+                  }
+                  else{
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/login', (route) => false);
+                  }
+
                 },
               ),
               Divider(),
@@ -202,25 +201,36 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  void _logOut() {}
+  Future<void> _logOut() async {
+    try{
+      Common.showSingleAnimationDialog(context);
+      await AppApi.authClient.logout();
+      Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/login', (route) => false);
+    }
+    catch(err){
+      Common.showError(err, context);
+    }
+  }
   Future<void> _share() async {
     await Share.share('$GOOGLE_PLAY_URL$FLUTTER_BUNDLE_IDENTIFIER');
   }
 
-  navigateToWidget(Widget widget) {
-    Navigator.push(
+  navigateToWidget(String route,dynamic arguments) {
+    Navigator.pushNamed(
         context,
-        MaterialPageRoute(
-          builder: (context) => widget,
-        ));
+        '$route',
+       arguments: arguments
+    );
   }
 
-  returnOrNavigate(RestaurantsApiModel apiModel,Widget widget) {
+  returnOrNavigate(RestaurantsApiModel apiModel,route,arguments) {
     if(!apiModel.isLoggedIn()){
       Navigator.pop(context);
       Common.showSlideUpLoginView(context);
       return;
     }
-    navigateToWidget(widget);
+    navigateToWidget(route,arguments);
   }
 }
