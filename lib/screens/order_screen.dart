@@ -5,7 +5,6 @@ import 'package:eat_more_app/component/my_progress_indicator.dart';
 import 'package:eat_more_app/component/second_header_component.dart';
 import 'package:eat_more_app/helper/app_localization.dart';
 import 'package:eat_more_app/model/order_response.dart';
-import 'package:eat_more_app/screens/track_order_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -121,9 +120,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                            InkWell(
                              onTap: (){
-                               Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen(
-                                   id:orders[index].orderId
-                               )));
+                               Navigator.pushNamed(context, '/track');
                              },
                              child: Container(
                                margin: EdgeInsetsDirectional.only(start: 26),

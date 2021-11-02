@@ -17,6 +17,7 @@ import 'package:eat_more_app/screens/login_screen.dart';
 import 'package:eat_more_app/screens/order_detail_screen.dart';
 import 'package:eat_more_app/screens/restuerant_screen.dart';
 import 'package:eat_more_app/screens/splash_screen.dart';
+import 'package:eat_more_app/screens/track_order_screen.dart';
 import 'package:eat_more_app/screens/verification_code_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -231,6 +232,10 @@ class _MyAppState extends State<MyApp> {
           else if(setting.name=='/faq'){
             final argument = setting.arguments as String;
             return MaterialPageRoute(builder: (_)=>FAQScreen(title: argument,));
+          }
+          else if(setting.name=='/track'){
+            final argument = setting.arguments as int;
+            return MaterialPageRoute(builder: (_)=>TrackOrderScreen(id: argument));
           }
 
 
